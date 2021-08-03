@@ -12,7 +12,7 @@ namespace mst
         public DbSet<Referee> Referees { get; set; }
         public DbSet<RefereeNominee> RefereeNominees { get; set; }
         public DbSet<BlockedRefereeShow> BlockedRefereeShows { get; set; }
-        
+
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) {
             Database.EnsureDeleted();
             Database.EnsureCreated();
@@ -40,17 +40,17 @@ namespace mst
             var referee = new Referee();
             referee.Id = 1;
             referee.Email = "semen1032@email.org";
-            referee.FIO = "Хрен Херов Херович";
+            referee.FullName = "Хрен Херов Херович";
             referee.City = "Хуебескин-сити";
-            referee.Description = "Описание";
+            referee.Bio = "Описание";
             
 
             var referee2 = new Referee();
             referee2.Id = 2;
             referee2.Email = "ass1032@email.org";
-            referee2.FIO = "Жопкин Жоп Жопанович";
+            referee2.FullName = "Жопкин Жоп Жопанович";
             referee2.City = "Жопа";
-            referee2.Description = "Описание жопы";
+            referee2.Bio = "Описание жопы";
 
             modelBuilder.Entity<Referee>().HasData(referee2);
             modelBuilder.Entity<Referee>().HasData(referee);
