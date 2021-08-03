@@ -17,9 +17,11 @@ namespace mst.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
+        private readonly DatabaseContext _db;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, DatabaseContext db)
         {
+            this._db = db;
             _logger = logger;
         }
 
