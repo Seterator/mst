@@ -1,7 +1,9 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -20,7 +22,14 @@ namespace mst
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            string connection = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<DatabaseContext>(options => 
+                options.UseMySql(
+                    connection,
+                    new MySqlServerVersion(new Version(8, 0, 20))
+                )
+            );
+            
             services.AddControllersWithViews();
 
             // In production, the React files will be served from this directory
