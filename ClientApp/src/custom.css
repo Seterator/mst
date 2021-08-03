@@ -12,3 +12,41 @@ code {
   background-color: #1b6ec2;
   border-color: #1861ac;
 }
+body{
+  background-color: #2B111B;
+}
+.footerHead{
+  font-family: Optima Cyr;
+font-style: normal;
+font-weight: normal;
+font-size: 24px;
+line-height: 24px;
+
+/* identical to box height, or 100% */
+letter-spacing: 0.05em;
+
+color: #FFFFFF;
+}
+
+.footerElement{
+  font-family: Optima Cyr;
+font-style: normal;
+font-weight: normal;
+font-size: 16px;
+line-height: 16px;
+
+}
+
+.footer{
+  position: relative;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  
+
+  background: radial-gradient(180.91% 1388.43% at 100% 7.27%, #2B111B 0%, #161222 100%);
+}
+.footer-el{
+
+  display: flex;
+}
