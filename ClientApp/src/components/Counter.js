@@ -18,13 +18,13 @@ export class Counter extends Component {
   render() {
     return (
       <div>
-        <h1>Counter</h1>
+        <h1>Админка</h1>
 
-        <p>This is a simple example of a React component.</p>
+        <p>Здесь будет функционал</p>
 
-        <p aria-live="polite">Current count: <strong>{this.state.currentCount}</strong></p>
+        <p aria-live="polite">Строк кода написано: <strong>{this.state.currentCount}</strong></p>
 
-        <button className="btn btn-primary" onClick={this.incrementCounter}>Increment</button>
+        <button className="btn btn-primary" onClick={this.incrementCounter}>Кодить</button>
       </div>
     );
   }
