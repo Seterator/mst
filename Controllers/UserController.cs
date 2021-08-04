@@ -33,12 +33,7 @@ namespace mst.Controllers
         public async Task<IActionResult> Edit([FromQuery] Referee referee)
         {
             try {
-                var r = _db.Referees.Where<Referee>(x => x.Email == referee.Email).Single();
-            }
-            catch {
-                return BadRequest("Пользователь с указанным email не найден");
-            }
-            if () {
+                var r = _db.Referees.Where<Referee>(x => x.Id == referee.Id).Single();
                 r.FullName = referee.FullName;
                 r.Bio = referee.Bio;
                 r.City = referee.City;
@@ -48,8 +43,9 @@ namespace mst.Controllers
                 await _db.SaveChangesAsync();
                 return Ok();
             }
-            return BadRequest("");
-
+            catch {
+                return BadRequest("Пользователь с указанным Id не найден");
+            }
         }
 
         [HttpPost("Delete")]
@@ -66,10 +62,20 @@ namespace mst.Controllers
             return BadRequest("Пользователь с указанным id не найден");
         }
 
-        [HttpGet("Get")]
-        public IActionResult Get([FromQuery] int user_id)
+        [HttpGet("GetById")]
+        public IActionResult GetById([FromQuery] int user_id)
         {
             var referee = _db.Referees.Where(referee => referee.Id == user_id);
+            if (referee == null) {
+                return BadRequest("Пользователь не найден");
+            }
+            return Ok(referee);
+        }
+
+        [HttpGet("GetByEmail")]
+        public IActionResult GetByEmail([FromQuery] string email)
+        {
+            var referee = _db.Referees.Where(referee => referee.Email == email);
             if (referee == null) {
                 return BadRequest("Пользователь не найден");
             }
