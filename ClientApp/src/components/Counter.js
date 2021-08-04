@@ -25,7 +25,9 @@ export class Counter extends Component {
         <p aria-live="polite">Строк кода написано: <strong>{this.state.currentCount}</strong></p>
 
         <button className="btn btn-primary" onClick={this.incrementCounter}>Кодить</button>
+        
       </div>
+      
     );
   }
 }
