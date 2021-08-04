@@ -14,7 +14,7 @@ namespace mst
         public DbSet<BlockedRefereeShow> BlockedRefereeShows { get; set; }
 
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) {
-            Database.EnsureDeleted();
+            //Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 
@@ -52,8 +52,8 @@ namespace mst
             referee2.City = "Жопа";
             referee2.Bio = "Описание жопы";
 
-            modelBuilder.Entity<Referee>().HasData(referee2);
-            modelBuilder.Entity<Referee>().HasData(referee);
+            //modelBuilder.Entity<Referee>().HasData(referee2);
+            //modelBuilder.Entity<Referee>().HasData(referee);
         }
     }
 }
