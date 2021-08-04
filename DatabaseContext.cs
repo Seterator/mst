@@ -36,24 +36,6 @@ namespace mst
             modelBuilder.Entity<Referee>(entity => {
                 entity.Property(x => x.Avatar).HasColumnType("blob");
             });
-
-            var referee = new Referee();
-            referee.Id = 1;
-            referee.Email = "semen1032@email.org";
-            referee.FullName = "Хрен Херов Херович";
-            referee.City = "Хуебескин-сити";
-            referee.Bio = "Описание";
-            
-
-            var referee2 = new Referee();
-            referee2.Id = 2;
-            referee2.Email = "ass1032@email.org";
-            referee2.FullName = "Жопкин Жоп Жопанович";
-            referee2.City = "Жопа";
-            referee2.Bio = "Описание жопы";
-
-            //modelBuilder.Entity<Referee>().HasData(referee2);
-            //modelBuilder.Entity<Referee>().HasData(referee);
         }
     }
 }
