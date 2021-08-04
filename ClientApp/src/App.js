@@ -4,6 +4,9 @@ import { Layout } from './components/Layout';
 import { Counter } from './components/Counter';
 import { Footer } from './components/Footer';
 import { WelcomePage } from './components/pages/Welcome'
+import { EstimationWork } from './components/pages/estimation/EstimationWork'
+import { EstimationBase } from './components/pages/estimation/EstimationBase'
+import { ProfileView } from './components/pages/profile/ProfileView'
 
 import './custom.css'
 
@@ -13,9 +16,11 @@ export default class App extends Component {
   render () {
     return (
       <Layout>
-        <Route path='/' component={WelcomePage} />
+        <Route exact path='/' component={WelcomePage} />
         <Route path='/admin' component={Counter} />
-        <Footer/>
+        <Route path='/work' component={EstimationWork} />
+        <Route path='/estimation' component={EstimationBase} />
+        <Route path='/profileView' component={ProfileView} />
       </Layout>
     );
   }
