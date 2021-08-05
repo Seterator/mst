@@ -1,0 +1,444 @@
+@import '_fonts';
+@import '_variables';
+@import '_style';
+
+@import '_label';
+
+body {
+  background: linear-gradient(90deg, rgba($blue, .25) 0%, rgba($red, .25) 100%);
+}
+
+.main {
+  margin-top: 8.75rem;
+  margin-bottom: $six;
+
+  .wrapper {
+    position: relative;
+    background-image: url('../img/novat-1.jpg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    padding: $six 32.8125rem $six 6.5625rem;
+
+    &:before {
+      content: '';
+      width: 100%;
+      height: $two;
+      position: absolute;
+      top: -$two;
+      left: 0;
+      background: $red;
+    }
+
+    &:after {
+      content: '';
+      width: 100%;
+      height: 100%;
+      background: rgba($color: #000000, $alpha: .7);
+      position: absolute;
+      z-index: 0;
+      top: 0;
+      left: 0;
+    }
+  }
+
+  .title {
+    position: relative;
+    z-index: 1;
+    margin-bottom: $three;
+  }
+
+  p.text {
+    position: relative;
+    z-index: 1;
+    @include fontStyle (1.125rem, 2.375rem, .01em);
+    margin: 0;
+  }
+}
+
+.section-content {
+  margin-top: 6rem;
+  position: relative;
+  z-index: 1;
+
+  .container {
+    display: flex;
+  }
+
+  aside.navigation {
+    display: flex;
+    flex-direction: column;
+    width: 17.8125rem;
+    margin-right: $three;
+    padding-top: 6.75rem;
+
+    button.btn {
+      background: none;
+      text-align: left;
+      @include fontStyle (1.5rem, 2.125rem, .05em);
+      border-bottom: 1px solid rgba(#fff, .25);
+      padding-bottom: $three;
+      padding-left: 1.25rem;
+      padding-right: 1.25rem;
+
+      span {
+        transition: .1s;
+        opacity: .25;
+      }
+
+      &:not(:first-child) {
+        padding-top: $three;
+      }
+
+      &.active span {
+        opacity: 1;
+      }
+    }
+  }
+
+  .nav-content {
+    width: 57.1875rem;
+    display: block;
+
+    &.hidden {
+      display: none;
+    }
+
+    h2.nav-content-title {
+      @include fontStyle (2.625rem, 3rem, .05em, 700);
+      margin-bottom: $six;
+    }
+  }
+
+  ul.bulleted-list {
+    @include fontStyle (1.125rem, 2.375rem, .01em);
+    padding-left: $three;
+
+    &:not(:last-child) {
+      margin: 0 0 $six 0;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  p.paragraph {
+    @include fontStyle (1.125rem, 2.375rem, .01em);
+    margin-top: 0;
+    opacity: .5;
+
+    &:not(:last-child) {
+      margin-bottom: $six;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &.p-bold {
+      opacity: 1;
+    }
+  }
+
+  h2,
+  h3 {
+    text-align: center;
+    margin-top: 0;
+  }
+
+  h2.content-title {
+    @include fontStyle (2rem, 2.625rem, .05em, 700);
+
+    &:not(:last-child) {
+      margin-bottom: $four;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  h3.content-subtitle {
+    @include fontStyle (1.5rem, 1.5rem, .05em, 700);
+    opacity: .5;
+
+    &:not(:last-child) {
+      margin-bottom: $three;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .filter {
+    position: relative;
+    background: rgba($color: #fff, $alpha: .85);
+    padding: $three $four;
+    @include fontStyle (.875rem, 1.375rem, .05em);
+    margin-bottom: $six;
+
+    span.text {
+      cursor: pointer;
+      color: #111;
+      font-weight: 700;
+      display: block;
+
+      &:before {
+        content: '';
+        position: absolute;
+        width: 1.125rem;
+        height: .625rem;
+        top: 2.25rem;
+        right: $three;
+        background-image: url(../img/arrowBl.svg);
+        transform: rotate(180deg);
+        transition: .15s;
+      }
+
+      &.active:before {
+        transform: none;
+      }
+    }
+
+    button {
+      @include fontStyle (.875rem, 1.125rem, .05em);
+      padding: 0;
+      display: block;
+      background: none;
+      color: #111;
+      opacity: .5;
+      text-align: left;
+      width: 13.125rem;
+      transition: .15s;
+
+      &:hover {
+        opacity: .85;
+      }
+
+      &:not(:first-child):not(:last-child) {
+        margin-bottom: .375rem;
+        margin-top: .5rem;
+      }
+
+      &:not(:nth-child(n + 10)) {
+        margin-right: 7.5625rem;
+      }
+
+      &.active {
+        display: none;
+      }
+    }
+
+    .list {
+      display: none;
+    }
+
+    .list .buttons {
+      position: relative;
+      margin-top: $two;
+      min-height: 26.875rem;
+      max-height: 26.875rem;
+      display: flex;
+      flex-flow: column wrap;
+      justify-content: flex-start;
+      width: fit-content;
+      justify-content: space-between;
+
+      &:before {
+        content: '';
+        position: absolute;
+        top: 1.625rem;
+        left: calc(13.125rem + 3.75rem);
+        width: 1px;
+        height: calc(100% - 1.625rem * 2);
+        background: rgba($color: #111, $alpha: .25);
+
+      }
+    }
+  }
+
+  a.doc {
+    display: inline-flex;
+    padding: 1.25rem 2rem;
+    margin-bottom: $two;
+    background: #222;
+    align-items: center;
+    justify-content: center;
+    @include fontStyle (.875rem, .875rem, 0.01em);
+
+    img {
+      margin-right: .75rem;
+      width: .6875rem;
+    }
+  }
+
+  .nominees .filter-result,
+  .laboratory .filter-result {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+  }
+
+  .laboratory h3 {
+    text-align: left;
+  }
+
+  .nominee,
+  .lab {
+    position: relative;
+    width: calc(100% / 2 - 2.8125rem / 2);
+
+    // ВКЛЮЧИТЬ, КОГДА БУДУТ ГОТОВЫ ИЗОБРАЖЕНИЯ
+
+    // &:before {
+    //   content: '';
+    //   width: 100%;
+    //   height: 15.4375rem;
+    //   background: $blueRed;
+    //   opacity: .52;
+    //   position: absolute;
+    //   top: 0;
+    //   left: 0;
+    // }
+
+    &:not(:last-child):not(:nth-last-child(2)) {
+      margin-bottom: $four;
+    }
+
+    img {
+      width: 100%;
+      height: 15.4375rem;
+      margin-bottom: $three;
+    }
+
+    h3.nominee-title,
+    h3.laureate-title {
+      margin-bottom: $two;
+      @include fontStyle (1.5rem, 1.5rem, 0);
+      margin: 0 0 $two 0;
+      text-align: left;
+    }
+
+    p.nominee-text,
+    p.laureate-text {
+      @include fontStyle (1rem, 1.625rem, 0);
+    }
+
+    .list {
+      padding: 1.875rem 0;
+      position: relative;
+
+      &:before {
+        content: '';
+        width: 100%;
+        height: .125rem;
+        background: $blueRed;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        transform: rotate(180deg)
+      }
+
+      span.text {
+        @include fontStyle (.875rem, .875rem, .05em);
+        opacity: .5;
+        cursor: pointer;
+
+        &:before {
+          content: '';
+          position: absolute;
+          height: 1.125rem;
+          width: .625rem;
+          top: 2rem;
+          right: $three;
+          background-image: url(../img/arrow.svg);
+          background-size: contain;
+          background-repeat: no-repeat;
+          transform: rotate(90deg);
+          transition: .15s;
+        }
+
+        &.active:before {
+          transform: rotate(270deg);
+        }
+      }
+
+      .points {
+        display: none;
+
+        p {
+          @include fontStyle (.875rem, 1.375rem, .05em);
+          margin-top: $two;
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+
+  .news .cards {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+  }
+
+  .new {
+    position: relative;
+    width: calc(100% / 2 - 1.5625rem / 2);
+    height: 17.8125rem;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: $four $four 0 $four;
+
+    &:after {
+      content: '';
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 100%);
+      opacity: .52;
+      position: absolute;
+      z-index: 1;
+      top: 0;
+      left: 0;
+    }
+
+    img {
+      position: absolute;
+      z-index: 0;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    p,
+    h3 {
+      position: relative;
+      z-index: 2;
+    }
+
+    p.new-date {
+      margin: 0 0 5.75rem 0;
+      @include fontStyle (1.125rem, 1.125rem, 0);
+    }
+
+    h3.new-title {
+      @include fontStyle (1.5rem, 1.5rem, 0);
+      text-align: left;
+      margin: 0 0 $two 0;
+    }
+
+    p.new-text {
+      @include fontStyle (1rem, 1.625rem, 0);
+      opacity: .5;
+      margin: 0;
+    }
+
+    &:not(:last-child):not(:nth-last-child(2)) {
+      margin-bottom: $three;
+    }
+  }
+}

@@ -1,0 +1,27 @@
+// COLORS
+$red: #770D37;
+$blue: #211452;
+$green: #44A569;
+
+$blueRed: radial-gradient(180.91% 1388.43% at 100% 7.27%, $red 0%, $blue 100%);
+$black: linear-gradient(180deg, #222222 0%, #111111 100%);
+$white: linear-gradient(180deg, #FFFFFF 0%, rgba(255, 255, 255, 0) 100%);
+$gold: linear-gradient(138.95deg, #BBA151 -28.75%, #F4DE9D 60.24%, #E3C877 76.72%);
+
+$br-hover: radial-gradient(268.52% 1980.58% at 100% 7.27%, $red 0%, $blue 100%);
+
+// FONTS
+@mixin fontStyle ($size, $height, $spacing, $weight: 400) {
+  font-size: $size;
+  line-height: $height;
+  letter-spacing: $spacing;
+  font-weight: $weight;
+}
+
+// MARGINS
+$fifteen: 9.375rem; // 150px
+$twelve: 7.5rem; // 120px
+$six: 3.75rem; // 60px
+$four: 2.5rem; // 40px
+$three: 1.875rem; // 30px
+$two: 1.25rem; // 20px

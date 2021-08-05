@@ -42,6 +42,9 @@ export class NavMenu extends Component {
                 <NavItem>
                   <NavLink tag={Link} className="text-dark" to="/profileView">Общее</NavLink>
                 </NavItem>
+                <NavItem>
+                  <NavLink tag={Link} className="text-dark" to="/profileEdit">Изменение данных</NavLink>
+                </NavItem>
               </ul>
             </Collapse>
           </Container>

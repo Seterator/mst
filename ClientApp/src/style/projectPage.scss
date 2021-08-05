@@ -1,0 +1,457 @@
+@import '_fonts';
+@import '_variables';
+@import '_style';
+
+@import '_label';
+
+body {
+  background: linear-gradient(90deg, rgba($blue, .25) 0%, rgba($red, .25) 100%);
+}
+
+.main {
+  margin-top: 8.75rem;
+  margin-bottom: $six;
+
+  .wrapper {
+    position: relative;
+    background-image: url('../img/photo2.png');
+    background-position: center;
+    padding: $six 32.8125rem $six 6.5625rem;
+
+    &:before {
+      content: '';
+      width: 100%;
+      height: $two;
+      position: absolute;
+      top: -$two;
+      left: 0;
+      background: $red;
+    }
+  }
+
+  .title {
+    margin-bottom: $three;
+  }
+
+  p.text {
+    @include fontStyle (1.125rem, 2.375rem, .01em);
+    margin: 0 0 $six 0;
+  }
+
+  .btn-primary {
+    padding: 1.1875rem $six 1.125rem $six;
+    @include fontStyle (1.125rem, 1.125rem, .01em);
+  }
+}
+
+.section-content {
+  position: relative;
+  z-index: 1;
+
+  .container {
+    display: flex;
+  }
+
+  aside.navigation {
+    display: flex;
+    flex-direction: column;
+    width: 17.8125rem;
+    margin-right: $three;
+
+    button.btn {
+      background: none;
+      text-align: left;
+      @include fontStyle (1.5rem, 2.125rem, .05em);
+      border-bottom: 1px solid rgba(#fff, .25);
+      padding-bottom: $three;
+      padding-left: 1.25rem;
+      padding-right: 1.25rem;
+
+      span {
+        transition: .1s;
+        opacity: .25;
+      }
+
+      &:not(:first-child) {
+        padding-top: $three;
+      }
+
+      &.active span {
+        opacity: 1;
+      }
+    }
+  }
+
+  .nav-content {
+    width: 57.1875rem;
+    display: block;
+
+    &.hidden {
+      display: none;
+    }
+  }
+
+  p.paragraph {
+    @include fontStyle (1.125rem, 2.375rem, .01em);
+    margin-top: 0;
+    opacity: .5;
+
+    &:not(:last-child) {
+      margin-bottom: $six;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &.p-bold {
+      opacity: 1;
+    }
+  }
+
+  h2,
+  h3 {
+    text-align: center;
+    margin-top: 0;
+  }
+
+  h2.content-title {
+    @include fontStyle (2rem, 2rem, .05em, 700);
+    text-align: left;
+
+    &:not(:last-child) {
+      margin-bottom: $four;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  h3.content-subtitle {
+    @include fontStyle (1.5rem, 1.5rem, .05em, 700);
+    opacity: .5;
+
+    &:not(:last-child) {
+      margin-bottom: $three;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  p.date {
+    &:not(:first-child) {
+      margin: $six 0 $two 2.6875rem;
+    }
+
+    &:first-child {
+      margin: 0 0 $two 2.6875rem;
+    }
+
+    @include fontStyle (1.5rem, 1.5rem, .01em);
+  }
+
+  .poster {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 1.375rem $four;
+    background: #222;
+    transition: .4s;
+
+    &:hover {
+      background: #1a1a1a;
+    }
+
+    &:not(:last-child) {
+      margin-bottom: $three;
+    }
+
+    // Add leftside BAND
+    &.festival:before,
+    &.ceremony:before,
+    &.lab:before {
+      content: '';
+      height: 100%;
+      width: .625rem;
+      position: absolute;
+      left: 0;
+      top: 0;
+    }
+
+    &.festival:before {
+      background: $red;
+    }
+
+    &.ceremony:before {
+      background: $blue;
+    }
+
+    &.lab:before {
+      background: $green;
+    }
+  }
+
+  .inner {
+    width: 24.3125rem;
+    margin-right: 3rem;
+  }
+
+  h3.poster-title {
+    text-align: left;
+    @include fontStyle (1.5rem, 1.5rem, .05em, 700);
+    margin: 0 0 .9375rem 0;
+  }
+
+  p.artist-name {
+    @include fontStyle (1rem, 1rem, .01em);
+    opacity: .5;
+    margin: 0;
+  }
+
+  p.time {
+    @include fontStyle (1rem, 1rem, .01em);
+    margin: 0 3rem 0 0;
+    width: 3.5625rem;
+  }
+
+  p.location {
+    @include fontStyle (1rem, 1rem, .01em);
+    margin: 0 2rem 0 0;
+    width: 13.6875rem;
+  }
+
+  p.age {
+    justify-self: flex-end;
+    margin: 0;
+    width: 2rem;
+  }
+
+  ul.bulleted-list {
+    @include fontStyle (1.125rem, 2.375rem, .01em);
+    padding-left: $three;
+
+    &:not(:last-child) {
+      margin: 0 0 $six 0;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .gallery {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    &:not(:last-child) {
+      margin-bottom: $six;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .gallery3 {
+    img {
+      width: calc(100% / 3 - 1.875rem * 2 / 3);
+      height: 21.875rem;
+    }
+  }
+
+  .nominees,
+  .laureates,
+  .news,
+  .partners {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+  }
+
+  .nominee,
+  .laureate {
+    position: relative;
+    width: calc(100% / 2 - 2.8125rem / 2);
+
+    &:before {
+      content: '';
+      width: 100%;
+      height: 15.4375rem;
+      background: $blueRed;
+      opacity: .52;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    &:not(:last-child):not(:nth-last-child(2)) {
+      margin-bottom: $four;
+    }
+
+    img {
+      width: 100%;
+      height: 15.4375rem;
+      margin-bottom: $three;
+    }
+
+    h3.nominee-title,
+    h3.laureate-title {
+      margin-bottom: $two;
+      @include fontStyle (1.5rem, 1.5rem, 0);
+      margin: 0 0 $two 0;
+      text-align: left;
+    }
+
+    p.nominee-text,
+    p.laureate-text {
+      @include fontStyle (1rem, 1.625rem, 0);
+    }
+  }
+
+  .new {
+    position: relative;
+    width: calc(100% / 2 - 1.5625rem / 2);
+    height: 17.8125rem;
+    overflow: hidden;
+    padding: $four $four 0 $four;
+
+    &:after {
+      content: '';
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 100%);
+      opacity: .52;
+      position: absolute;
+      z-index: 1;
+      top: 0;
+      left: 0;
+    }
+
+    img {
+      position: absolute;
+      z-index: 0;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    p,
+    h3 {
+      position: relative;
+      z-index: 2;
+    }
+
+    p.new-date {
+      margin: 0 0 5.75rem 0;
+      @include fontStyle (1.125rem, 1.125rem, 0);
+    }
+
+    h3.new-title {
+      @include fontStyle (1.5rem, 1.5rem, 0);
+      text-align: left;
+      margin: 0 0 $two 0;
+    }
+
+    p.new-text {
+      @include fontStyle (1rem, 1.625rem, 0);
+      opacity: .5;
+      margin: 0;
+    }
+
+    &:not(:last-child):not(:nth-last-child(2)) {
+      margin-bottom: $three;
+    }
+  }
+
+  .media {
+    .row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+
+      img.preview {
+        width: 100%;
+        margin-bottom: .625rem;
+      }
+
+      img.play {
+        width: 2.625rem;
+        position: absolute;
+        top: 6.5rem;
+        left: calc(50% - 2.625rem * 1.5);
+      }
+
+      p.text {
+        margin: 0;
+      }
+    }
+
+    .row:not(:last-child) {
+      margin-bottom: $four;
+    }
+
+    // Каждый первый ряд с интервалом 2 ряда
+    .row:nth-child(3n - 2) {
+      .block:first-child {
+        width: 30.9375rem;
+        margin-right: $three;
+      }
+
+      .block:last-child {
+        width: 24.375rem;
+      }
+    }
+
+    // Каждый второй ряд с интервалом 2 ряда
+    .row:nth-child(3n - 1) {
+      .block:first-child {
+        width: 24.375rem;
+        margin-right: $three;
+      }
+
+      .block:last-child {
+        width: 30.9375rem;
+      }
+    }
+
+    // Каждый третий ряд с интервалом 2 ряда
+    .row:nth-child(3n) .block {
+      width: calc(100% / 3 - 1.875rem * 2 / 3);
+
+      &:not(:last-child) {
+        margin-right: $three;
+      }
+    }
+  }
+
+  .partner {
+    width: calc(100% / 3 - (1.875rem * 2) / 3);
+
+    &:not(:nth-last-child(3)):not(:nth-last-child(2)):not(:last-child) {
+      margin-bottom: 3.125rem;
+    }
+
+    img {
+      margin-bottom: $six;
+      width: 100%
+    }
+
+    .partner-title {
+      @include fontStyle (1.5rem, 1.5rem, 0);
+      margin: 0 0 1.25rem 0;
+      text-transform: none;
+      text-align: left;
+    }
+
+    .partner-text {
+      @include fontStyle (1rem, 1.625rem, 0);
+      opacity: .25;
+      margin: 0;
+    }
+  }
+}
