@@ -1,0 +1,134 @@
+.section-news {
+    overflow-x: clip;
+  
+    .container {
+      //padding-right: 11.25rem;
+    }
+  
+    .section-title {
+      margin-bottom: $six;
+    }
+  
+    .slick-arrow {
+      position: absolute;
+      top: -6rem;
+      font-size: 0;
+      background: none;
+      border: none;
+      width: 1.25rem;
+      height: 2rem;
+      background-image: url('../img/arrow.svg');
+      background-position: center;
+      background-repeat: no-repeat;
+      background-size: contain;
+      transition: .25s;
+    }
+  
+    .slick-prev {
+      transform: rotate(180deg);
+      right: 14.1875rem;
+    }
+  
+    .slick-next {
+      right: 10.3125rem;
+    }
+  
+    .slick-disabled {
+      opacity: .25;
+    }
+  
+    .slick-list {
+      overflow: inherit;
+    }
+  
+    .slick-track {
+      display: flex;
+      align-items: flex-start;
+      flex-wrap: nowrap;
+    }
+  
+    .slide {
+      position: relative;
+      padding: $four $four 0 $four;
+      max-height: 17.8125rem;
+      height: 17.8125rem;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+  
+      img {
+        position: absolute;
+        z-index: 0;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+      }
+  
+      p {
+        position: relative;
+        z-index: 2;
+      }
+  
+      p.date {
+        @include fontStyle (1.125rem, 1.125rem, inherit);
+        margin: 0 0 5.75rem 0;
+      }
+  
+      .title-new {
+        @include fontStyle (1.5rem, 1.5rem, inherit);
+        margin: 0 0 $two 0;
+      }
+  
+      p.text {
+        margin: 0;
+        @include fontStyle (1rem, 1.625rem, inherit);
+        opacity: .5;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+  
+      &:first-child {
+        margin-right: .9375rem;
+      }
+  
+      &:not(:last-child):not(:first-child) {
+        margin: 0 .9375rem;
+      }
+  
+      &:last-child {
+        margin-left: .9375rem;
+      }
+  
+      &:before {
+        content: '';
+        position: absolute;
+        z-index: 1;
+        width: 100%;
+        height: 100%;
+        left: 0;
+        top: 0;
+        background: linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, #000000 100%);
+      }
+    }
+  
+    .news-link {
+      @include fontStyle (1.125rem, 1.125rem, .01em);
+      margin: $four 0 0 0;
+      display: inline-flex;
+      align-items: center;
+      opacity: .25;
+  
+      img {
+        width: 2.1875rem;
+        margin-left: .625rem;
+        transition: .25s;
+      }
+  
+      &:hover img {
+        transform: translateX(.625rem);
+      }
+    }
+  }

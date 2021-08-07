@@ -1,0 +1,63 @@
+@import '_fonts';
+@import '_variables';
+@import '_style';
+
+@import '_label';
+
+body {
+  //background: linear-gradient(90deg, rgba($blue, .25) 0%, rgba($red, .25) 100%);
+}
+
+.section-archive {
+  .section-title {
+    text-align: center;
+    margin-bottom: 3.75rem;
+  }
+
+  .filter {
+    padding: $four 0;
+
+    border-top: 1px solid #fff;
+    border-bottom: 1px solid #fff;
+
+    .tag {
+      background: none;
+      color: #fff;
+      transition: .1s;
+      @include fontStyle (1.125rem, 1.125rem, .05em);
+      padding: 0;
+
+      &:not(:last-child):not(:nth-child(5)) {
+        margin-right: $four;
+      }
+
+      &:not(:nth-child(n + 6)) {
+        margin-bottom: $three;
+      }
+
+      &:not(.tag-active) {
+        opacity: .25;
+      }
+    }
+  }
+
+  .filter-result {
+    margin-bottom: $six;
+  }
+
+  p.paragraph-archive {
+    position: relative;
+    padding-left: 6.5625rem;
+    @include fontStyle (1.5rem, 2.125rem, .05em);
+    margin: $six 0;
+
+    &:before {
+      content: attr(data-index);
+      @include fontStyle (2.625rem, inherit, .05em, 700);
+      position: absolute;
+      top: .625rem;
+      left: .8125rem;
+      opacity: .25;
+    }
+  }
+}

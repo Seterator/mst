@@ -1,18 +1,30 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router';
-import { Layout } from './components/Layout';
+import { Route, Redirect } from 'react-router';
+import  Layout  from './components/Layout';
 import { Counter } from './components/Counter';
+import { Footer } from './components/Footer';
+import { WelcomePage } from './components/pages/Welcome'
+import { EstimationWork } from './components/pages/estimation/EstimationWork'
+import { EstimationBase } from './components/pages/estimation/EstimationBase'
+import { ProfileView } from './components/pages/profile/ProfileView'
+import { ProfileEdit } from './components/pages/profile/ProfileEdit'
 
 import './custom.css'
+import './../src/style/index.scss'
 
-export default class App extends Component {
-  static displayName = App.name;
+export default function App(props) {
 
-  render () {
+  const NotFoundRedirect = () => <Redirect to='/' />
     return (
-      <Layout>
-        <Route path='/' component={Counter} />
+      <Layout {...props}>
+        <Route exact path='/' component={WelcomePage} />
+        <Route path='/admin' component={Counter} />
+        <Route path='/work/:id' component={EstimationWork} />
+        <Route path='/estimation' component={EstimationBase} />
+        <Route path='/profileView' component={ProfileView} />
+        <Route path='/profileEdit' component={ProfileEdit} />
+                <Route component={NotFoundRedirect} />
       </Layout>
     );
-  }
+  
 }

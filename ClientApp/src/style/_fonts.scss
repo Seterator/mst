@@ -1,0 +1,13 @@
+@mixin font($font_name, $file_name, $weight, $style) {
+    @font-face {
+      font-family: $font_name;
+      font-display: swap;
+      src: url('../fonts/#{$file_name}.ttf') format('ttf'),
+      url('../fonts/#{$file_name}.ttf') format('ttf');
+      font-weight: #{$weight};
+      font-style: #{$style};
+    }
+  }
+  
+  @include font("Optima", "Optima-Bold", "700", "normal");
+  @include font("Optima", "Optima", "400", "normal");
