@@ -5,7 +5,7 @@
 @import '_label';
 
 body {
-  background: linear-gradient(90deg, rgba($blue, .25) 0%, rgba($red, .25) 100%);
+  //background: linear-gradient(90deg, rgba($blue, .25) 0%, rgba($red, .25) 100%);
 }
 
 .section-content {
@@ -56,11 +56,19 @@ body {
       display: none;
     }
 
+    p.mail{
+        @include fontStyle (1.125rem, 1.75rem, .05em);
+        opacity: .25;
+        text-align: center;
+        margin-top: 0;
+      
+    }
+
     .nav-content-title {
       @include fontStyle (2.625rem, 3rem, .05em, 700);
       text-align: center;
       margin-top: 0;
-      margin-bottom: $six;
+      
     }
   }
 
@@ -109,6 +117,32 @@ body {
         @include fontStyle (1.125rem, 1.75rem, .05em);
         opacity: .25;
       }
+    }
+    .content{
+        input.profile{
+            margin: 0 30px 20px 30px;
+            background-color: #2B111B;
+            height: 55px;
+            width: 390px;
+            border: 2px solid #FFFFFF;
+            box-sizing: border-box;
+        }
+
+        textarea.profile{
+            margin: 0 30px 20px 30px;
+            background-color: #2B111B;
+            height: 250px;
+            width: 390px;
+            border: 2px solid #FFFFFF;
+            box-sizing: border-box;
+        }
+
+        button{
+            height: 55px;
+            width: 390px;
+            background: radial-gradient(180.91% 1388.43% at 100% 7.27%, #770D37 0%, #211452 100%);
+            margin: 10px 30px;
+        }
     }
   }
 

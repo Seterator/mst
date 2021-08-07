@@ -2,17 +2,15 @@ import React, { Component } from 'react';
 import { Container } from 'reactstrap';
 import { NavMenu } from './NavMenu';
 
-export class Layout extends Component {
-  static displayName = Layout.name;
+export default function Layout(props) {
 
-  render () {
     return (
       <div>
-        <NavMenu />
+        <NavMenu {...props}/>
         <Container>
-          {this.props.children}
+          {props.children}
         </Container>
       </div>
-    );
-  }
+    )
+  
 }
