@@ -50,3 +50,28 @@ line-height: 16px;
 
   display: flex;
 }
+a.admin:hover{
+  text-decoration: underline;
+}
+a.admin{
+  display: table-row;
+}
+table {
+  border-collapse: collapse;
+  border: 1px solid black;
+  width: 70%;
+}
+
+table td{
+  border: 1px solid black;
+}
+table th{
+  width: 17%;
+  border: 1px solid black;
+}
+.admin-content{
+  margin: 20px 0 0 20px;
+  width:1000px; 
+  height:400px; 
+  float:left;
+}
