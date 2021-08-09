@@ -4,7 +4,7 @@ import Modal from 'react-modal'
 
 Modal.setAppElement('#root')
 
-export default function AddProfileModal(props) {
+export default function AddCompetitionModal(props) {
     const [profileData, setProfileData] = useState({})
 
     const [buttonDisable, setButtonDisable] = useState(false)
@@ -54,11 +54,10 @@ export default function AddProfileModal(props) {
                 <div style={{display:'grid', padding:'20px', backgroundColor: '#2B111B'}}> 
                 <h2>Создание пользователя</h2>
 
-                <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="Email" id='email' defaultValue={props?.preValue?.email} onChange={handleChange} />
-                <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="ФИО" id='name' defaultValue={props?.preValue?.name} onChange={handleChange} />
-                <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="Город" id='city' defaultValue={props?.preValue?.city} onChange={handleChange} />
-                <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="О себе" id='bio' defaultValue={props?.preValue?.bio} onChange={handleChange} />
-                <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="Фото" id='image' defaultValue={props?.preValue?.image} onChange={handleChange} />
+                <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="Название" id='title' defaultValue={props?.preValue?.title} onChange={handleChange} />
+                <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="Ссылка" id='url' defaultValue={props?.preValue?.url} onChange={handleChange} />
+                <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="Дата начала" id='startDate' defaultValue={props?.preValue?.startDate} onChange={handleChange} />
+                <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="Дата окончания" id='endDate' defaultValue={props?.preValue?.endDate} onChange={handleChange} />
 
                 <button style={{margin:'10px 0', height:'55px'}} disabled={buttonDisable} onClick={props.cancel}>Cancel</button>
                 <button style={{margin:'10px 0', height:'55px'}} disabled={buttonDisable} onClick={submit}>Save</button>

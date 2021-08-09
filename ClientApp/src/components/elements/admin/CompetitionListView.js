@@ -1,0 +1,192 @@
+import React, { useEffect, useState } from 'react';
+import Table from '../misc/Table';
+import AddMembersModal from '../modal/AddMembersModal';
+import AddCompetitionModal from '../modal/AddCompetitionModal'
+import EditNominationModal from '../modal/EditNominationModal';
+import EditNominationsListModal from '../modal/EditNominationsListModal';
+
+export function CompetitionListView(){
+    const [isModalAddOpen, OpenAddModal] = useState(false);
+    const [isModalEditOpen, OpenEditModal] = useState(false);
+    const [competitionData, setCompetitionData] = useState({})
+    const [competitionEditData, setCompetitionEditData] = useState({})
+    const [filter, setFilter] = useState('');
+    useEffect(()=>{
+        setCompetitionData(testData);
+    },[])
+
+
+
+    const testData = {columns:[{key:'id', value:'Id'},{key:'title', value:'Название'},{key:'url', value:'Ссылка'},{key:'startDate', value:'Дата начала'},{key:'endDate', value:'Дата окончания'},{key:'members', value:'Жюри'},{key:'nominations', value:'Номинации'},{key:'shows', value:'Спектакли'}],
+data:[{ id: 5,url:'https://avatars.mds.yandex.net/get-zen_doc/1219682/pub_5eaa7423102eee24419d5607_5eaa74d77e79087ec3668df9/scale_1200', title: 'Конкурс Лисичков', startDate:'28.01.2021', endDate:'28.01.2022',members:[],nominations:[],shows:[] },
+{ id: 6,url:'https://avatars.mds.yandex.net/get-zen_doc/1219682/pub_5eaa7423102eee24419d5607_5eaa74d77e79087ec3668df9/scale_1200', title: 'Конкурс Лисичков2', startDate:'25.01.2021', endDate:'25.01.2022',members:[],nominations:[],shows:[] }
+],
+setData:[
+{ execute:(i)=>deleteCompetition(i),title:'Удалить'},
+{ execute:(i)=>editCompetition(i),title:'Изменить'}]};
+
+function deleteCompetition(i){
+
+}
+function editCompetition(i){
+    
+}
+
+function competitionAdded(i){
+    const nextId = competitionData?.data?.length>0 ? Math.max(...competitionData?.data?.map(item => item.id)) +1: 1;
+    let newItem = {...i,id:nextId};
+    let newArr = [...competitionData.data,newItem];
+    setCompetitionData({...competitionData,data:newArr});
+}
+function competitionEdited(i){
+    
+}
+
+
+
+    return(<div>
+        <div><a onClick={()=>{OpenAddModal(true)}}>Добавить Конкурс</a></div>
+        {CompetitionTable(competitionData)}
+        {AddCompetitionModal({submit:competitionAdded,cancel:()=>OpenAddModal(false),isOpen:isModalAddOpen})}
+
+        </div>)
+
+
+
+}
+
+
+
+
+function CompetitionTable({ columns, data, setData }){
+
+    const testData = [{ id: 5,image:'https://avatars.mds.yandex.net/get-zen_doc/1219682/pub_5eaa7423102eee24419d5607_5eaa74d77e79087ec3668df9/scale_1200', name: 'Лиса Лисичкова', email:'lisa@mail.ru', city:'г.Таганрог',bio:'пью виски, кушаю сосиски' },
+{ id: 6,image:'https://avatars.mds.yandex.net/get-zen_doc/1219682/pub_5eaa7423102eee24419d5607_5eaa74d77e79087ec3668df9/scale_1200', name: 'Лиза Лисичкова', email:'lisa1@mail.ru', city:'г.Таганрог', bio:'пью колу, кушаю ролы' }
+]
+    const [changeIndex, setChangeIndex] = useState(1);
+
+    const [nominations, setNominations] = useState([]);
+    const [nominationsView, setNominationsView] = useState([]);
+
+    const [editNominationData, setEditNominationData] = useState({});
+    const [editCompetitionData, setEditCompetitionData] = useState({});
+
+    const [isModalNominationOpen, OpenNominationModal] = useState(false);
+    const [isModalNominationEditOpen, OpenNominationEditModal] = useState(false);
+
+    const [members, setMembers] = useState([]);
+    const [membersChecked, setMembersChecked] = useState([]);
+    const [isModalMembersOpen, OpenMembersModal] = useState(false);
+
+    useEffect(()=>{
+        setMembers(testData);
+    },[])
+    useEffect(()=>{
+        if(editNominationData?.value != undefined &&editNominationData?.value != '' && !isModalNominationEditOpen){
+            OpenNominationEditModal(true);
+        }
+ 
+    },[editNominationData])
+
+    useEffect(()=>{
+        if(editCompetitionData?.id != undefined &&editCompetitionData?.id != ''){
+            editCompetitionData.exec();
+        }
+ 
+    },[editCompetitionData])
+
+    useEffect(()=>{
+        setNominationsView(nominations);
+    },[nominations,changeIndex])
+
+    useEffect(()=>{
+        !isModalNominationEditOpen && setEditNominationData({});
+    },[isModalNominationEditOpen])
+
+    useEffect(()=>{
+        !isModalNominationOpen && setEditCompetitionData({});
+    },[isModalNominationOpen])
+
+    
+
+    function editNomination(v,i){
+        setEditNominationData({value:v, index:i});
+    }
+
+    function editNominationSubmit(v){
+
+        if(v&&v!=''){
+            let newArr = nominations;
+            newArr[newArr.indexOf(newArr.filter(f=> f.competitionId == editCompetitionData.id && f.value == editNominationData.value)[0])] = {competitionId:editCompetitionData?.id,value:v};
+
+            setNominations(newArr);
+            setEditNominationData({});
+        }
+    }
+
+    function deleteNomination(i){
+        let newArr = nominations;
+        let curArr = newArr.filter(f=> f.competitionId == editCompetitionData.id);
+        newArr.splice(newArr.indexOf(curArr[i]),1);
+        setNominations(newArr);
+        setChangeIndex(changeIndex+1);
+    }
+
+    function editCompetition(id, exec){
+        setEditCompetitionData({id:id, exec:exec});
+
+    }
+    function addNominationToList(v){
+        setNominations([...nominations,v]);
+
+    }
+    function addMembersSubmit(m){
+        let newArr = membersChecked;
+        var curMembers = newArr.filter(f=> f.competitionId == editCompetitionData.id);
+
+        curMembers.forEach(v => {
+            newArr.splice(newArr.indexOf(v),1);
+        })
+        setMembersChecked([...newArr,...m])
+    }
+    return(<div>
+        <table>
+            <thead>
+                <tr>
+                    {columns?.map((v,i)=><th key={`${v?.key}${i}`}>{v?.value||v}</th>)}
+                    {setData && setData.length > 0 &&<th>Действия</th>}
+                </tr>
+            </thead>
+            <tbody>
+                {data?.map((v,i)=>{
+                    return <tr>
+                        
+                        {columns?.map((v1,i1)=>{
+                            
+                            const propKey = v1?.key||v1;
+                            const propVal = v[propKey];
+                            let val = v[propKey];
+
+                            if(propKey == 'members'){
+                                return <td><a onClick={()=>editCompetition(v.id,()=>OpenMembersModal(true))}>Редактировать {membersChecked.filter(f=>f.competitionId == v.id).length}</a></td>
+                            }
+                            if(propKey == 'nominations'){
+                                return <td><a onClick={()=>editCompetition(v.id,()=>OpenNominationModal(true))}>Редактировать {nominations.filter(f=>f.competitionId == v.id).length}</a></td>
+                            }
+                            if(propKey == 'shows'){
+                                return <td><a onClick={()=>{}}>Редактировать</a></td>
+                            }
+                            return <td>{val}</td>
+                        })}
+                        <td>
+                            {setData?.map(d => <a onClick={()=>d.execute(v)}>{d.title}</a>)}
+                        </td>
+                    </tr>
+                })}
+            </tbody>
+        </table>
+        {EditNominationsListModal({competitionId: editCompetitionData.id,isOpen:isModalNominationOpen,nominations:nominationsView.filter(f=>f.competitionId == editCompetitionData.id).map(m=>m.value),add:addNominationToList,edit:editNomination,delete:deleteNomination,cancel:()=>{OpenNominationModal(false)}})}
+        {EditNominationModal({isOpen:isModalNominationEditOpen,preValue:editNominationData.value,cancel:()=>{OpenNominationEditModal(false)}, submit:editNominationSubmit})}
+        {AddMembersModal({competitionId: editCompetitionData.id,isOpen:isModalMembersOpen, members:members,checked:membersChecked,cancel:()=>{OpenMembersModal(false)}, submit:addMembersSubmit})}
+        </div>)
+}

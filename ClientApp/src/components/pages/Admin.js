@@ -1,7 +1,7 @@
 import React, { Component, useEffect, useState } from 'react';
 import { EstimationListView } from '../elements/admin/EstimationListView';
 import { ProfileListView } from '../elements/admin/ProfileListView';
-import { NominationListView } from '../elements/admin/NominationListView';
+import { CompetitionListView } from '../elements/admin/CompetitionListView';
 
 export function Admin(){
     const [activePage, setActivePage] = useState(1)
@@ -23,7 +23,7 @@ export function Admin(){
             {EstimationListView()}
         </div>
         <div className='admin-content' style={{display:`${activePage == 3 ? 'block':'none'}`}}>
-            {NominationListView()}
+            {CompetitionListView()}
         </div>
         </div>
         </div>
