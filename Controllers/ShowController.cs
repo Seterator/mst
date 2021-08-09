@@ -5,7 +5,7 @@ using mst.Models;
 
 namespace mst.Controllers {
     [ApiController]
-    [Route("controller")]
+    [Route("[controller]")]
     public class ShowController : ControllerBase {
         private DatabaseContext _db;
         public ShowController(DatabaseContext db) {
@@ -23,6 +23,7 @@ namespace mst.Controllers {
             s.Video_link = show.Video_link;
             s.Web_link = show.Web_link;
 
+            _db.Shows.Add(s);
             await _db.SaveChangesAsync();
             return Ok();
         }
