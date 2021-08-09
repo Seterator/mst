@@ -87,5 +87,46 @@ namespace mst.Controllers
         {
             return Ok(_db.Referees);
         }
+
+        [HttpGet("Login")]
+        public IActionResult Login([FromQuery]User user) {
+            try {
+                var r = _db.Referees.Where(x => x.Email == user.Email).Single();
+                if (r.Password == user.Password) {
+                    return Ok();
+                }
+                else {
+                    throw new Exception();
+                }
+            }
+            catch {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost("ChangePassword")]
+        public async Task<IActionResult> ChangePassword([FromQuery]User user) {
+            try {
+                Referee referee = new Referee();
+                if (user.Id != null) {
+                    referee = _db.Referees.Where(x => x.Id == user.Id).Single();
+                }
+                else {
+                    referee = _db.Referees.Where(x => x.Email == user.Email).Single();
+                }
+                if (referee.Password == user.OldPassword) {
+                    referee.Password = user.Password;
+                    await _db.SaveChangesAsync();
+
+                    return Ok();
+                }
+                else {
+                    return BadRequest("Пароли не совпадают");
+                }
+            }
+            catch {
+                return BadRequest("Неверный id/email пользователя");
+            }
+        }
     }
 }
