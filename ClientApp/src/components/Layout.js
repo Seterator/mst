@@ -5,11 +5,11 @@ import { NavMenu } from './NavMenu';
 export default function Layout(props) {
 
     return (
-      <div>
+      <div style={{display:`${props.display ? 'none':'block'}`}}>
         <NavMenu {...props}/>
-        <Container>
+        <div>
           {props.children}
-        </Container>
+        </div>
       </div>
     )
   

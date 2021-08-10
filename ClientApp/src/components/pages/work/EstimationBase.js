@@ -1,5 +1,6 @@
 import React, { Component, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom'
+import Container from 'reactstrap/lib/Container';
 
 import { VoteElement } from '../../elements/EstimationElements';
 import { WarningMessage} from '../../elements/MessageElements';
@@ -7,6 +8,8 @@ import { WarningMessage} from '../../elements/MessageElements';
 export function EstimationBase(){
     const [data, setData] = useState([]);
     const [view, setView] = useState([]);
+
+    const [filter, setFilter] = useState('');
 
  
 
@@ -45,12 +48,14 @@ nominations:[{title:'Лучший текст песен (авор/перевод
     },[]);
 
     useEffect(()=>{
-        const v = (<div className='container'  style={{display:'inline-block'}}>
-        {data && data?.map((v,i) => VoteElement(v,() => dropDownClick(i)))}
+        const v = (
+        <div className='container'  style={{display:'inline'}}>
+            
+        {data && data?.filter(f=>f.title.toLowerCase().includes(filter?.toLowerCase())).map((v,i) => VoteElement(v,() => dropDownClick(i)))}
         
         </div>);
         setView(v);
-    },[data, index]);
+    },[data, index,filter]);
 
 const dropDownClick = (i) =>{
     data[i].dropDownVisible = !data[i].dropDownVisible;
@@ -59,9 +64,15 @@ const dropDownClick = (i) =>{
 }
 
 
-    return(<div>
+    return(<div className='container' style={{maxWidth:'1500px'}}>
+        <input placeholder="Поиск" onChange={(e)=>setFilter(e.target.value)} style={{width: '285px',
+height: '82px',
+background: '#454343',
+display: 'block',
+margin: '60px 0 40px 20px',
+color: 'white'}}/>
         {view}
-        <div>
+        <div style={{display:'inline-block'}}>
         {WarningMessage('Внезапно, непосредственные участники технического прогресса в равной степени предоставлены сами себе. Значимость этих проблем настолько очевидна, что сложившаяся структура организации представляет собой интересный эксперимент проверки новых принципов формирования материально-технической и кадровой базы.', '1230px')}
         <button style={{width:'1230px', height:'55px', margin:'10px 0'}}>Подтвердить и отправить</button>
         </div>

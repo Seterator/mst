@@ -2,12 +2,13 @@ import React, { Component, useEffect, useState } from 'react';
 import { EstimationListView } from '../elements/admin/EstimationListView';
 import { ProfileListView } from '../elements/admin/ProfileListView';
 import { CompetitionListView } from '../elements/admin/CompetitionListView';
+import Container from 'reactstrap/lib/Container';
 
 export function Admin(){
     const [activePage, setActivePage] = useState(1)
 
 
-    return(<div style={{textAlign:'center'}}>
+    return(<Container style={{textAlign:'center'}}>
         <h2>Панель администратора</h2>
         <div style={{ display:'flex'}}>
         <div style={{ display:'block'}}>
@@ -27,5 +28,5 @@ export function Admin(){
         </div>
         </div>
         </div>
-    </div>)
+    </Container>)
 }

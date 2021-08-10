@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
-import { Link } from 'react-router-dom';
+import { Link , useHistory} from 'react-router-dom';
 import './NavMenu.css';
 
 export function NavMenu(props) {
  
 const [collapsed, setCollapsed] = useState(true);
+const h = useHistory();
+function redirect(p){
+  h.push(p);
+}
 
   function toggleNavbar () {
     setCollapsed(!collapsed)
@@ -13,36 +17,47 @@ const [collapsed, setCollapsed] = useState(true);
 
 
     return (
-      <header>
-        <Navbar className="navbar-expand-sm navbar-toggleable-sm ng-white border-bottom box-shadow mb-3" light>
+      <div className="container" style={{maxWidth:'1230px'}}>
+      <header className="notWelcome border-bottom">
+        <Navbar className="height-max navbar-expand-sm navbar-toggleable-sm ng-white box-shadow mb-3" light>
           <Container>
-            <NavbarBrand tag={Link} to="/">mst</NavbarBrand>
+            
             <NavbarToggler onClick={()=>toggleNavbar()} className="mr-2" />
-            <Collapse className="d-sm-inline-flex flex-sm-row-reverse" isOpen={!collapsed} navbar>
+            <div className="flex-sm-row-reverse bottom-header" isOpen={!collapsed} navbar>
+              <div className="bottom-header-left-part">
               <ul className="navbar-nav flex-grow">
-              <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/">Welcome</NavLink>
+                <NavItem className="bottom-navbar-item">
+                  <a className="bottom-navbar-item" onClick={()=>redirect('/profileView')}>Общее</a>
                 </NavItem>
-                <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/admin">Админка</NavLink>
+                <NavItem className="bottom-navbar-item">
+                  <a className="bottom-navbar-item" onClick={()=>redirect('/estimation')}>Оценивание работ</a>
                 </NavItem>
-                <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/estimation">Оценивание работ</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/profileView">Общее</NavLink>
-                </NavItem>
-                <NavItem>
-                  <NavLink tag={Link} className="text-dark" to="/profileEdit">Изменение данных</NavLink>
-                </NavItem>
-                <NavItem>
-                <NavLink tag={Link} className="text-dark" to="/" onClick={()=>props.logout()}>Выйти</NavLink>
+                <NavItem className="bottom-navbar-item">
+                  <a className="bottom-navbar-item" onClick={()=>redirect('/profileView')}>Полный список оценивания</a>
                 </NavItem>
               </ul>
-            </Collapse>
+
+              </div>
+              <div className="bottom-header-right-part">
+              <ul className="navbar-nav flex-grow">
+              <NavItem className="bottom-navbar-item">
+                  <a className="bottom-navbar-item" onClick={()=>redirect('/admin')}>Админка</a>
+                </NavItem>
+                <NavItem className="bottom-navbar-item">
+                  <a className="bottom-navbar-item" onClick={()=>redirect('/profileEdit')}>Изменение данных</a>
+                </NavItem>
+                <NavItem className="bottom-navbar-item">
+                <a className="bottom-navbar-item" onClick={()=>props.logout()}>Выйти</a>
+                </NavItem>
+              </ul>
+
+              </div>
+              
+            </div>
           </Container>
         </Navbar>
       </header>
+      </div>
     );
   
 }

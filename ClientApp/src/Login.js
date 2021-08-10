@@ -23,6 +23,6 @@ textTransform: 'uppercase'}}>Авторизация для академиков<
         <input style={{width:'390px', height:'55px', margin:'10px 0'}} onChange={(e) => { setPassword(e.target.value) }} type='password' placeholder='Пароль'/>
         <button style={{width:'390px', height:'55px', margin:'10px 0'}} onClick={()=>props.login(userName,password)}>Войти</button>
         </div>
-        {Footer()}
+        <Footer/>
         </div>)
 }

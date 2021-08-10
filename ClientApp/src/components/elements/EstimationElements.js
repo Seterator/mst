@@ -5,15 +5,16 @@ import {WarningHorizontMessage} from './MessageElements'
 export function VoteElement(data, f){
 
     return(
-    <span style={{display:'block', width:'390px', margin:'20px', float:'left'}}>
+    <span style={{display:'block', width:'390px', margin:'20px', float:'left',borderStyle: 'solid',
+    borderImage: 'linear-gradient(to left, #770D37, #211452) 0 0 100% 0', paddingBottom:'20px'}}>
     <Link to={`/work/${data.videoId}`}  style={{display:'block'}}>
     <div height='247' width='390' style={{
         backgroundImage:`url(${data.image})`
-        , width:'390px', height:'247px', position:'relative'}}>
-            <div style={{position:'absolute', bottom:'0', left:'0', right:'0', height:'30px', textAlign:'center'}}>
-            <button hidden={!data.options?.some(s => s == 'viewed')} style={{margin:'0 5px 0 5px'}}>viewed</button>
-            <button hidden={!data.options?.some(s => s == 'estimated')} style={{margin:'0 5px 0 5px'}}>estimated</button>
-            <button hidden={!data.options?.some(s => s == 'notVoting')} style={{margin:'0 5px 0 5px'}}>notVoting</button>
+        , width:'390px', height:'247px', position:'relative', opacity:'0.7'}}>
+            <div style={{position:'absolute', bottom:'10px', left:'0', right:'0', height:'30px', textAlign:'center'}}>
+            <button className="vote-button" hidden={!data.options?.some(s => s == 'notVoting')}>Без голосования</button>
+            <button className="vote-button" hidden={!data.options?.some(s => s == 'viewed')} >Просмотрено</button>
+            <button className="vote-button" hidden={!data.options?.some(s => s == 'estimated')} >Оценено</button>
             </div>
         
     </div>
@@ -21,7 +22,7 @@ export function VoteElement(data, f){
             </Link>
              <p style={{fontSize: "24px", lineHeight: '34px'}}>{data.title}</p>
             <p style={{fontSize: "16px", lineHeight: '26px'}}>{data.other}</p>
-            <button onClick={f}>{`${data.dropDownVisible}`}</button>
+            <button style={{opacity:'0.5', background:'none'}} onClick={f}>Посмотреть список номинаций</button>
             {DropDownNomination(data.nominations, data.dropDownVisible)}
             </span> 
             )
@@ -29,9 +30,17 @@ export function VoteElement(data, f){
 
 function DropDownNomination(data, visible){
 
-    let d = visible ? 'visible' : 'hidden';
-    return(<a style={{visibility:`${d}`}}>
-        {data?.map((v,i) => <div key={i}>{v.title} ({v.position})</div>)}
+    let d = visible ? 'block' : 'none';
+    return(<a style={{display:`${d}`}}>
+        {data?.map((v,i) => <div style={{fontFamily: 'Optima Cyr',
+fontStyle: 'normal',
+fontWeight: 'normal',
+fontSize: '14px',
+lineHeight: '22px',
+margin:'5px 0',
+letterSpacing: '0.05em',
+
+color: '#FFFFFF'}} key={i}>{v.title} ({v.position})</div>)}
         </a>)
 }
 
