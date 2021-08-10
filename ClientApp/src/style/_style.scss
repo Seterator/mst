@@ -104,6 +104,10 @@ h1,
 }
 
 // HEADER
+.nav-container{
+  width:100%; 
+  display:contents
+}
 .header {
   position: relative;
   z-index: 1;
@@ -197,7 +201,7 @@ h1,
 .footer {
   padding: $six 0;
   display: flex;
-  background: radial-gradient(180.91% 1388.43% at 100% 7.27%, rgba(#770D37, .25) 0%, rgba(#211452, .25) 100%);
+  background: radial-gradient(180.91% 1388.43% at 100% 7.27%, #2B111B 0%, #161222 100%);
 
   .wrapper {
     display: flex;

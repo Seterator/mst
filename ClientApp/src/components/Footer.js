@@ -8,7 +8,7 @@ export function Footer(){
     return(<div className="footer">
     <div className="container">
       <div className="wrapper">
-        <a href="index.html" className="logo" className="logo-footer"><img src="img/logo.svg" alt=""/></a>
+        <a className="logo" className="logo-footer"><img src={require("../img/logo.svg")} alt=""/></a>
         <ul>
           <li>Навигация</li>
           <li><a href="page3.html">О нас</a></li>
@@ -31,10 +31,10 @@ export function Footer(){
           <li><a href="Mailto:manager@musicalheart.ru">manager@musicalheart.ru</a></li>
         </ul>
         <div className="nav-social">
-          <a href="https://www.instagram.com/musicalheart.ru/" target="_blank"><img src="img/instagram.svg" alt=""/></a>
-          <a href="https://www.facebook.com/musicalheart.ru/" target="_blank"><img src="img/facebook.svg" alt=""/></a>
-          <a href="https://vk.com/musicalheartru" target="_blank"><img src="img/vk.svg" alt=""/></a>
-          <a href="https://www.youtube.com/channel/UCGKHkwguUZj6GG30hycEw3Q" target="_blank"><img src="img/youtube.svg" alt=""/></a>
+          <a href="https://www.instagram.com/musicalheart.ru/" target="_blank"><img src={require("../img/instagram.svg")} alt=""/></a>
+          <a href="https://www.facebook.com/musicalheart.ru/" target="_blank"><img src={require("../img/facebook.svg")} alt=""/></a>
+          <a href="https://vk.com/musicalheartru" target="_blank"><img src={require("../img/vk.svg")} alt=""/></a>
+          <a href="https://www.youtube.com/channel/UCGKHkwguUZj6GG30hycEw3Q" target="_blank"><img src={require("../img/youtube.svg")} alt=""/></a>
         </div>
       </div>
       

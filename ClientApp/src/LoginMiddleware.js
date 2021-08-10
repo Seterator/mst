@@ -1,6 +1,9 @@
 import React, { Component, useEffect, useState} from 'react';
 import App from './App'
+import { MainNavMenu } from './components/MainNavMenu';
 import {Login} from './Login'
+
+import './style/_style.scss'
 
 export const UserContext = React.createContext()
 export const USER_EMAIL = 'userEmailMst';
@@ -65,9 +68,14 @@ export function LoginMiddleware() {
         <UserContext.Provider value={{
             user: user
         }} >
+            <div>
+            <MainNavMenu />
+            <div>
 
-            {user.id == -1 ? <div>Loading...</div> : isLogin ? <App logout={logout}/> : <Login login={login} />}
-
+            {user.id == -1 ? <div>Loading...</div> : isLogin ?<App logout={logout}/>: <Login login={login} />}
+            </div>
+            
+            </div>
         </UserContext.Provider >
     )
 

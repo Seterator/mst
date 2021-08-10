@@ -16,3 +16,36 @@ html {
 .box-shadow {
   box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
+
+.notWelcome{
+  border-top: 1px solid #dee2e6 !important;
+  height: 98px;
+  margin-top: 90px;
+}
+
+.height-max{
+  height: 100%;
+}
+
+.bottom-navbar-item{
+  color: grey;
+  margin: 0 5px;
+}
+
+.bottom-navbar-item:hover{
+  color:white;
+  text-decoration: none;
+}
+
+.bottom-header{
+  display: inline-block;
+  width: 100%;
+}
+
+.bottom-header-left-part{
+  float: left;
+}
+
+.bottom-header-right-part{
+  float: right;
+}

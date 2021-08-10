@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import { Route, Redirect } from 'react-router';
 import  Layout  from './components/Layout';
-import { Counter } from './components/Counter';
 import { Admin } from './components/pages/Admin';
 import { WelcomePage } from './components/pages/Welcome'
-import { EstimationWork } from './components/pages/estimation/EstimationWork'
-import { EstimationBase } from './components/pages/estimation/EstimationBase'
-import { ProfileView } from './components/pages/profile/ProfileView'
-import { ProfileEdit } from './components/pages/profile/ProfileEdit'
+import { EstimationWork } from './components/pages/work/EstimationWork'
+import { EstimationBase } from './components/pages/work/EstimationBase'
+import { ProfileView } from './components/pages/work/ProfileView'
+import { ProfileEdit } from './components/pages/work/ProfileEdit'
 
 import './custom.css'
 import './../src/style/index.scss'
+
 
 export default function App(props) {
 

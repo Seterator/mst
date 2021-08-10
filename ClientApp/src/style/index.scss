@@ -274,3 +274,84 @@
     left: 0;
   }
 }
+
+.welcome{
+  text-align: center;
+  h1{
+    font-family: 'Optima', sans-serif;
+font-style: normal;
+font-weight: bold;
+font-size: 42px;
+line-height: 48px;
+text-align: center;
+letter-spacing: 0.05em;
+text-transform: uppercase;
+color: #FFFFFF;
+margin: 90px 0 40px 0;
+  }
+  h2{
+    font-family: 'Optima';
+font-style: normal;
+font-weight: bold;
+font-size: 28px;
+line-height: 48px;
+
+/* or 171% */
+text-align: center;
+letter-spacing: 0.05em;
+text-transform: uppercase;
+
+color: #FFFFFF;
+margin-bottom: 60px;
+  }
+  .welcome-content{
+    font-family: 'Optima Cyr';
+font-style: normal;
+font-weight: normal;
+font-size: 18px;
+line-height: 38px;
+
+/* or 211% */
+letter-spacing: 0.05em;
+
+color: #FFFFFF;
+width: 1227px;
+height: 798px;
+  }
+  button{
+    margin: 90px 0 120px 0;
+    width: 223px;
+height: 55px;
+background: radial-gradient(180.91% 1388.43% at 100% 7.27%, #770D37 0%, #211452 100%);
+font-family: Optima Cyr;
+font-style: normal;
+font-weight: normal;
+font-size: 18px;
+line-height: 18px;
+
+/* identical to box height, or 100% */
+text-align: center;
+letter-spacing: 0.01em;
+
+color: #FFFFFF;
+  }
+}
+
+.border-bottom-opacity{
+  border-bottom:1px solid rgba(#fff, .5);
+}
+
+.main-menu-header{
+  margin-bottom: 90px;
+}
+
+.vote-button{
+  margin: 0px 5px;
+height: 30px;
+width: 110px;
+background: rgba(250, 250, 250, 0.25) none repeat scroll 0% 0%;
+color: white;
+font-size: 10px;
+font-weight: bold;
+
+}
