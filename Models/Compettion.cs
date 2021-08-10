@@ -8,8 +8,8 @@ namespace mst.Models {
         public int Id { get; set; }
         public string Name { get; set; }
         public string Link { get; set; }
-        public DateTime Begin_date { get; set; }
-        public DateTime End_date { get; set; }
+        public DateTime BeginDate { get; set; }
+        public DateTime EndDate { get; set; }
 
         public List<Nomination> Nominations { get; set; }
     }
