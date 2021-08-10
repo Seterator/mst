@@ -4,16 +4,29 @@ import AddMembersModal from '../modal/AddMembersModal';
 import AddCompetitionModal from '../modal/AddCompetitionModal'
 import EditNominationModal from '../modal/EditNominationModal';
 import EditNominationsListModal from '../modal/EditNominationsListModal';
+import AddCompetitionsShowModal from '../modal/AddCompetitionsShowModal';
+
 
 export function CompetitionListView(){
     const [isModalAddOpen, OpenAddModal] = useState(false);
     const [isModalEditOpen, OpenEditModal] = useState(false);
     const [competitionData, setCompetitionData] = useState({})
     const [competitionEditData, setCompetitionEditData] = useState({})
+    const [competitionDataView, setCompetitionDataView] = useState({})
     const [filter, setFilter] = useState('');
+    const [changeIndex, setChangeIndex] = useState(1);
     useEffect(()=>{
         setCompetitionData(testData);
     },[])
+    useEffect(()=>{
+        competitionEditData&&competitionEditData.id&&OpenEditModal(true);
+    },[competitionEditData]);
+
+    useEffect(()=>{
+        setCompetitionDataView({...competitionData,setData:[{ execute:(i)=>deleteCompetition(i),title:'Удалить'},
+        { execute:(i)=>editCompetition(i),title:'Изменить'}]});
+
+    },[competitionData,changeIndex]);
 
 
 
@@ -26,10 +39,18 @@ setData:[
 { execute:(i)=>editCompetition(i),title:'Изменить'}]};
 
 function deleteCompetition(i){
+    if(window.confirm(`Удалить конкурс ${i.title}`)){
+        let toDelete = competitionData?.data?.filter(f => f.id == i.id)[0]
+        let index = competitionData?.data?.indexOf(toDelete);
+        let newData = competitionData.data;
+        newData.splice(index,1);
+        setCompetitionData({...competitionData,data: newData});
+        setChangeIndex(changeIndex+1)
+    }
 
 }
 function editCompetition(i){
-    
+    setCompetitionEditData(i);
 }
 
 function competitionAdded(i){
@@ -39,15 +60,21 @@ function competitionAdded(i){
     setCompetitionData({...competitionData,data:newArr});
 }
 function competitionEdited(i){
-    
+    let newArr = competitionData?.data;
+    let toEdit = newArr?.filter(f => f.id == competitionEditData.id)[0]
+    let index = newArr?.indexOf(toEdit);
+    let newData = {...newArr[index],...i};
+    newArr[index] = newData;
+    setCompetitionData({...competitionData,data: newArr});
 }
 
 
 
     return(<div>
         <div><a onClick={()=>{OpenAddModal(true)}}>Добавить Конкурс</a></div>
-        {CompetitionTable(competitionData)}
+        {CompetitionTable(competitionDataView)}
         {AddCompetitionModal({submit:competitionAdded,cancel:()=>OpenAddModal(false),isOpen:isModalAddOpen})}
+        {AddCompetitionModal({submit:competitionEdited,cancel:()=>OpenEditModal(false),isOpen:isModalEditOpen, preValue:competitionEditData})}
 
         </div>)
 
@@ -63,6 +90,10 @@ function CompetitionTable({ columns, data, setData }){
     const testData = [{ id: 5,image:'https://avatars.mds.yandex.net/get-zen_doc/1219682/pub_5eaa7423102eee24419d5607_5eaa74d77e79087ec3668df9/scale_1200', name: 'Лиса Лисичкова', email:'lisa@mail.ru', city:'г.Таганрог',bio:'пью виски, кушаю сосиски' },
 { id: 6,image:'https://avatars.mds.yandex.net/get-zen_doc/1219682/pub_5eaa7423102eee24419d5607_5eaa74d77e79087ec3668df9/scale_1200', name: 'Лиза Лисичкова', email:'lisa1@mail.ru', city:'г.Таганрог', bio:'пью колу, кушаю ролы' }
 ]
+const showsTestData = [
+    { id: 9, url: 'http://localhost:3000/admin', title:'Лучшая админка в мире', other:'Зайди посмотри как все удобно'},
+    { id: 10, url: 'http://localhost:3000/work', title:'Хочешь бабала, иди работай', other:'читай выше'}
+    ]
     const [changeIndex, setChangeIndex] = useState(1);
 
     const [nominations, setNominations] = useState([]);
@@ -70,17 +101,29 @@ function CompetitionTable({ columns, data, setData }){
 
     const [editNominationData, setEditNominationData] = useState({});
     const [editCompetitionData, setEditCompetitionData] = useState({});
+    
 
     const [isModalNominationOpen, OpenNominationModal] = useState(false);
     const [isModalNominationEditOpen, OpenNominationEditModal] = useState(false);
+    const [isModalShowCompetitionOpen, OpenShowCompetitionModal] = useState(false);
+
 
     const [members, setMembers] = useState([]);
     const [membersChecked, setMembersChecked] = useState([]);
     const [isModalMembersOpen, OpenMembersModal] = useState(false);
 
+    const [shows, setShows] = useState([]);
+    const [showsChecked, setShowsChecked] = useState([]);
+    const [showNominationsValue, setShowNominationsValue] = useState([]);
+    
+ 
+
     useEffect(()=>{
         setMembers(testData);
+        setShows(showsTestData);
     },[])
+
+
     useEffect(()=>{
         if(editNominationData?.value != undefined &&editNominationData?.value != '' && !isModalNominationEditOpen){
             OpenNominationEditModal(true);
@@ -149,6 +192,26 @@ function CompetitionTable({ columns, data, setData }){
         })
         setMembersChecked([...newArr,...m])
     }
+    function addCompetitionsShowSubmit(m){
+        let newArr = showsChecked;
+        var curShows = newArr.filter(f=> f.competitionId == editCompetitionData.id);
+        
+
+        curShows.forEach(v => {
+            newArr.splice(newArr.indexOf(v),1);
+        })
+        setShowsChecked([...newArr,...m.checked]);
+
+
+        let newShowNomArr = showNominationsValue;
+        var curShowsNom = newShowNomArr.filter(f=> f.competitionId == editCompetitionData.id);
+        curShowsNom = curShowsNom.filter(f => m.checked.map(c => c.showId).includes(f.showId));
+
+        curShowsNom.forEach(v => {
+            newShowNomArr.splice(newShowNomArr.indexOf(v),1);
+        })
+        setShowNominationsValue([...newShowNomArr,...m.showNominations])
+    }
     return(<div>
         <table>
             <thead>
@@ -174,7 +237,7 @@ function CompetitionTable({ columns, data, setData }){
                                 return <td><a onClick={()=>editCompetition(v.id,()=>OpenNominationModal(true))}>Редактировать {nominations.filter(f=>f.competitionId == v.id).length}</a></td>
                             }
                             if(propKey == 'shows'){
-                                return <td><a onClick={()=>{}}>Редактировать</a></td>
+                                return <td><a onClick={()=>editCompetition(v.id,()=>OpenShowCompetitionModal(true))}>Редактировать</a></td>
                             }
                             return <td>{val}</td>
                         })}
@@ -188,5 +251,8 @@ function CompetitionTable({ columns, data, setData }){
         {EditNominationsListModal({competitionId: editCompetitionData.id,isOpen:isModalNominationOpen,nominations:nominationsView.filter(f=>f.competitionId == editCompetitionData.id).map(m=>m.value),add:addNominationToList,edit:editNomination,delete:deleteNomination,cancel:()=>{OpenNominationModal(false)}})}
         {EditNominationModal({isOpen:isModalNominationEditOpen,preValue:editNominationData.value,cancel:()=>{OpenNominationEditModal(false)}, submit:editNominationSubmit})}
         {AddMembersModal({competitionId: editCompetitionData.id,isOpen:isModalMembersOpen, members:members,checked:membersChecked,cancel:()=>{OpenMembersModal(false)}, submit:addMembersSubmit})}
+        
+        {AddCompetitionsShowModal({shows:shows,checked:showsChecked, isOpen:isModalShowCompetitionOpen, cancel:()=>OpenShowCompetitionModal(false),competitionId:editCompetitionData.id, submit:addCompetitionsShowSubmit,nominations:nominationsView, showNominationsValue:showNominationsValue, setShowNominationsValue:setShowNominationsValue})}
+        
         </div>)
 }
