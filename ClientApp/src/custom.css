@@ -1,3 +1,22 @@
+@font-face {
+  font-family: "Optima-Bold";
+  src: url("./fonts/Optima-Bold.eot") format("embedded-opentype"),
+       url("./fonts/Optima-Bold.ttf") format("truetype"),
+       url("./fonts/Optima-Bold.woff") format("woff2"),
+       url("./fonts/Optima-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Optima";
+  src: url("./fonts/Optima.eot") format("embedded-opentype"),
+       url("./fonts/Optima.ttf") format("truetype"),
+       url("./fonts/Optima.woff") format("woff2"),
+       url("./fonts/Optima.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
 /* Provide sufficient contrast against white background */
 a {
   color: #0366d6;
@@ -75,3 +94,4 @@ table th{
   height:400px; 
   float:left;
 }
+

@@ -18,6 +18,7 @@ function redirect(p){
 
     return (
       <div className="container" style={{maxWidth:'1230px'}}>
+
       <header className="notWelcome border-bottom">
         <Navbar className="height-max navbar-expand-sm navbar-toggleable-sm ng-white box-shadow mb-3" light>
           <Container>
@@ -26,8 +27,9 @@ function redirect(p){
             <div className="flex-sm-row-reverse bottom-header" isOpen={!collapsed} navbar>
               <div className="bottom-header-left-part">
               <ul className="navbar-nav flex-grow">
-                <NavItem className="bottom-navbar-item">
-                  <a className="bottom-navbar-item" onClick={()=>redirect('/profileView')}>Общее</a>
+                <NavItem className="bottom-navbar-item ">
+                  <a className="bottom-navbar-item" onClick={()=>redirect('/profileView')}><img src={require('../img/Polygon2.svg')} alt=""/>Общее</a>
+                  
                 </NavItem>
                 <NavItem className="bottom-navbar-item">
                   <a className="bottom-navbar-item" onClick={()=>redirect('/estimation')}>Оценивание работ</a>
