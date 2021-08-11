@@ -13,7 +13,12 @@ export function ProfileListView(){
     const [filter, setFilter] = useState('');
 
     useEffect(()=>{
-        setProfileData(testData);
+        fetch('User/GetAll').then(res => res.json()).then(json => {
+            setProfileData({data:json, columns:[{key:'id', value:'Id'},{key:'email', value:'Email'},{key:'fullName', value:'ФИО'}],
+            setData:[{ execute:(i)=>deleteProfile(i),title:'Удалить'},
+            { execute:(i)=>editProfile(i),title:'Изменить'}]});
+        });
+        
     },[])
 
     useEffect(()=>{
@@ -32,22 +37,26 @@ export function ProfileListView(){
 
     },[profileData,changeIndex]);
 
-    const testData = {columns:[{key:'id', value:'Id'},{key:'email', value:'Email'},{key:'name', value:'ФИО'}],
-data:[{ id: 5,image:'https://avatars.mds.yandex.net/get-zen_doc/1219682/pub_5eaa7423102eee24419d5607_5eaa74d77e79087ec3668df9/scale_1200', name: 'Лиса Лисичкова', email:'lisa@mail.ru', city:'г.Таганрог',bio:'пью виски, кушаю сосиски' },
-{ id: 6,image:'https://avatars.mds.yandex.net/get-zen_doc/1219682/pub_5eaa7423102eee24419d5607_5eaa74d77e79087ec3668df9/scale_1200', name: 'Лиза Лисичкова', email:'lisa1@mail.ru', city:'г.Таганрог', bio:'пью колу, кушаю ролы' }
-],
-setData:[
-{ execute:(i)=>deleteProfile(i),title:'Удалить'},
-{ execute:(i)=>editProfile(i),title:'Изменить'}]};
 
 function deleteProfile(i){
     if(window.confirm(`Удалить пользователя ${i.email}`)){
-        let toDelete = profileData?.data?.filter(f => f.id == i.id)[0]
-        let index = profileData?.data?.indexOf(toDelete);
-        let newData = profileData.data;
-        newData.splice(index,1);
-        setProfileData({...profileData,data: newData});
-        setChangeIndex(changeIndex+1)
+
+        fetch(`User/Delete`, {
+            method: 'post',
+            headers: {'Content-Type':'application/json'},
+            body: {
+             "id": i.id
+            }
+           }).then(res=>{
+            let toDelete = profileData?.data?.filter(f => f.id == i.id)[0]
+            let index = profileData?.data?.indexOf(toDelete);
+            let newData = profileData.data;
+            newData.splice(index,1);
+            setProfileData({...profileData,data: newData});
+            setChangeIndex(changeIndex+1)
+
+           });
+ 
     }
     
 }
@@ -57,10 +66,28 @@ function editProfile(i){
 }
 
 function profileAdded(d){
-    const nextId = profileData?.data?.length>0 ? Math.max(...profileData?.data?.map(item => item.id)) +1: 1;
-    let newItem = {...d,id:nextId};
-    let newData = [...profileData.data, newItem]
-    setProfileData({...profileData,data: newData});
+    
+
+    let formData = new FormData();
+    formData.append('file', d.avatar);
+    formData.append('email', d.email);
+    fetch(`User/Create`, {
+        method: 'post',
+        //headers: {'Content-Type':'application/json'},
+        
+        body:formData
+        
+       }).then(r => {
+           if(!r.ok){
+               return;
+           }
+        const nextId = profileData?.data?.length>0 ? Math.max(...profileData?.data?.map(item => item.id)) +1: 1;
+        let newItem = {...d,id:nextId};
+        let newData = [...profileData.data, newItem]
+        setProfileData({...profileData,data: newData});
+       });
+
+    
 }
 function profileEdited(d){
     let newArr = profileData?.data;

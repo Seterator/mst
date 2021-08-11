@@ -5,6 +5,7 @@ using mst.Models;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Http;
 
 namespace mst.Controllers
 {
@@ -19,15 +20,23 @@ namespace mst.Controllers
         }
 
         [HttpPost("Create")]
-        public async Task<IActionResult> Create([FromBody] ExtendedUser newUser)
+        public async Task<IActionResult> Create([FromForm] ExtendedUser newUser)
         {
+            
             if (_db.Referees.Where(x => x.Email == newUser.Email).ToList().Count == 0 ||
                 _db.Referees.Where(q => q.Login == newUser.Login).ToList().Count == 0)
             {
                 var referee = new Referee();
                 referee.Login = newUser.Login;
                 referee.Email = newUser.Email;
-                referee.Avatar = newUser.Avatar;
+
+
+                //referee.Avatar = newUser.Avatar;
+
+
+                //using var contentStream = newUser.File.OpenReadStream();
+
+
                 referee.Bio = newUser.Bio;
                 referee.City = newUser.City;
                 referee.FullName = newUser.FullName;

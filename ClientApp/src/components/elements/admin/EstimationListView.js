@@ -9,7 +9,7 @@ export function EstimationListView(){
     const [isModalOpen, OpenModal] = useState(false);
 
     useEffect(()=>{
-        setEstimationData(testData);
+        
     },[])
 
     const testData = {

@@ -18,17 +18,7 @@ export default function Table({ columns, data, setData }) {
                             const propKey = v1?.key||v1;
                             const propVal = v[propKey];
                             let val = v[propKey];
-                            if(Array.isArray(propVal)){
-                                let cur = propVal[0];
-                                let keys = Object.keys(cur);
-                                val = Table({columns: keys,data:propVal});
-                            }
-                            else if(typeof propVal === 'object'){
-                                let keys = Object.keys(propVal);
-                                let vals = [];
-                                vals.push(propVal);
-                                val = Table({columns: keys,data:vals});
-                            }
+                            
                             return <td>{val}</td>
                         })}
                         <td>

@@ -14,6 +14,15 @@ export default function AddProfileModal(props) {
         newData[e.target.getAttribute('id')] = e.target.value;
         setProfileData(newData) ;
     }
+    const handleLoadFile = (e)=>{
+        const newData = profileData;
+        
+        //const formData = new FormData();
+		//formData.append('File', e.target.files[0]);
+
+        newData[e.target.getAttribute('id')] = e.target.files[0]
+        setProfileData(newData) ;
+    }
     const submit = () => {
         setButtonDisable(true);
         //Post('api/Main/InsertUser', { Title: inputTitle, Login: inputLogin, Pass: inputPass, Name: inputName, LastName: inputLastName, Email: inputEmail })
@@ -55,10 +64,12 @@ export default function AddProfileModal(props) {
                 <h2>Создание пользователя</h2>
 
                 <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="Email" id='email' defaultValue={props?.preValue?.email} onChange={handleChange} />
-                <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="ФИО" id='name' defaultValue={props?.preValue?.name} onChange={handleChange} />
+                <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="Email" id='login' defaultValue={props?.preValue?.login} onChange={handleChange} />
+                <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="Email" id='password' defaultValue={props?.preValue?.password} onChange={handleChange} />
+                <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="ФИО" id='fullName' defaultValue={props?.preValue?.fullName} onChange={handleChange} />
                 <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="Город" id='city' defaultValue={props?.preValue?.city} onChange={handleChange} />
                 <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="О себе" id='bio' defaultValue={props?.preValue?.bio} onChange={handleChange} />
-                <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="Фото" id='image' defaultValue={props?.preValue?.image} onChange={handleChange} />
+                <input style={{margin:'10px 0', height:'55px'}} type="file" placeholder="Фото" id='avatar' defaultValue={props?.preValue?.avatar} onChange={handleLoadFile} />
 
                 <button style={{margin:'10px 0', height:'55px'}} disabled={buttonDisable} onClick={props.cancel}>Cancel</button>
                 <button style={{margin:'10px 0', height:'55px'}} disabled={buttonDisable} onClick={submit}>Save</button>
