@@ -73,17 +73,16 @@ namespace mst.Controllers
         public IActionResult GetById([FromQuery] int id)
         {
             try {
-                var nom = _db.Nominations.Where(c => c.Id == id).Single();
-                var sns = _db.ShowNominations.Where(x => x.NominationId == id).ToList();
-                var shows = new List<Show>();
-                foreach (var i in sns) {
-                    var q = _db.Shows.Where(x =>  i.ShowId == x.Id);
-                    var s = q.Single();
-                    // shows.Add(
-                    //     s
-                    // );
+                var nom = _db.Nominations
+                    .Include(x => x.ShowNominations)
+                    .ThenInclude(sn => sn.Show)
+                    .Where(c => c.Id == id).Single();
+                
+                foreach(var showNomination in nom.ShowNominations) {
+                    showNomination.Show.ShowNominations = null;
+                    showNomination.Nomination = null;
                 }
-                nom.Shows = shows;
+
                 return Ok(nom);
             }
             catch {
@@ -95,7 +94,16 @@ namespace mst.Controllers
         public IActionResult GetAll()
         {
             try {
-                var noms = _db.Nominations.ToList();
+                var noms = _db.Nominations
+                                .Include(x => x.ShowNominations)
+                                .ThenInclude(sn => sn.Show)
+                                .ToList();
+                foreach(var nom in noms) {
+                    foreach(var showNomination in nom.ShowNominations) {
+                    showNomination.Show.ShowNominations = null;
+                    showNomination.Nomination = null;
+                    }
+                }
                 return Ok(noms);
             }
             catch {

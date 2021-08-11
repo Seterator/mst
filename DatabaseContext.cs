@@ -10,7 +10,6 @@ namespace mst
         public DbSet<Show> Shows { get; set; }
         public DbSet<Nomination> Nominations { get; set; }
         public DbSet<Competition> Competitions { get; set; }
-        public DbSet<ShowNomination> ShowNominations { get; set; }
         public DbSet<ShowReferee> ShowReferees { get; set; }
 
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) {
@@ -32,6 +31,16 @@ namespace mst
             modelBuilder.Entity<ShowNomination>()
                 .HasKey( u => new { u.ShowId, u.NominationId, u.RefereeId });
 
+            modelBuilder.Entity<ShowNomination>()
+                .HasOne(sn => sn.Nomination)
+                .WithMany(n => n.ShowNominations)
+                .HasForeignKey(sn => sn.NominationId);
+            
+            modelBuilder.Entity<ShowNomination>()
+                .HasOne(sn => sn.Show)
+                .WithMany(s => s.ShowNominations)
+                .HasForeignKey(sn => sn.ShowId);
+            
             modelBuilder.Entity<Referee>()
                 .HasOne(x => x.User).WithOne(q => q.Referee)
                 .HasForeignKey<User>(f => f.RefereeId)
@@ -39,6 +48,8 @@ namespace mst
 
             modelBuilder.Entity<ShowReferee>()
                 .HasKey(q => new { q.RefereeId, q.ShowId });
+
+            
         }
     }
 }

@@ -8,6 +8,10 @@ namespace mst.Models {
         public string Name { get; set; }
         public int CompetitionId { get; set; }
         public Competition Competition { get; set; }
-        public List<Show> Shows { get; set; }
+        
+        public List<ShowNomination> ShowNominations { get; set; }
+        public Nomination() {
+            ShowNominations = new List<ShowNomination>();
+        }
     }
 }

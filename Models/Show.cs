@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace mst.Models {
@@ -10,5 +11,10 @@ namespace mst.Models {
         public string VideoLink { get; set; }
         public string WebLink { get; set; }
         public byte[] Image { get; set; }
+
+        public List<ShowNomination> ShowNominations { get; set; }
+        public Show() {
+            ShowNominations = new List<ShowNomination>();
+        }
     }
 }
