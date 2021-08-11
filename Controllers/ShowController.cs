@@ -1,6 +1,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using mst.Models;
 
 namespace mst.Controllers {
@@ -65,8 +66,17 @@ namespace mst.Controllers {
         [HttpGet("GetById")]
         public IActionResult GetById([FromQuery]int Id) {
             try {
-                var s = _db.Shows.Where(x => x.Id == Id).Single();
-                return Ok(s);
+                var show = _db.Shows
+                    .Include(x => x.ShowNominations)
+                    .ThenInclude(sn => sn.Nomination)
+                    .Where(c => c.Id == Id).Single();
+                
+                foreach(var showNomination in show.ShowNominations) {
+                    showNomination.Nomination.ShowNominations = null;
+                    showNomination.Show = null;
+                }
+
+                return Ok(show);
             }
             catch {
                 return BadRequest();
@@ -76,8 +86,17 @@ namespace mst.Controllers {
         [HttpGet("GetAll")]
         public IActionResult GetAll() {
             try {
-                var s = _db.Shows.ToList();
-                return Ok(s);
+                var shows = _db.Shows
+                                .Include(x => x.ShowNominations)
+                                .ThenInclude(sn => sn.Nomination)
+                                .ToList();
+                foreach(var show in shows) {
+                    foreach(var showNomination in show.ShowNominations) {
+                    showNomination.Nomination.ShowNominations = null;
+                    showNomination.Show = null;
+                    }
+                }
+                return Ok(shows);
             }
             catch {
                 return BadRequest();
