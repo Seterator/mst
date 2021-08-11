@@ -40,8 +40,6 @@ namespace mst.Controllers
             }
         }
 
-
-
         [HttpPost("Edit")]
         public async Task<IActionResult> Edit([FromBody] Nomination nomination)
         {
@@ -76,6 +74,16 @@ namespace mst.Controllers
         {
             try {
                 var nom = _db.Nominations.Where(c => c.Id == id).Single();
+                var sns = _db.ShowNominations.Where(x => x.NominationId == id).ToList();
+                var shows = new List<Show>();
+                foreach (var i in sns) {
+                    var q = _db.Shows.Where(x =>  i.ShowId == x.Id);
+                    var s = q.Single();
+                    // shows.Add(
+                    //     s
+                    // );
+                }
+                nom.Shows = shows;
                 return Ok(nom);
             }
             catch {
@@ -89,6 +97,24 @@ namespace mst.Controllers
             try {
                 var noms = _db.Nominations.ToList();
                 return Ok(noms);
+            }
+            catch {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost("AddShow")]
+        public async Task<IActionResult> AddShow([FromBody]ShowNomination showNomination) {
+            try {
+                if (
+                    _db.Shows.Where(x => x.Id == showNomination.ShowId).ToList().Count == 0 ||
+                    _db.Nominations.Where(x => x.Id == showNomination.NominationId).ToList().Count == 0
+                ) {
+                    throw new Exception();
+                }
+                await _db.AddAsync(showNomination);
+                await _db.SaveChangesAsync();
+                return Ok();
             }
             catch {
                 return BadRequest();

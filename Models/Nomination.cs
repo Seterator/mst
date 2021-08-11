@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace mst.Models {
@@ -7,5 +8,6 @@ namespace mst.Models {
         public string Name { get; set; }
         public int CompetitionId { get; set; }
         public Competition Competition { get; set; }
+        public List<Show> Shows { get; set; }
     }
 }
