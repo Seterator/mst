@@ -65,6 +65,9 @@ namespace mst.Controllers {
         public IActionResult GetById([FromQuery]int id) {
             try {
                 var comp = _db.Competitions.Include(x => x.Nominations).Where(c => c.Id == id).Single();
+                foreach (var n in comp.Nominations) {
+                    n.Competition = null;
+                }
                 return Ok(comp);
             }
             catch {
@@ -76,6 +79,11 @@ namespace mst.Controllers {
         public IActionResult GetAll() {
             try {
                 var comps = _db.Competitions.Include(x => x.Nominations).ToList();
+                foreach (var c in comps) {
+                    foreach (var n in c.Nominations) {
+                        n.Competition = null;
+                    }
+                }
                 return Ok(comps);
             }
             catch {
