@@ -6,6 +6,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Http;
+using System.IO;
+using mst.ViewModels;
 
 namespace mst.Controllers
 {
@@ -23,19 +25,20 @@ namespace mst.Controllers
         public async Task<IActionResult> Create([FromForm] ExtendedUser newUser)
         {
             
-            if (_db.Referees.Where(x => x.Email == newUser.Email).ToList().Count == 0 ||
+            if (_db.Referees.Where(x => x.Email == newUser.Email).ToList().Count == 0 &&
                 _db.Referees.Where(q => q.Login == newUser.Login).ToList().Count == 0)
             {
                 var referee = new Referee();
                 referee.Login = newUser.Login;
                 referee.Email = newUser.Email;
 
-
-                //referee.Avatar = newUser.Avatar;
-
-
-                //using var contentStream = newUser.File.OpenReadStream();
-
+                if (referee.Avatar != null) {
+                    using var contentStream = newUser.Avatar.OpenReadStream();
+                    MemoryStream memStream = new MemoryStream();
+                    await contentStream.CopyToAsync(memStream);
+                    var bytes = memStream.ToArray();
+                    referee.Avatar = bytes;
+                }
 
                 referee.Bio = newUser.Bio;
                 referee.City = newUser.City;
@@ -48,22 +51,28 @@ namespace mst.Controllers
                 await _db.Referees.AddAsync(referee);
 
                 await _db.SaveChangesAsync();
-                return Ok();
+                return Ok(referee.Id);
             }
-            return BadRequest("Пользователь с таким email уже существует");
+            return BadRequest("Пользователь с таким логином или email уже существует");
         }
 
 
 
         [HttpPost("Edit")]
-        public async Task<IActionResult> Edit([FromBody] Referee referee)
+        public async Task<IActionResult> Edit([FromForm] ExtendedUser referee)
         {
             try {
                 var r = _db.Referees.Where<Referee>(x => x.Id == referee.Id).Single();
                 r.FullName = referee.FullName;
                 r.Bio = referee.Bio;
                 r.City = referee.City;
-                r.Avatar = referee.Avatar;
+                if (referee.Avatar != null) {
+                    using var contentStream = referee.Avatar.OpenReadStream();
+                    MemoryStream memStream = new MemoryStream();
+                    await contentStream.CopyToAsync(memStream);
+                    var bytes = memStream.ToArray();
+                    r.Avatar = bytes;
+                }
                 
                 _db.Referees.Update(r);
                 await _db.SaveChangesAsync();
@@ -74,7 +83,7 @@ namespace mst.Controllers
             }
         }
 
-        [HttpPost("Delete")]
+        [HttpPost("Post")]
         public async Task<IActionResult> Delete([FromBody] int id)
         {
 

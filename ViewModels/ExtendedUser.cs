@@ -1,8 +1,9 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace mst.Models {
+namespace mst.ViewModels {
     public class ExtendedUser {
+        public int Id { get; set; }
         public string Login { get; set; }
         public string Email { get; set; }
         public string FullName { get; set; }

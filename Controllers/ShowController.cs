@@ -1,8 +1,10 @@
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using mst.Models;
+using mst.ViewModels;
 
 namespace mst.Controllers {
     [ApiController]
@@ -14,7 +16,7 @@ namespace mst.Controllers {
         }
 
         [HttpPost("Create")]
-        public async Task<IActionResult> Create([FromBody]Show show) {
+        public async Task<IActionResult> Create([FromForm]ShowFromForm show) {
             if (show.Name == null || show.ShortDescription == null) {
                 return BadRequest();
             }
@@ -24,7 +26,14 @@ namespace mst.Controllers {
             s.ShortDescription = show.ShortDescription;
             s.VideoLink = show.VideoLink;
             s.WebLink = show.WebLink;
-            s.Image = show.Image;
+            
+            if (show.Image != null) {
+                using var contentStream = show.Image.OpenReadStream();
+                MemoryStream memStream = new MemoryStream();
+                await contentStream.CopyToAsync(memStream);
+                var bytes = memStream.ToArray();
+                s.Image = bytes;
+            }
 
             _db.Shows.Add(s);
             await _db.SaveChangesAsync();
@@ -32,7 +41,7 @@ namespace mst.Controllers {
         }
 
         [HttpPost("Edit")]
-        public async Task<IActionResult> Edit([FromBody]Show show) {
+        public async Task<IActionResult> Edit([FromBody]ShowFromForm show) {
             try {
                 var s = _db.Shows.Where(x => x.Id == show.Id).Single();
                 s.Name = show.Name;
@@ -40,8 +49,14 @@ namespace mst.Controllers {
                 s.ShortDescription = show.ShortDescription;
                 s.VideoLink = show.VideoLink;
                 s.WebLink = show.WebLink;
-                s.Image = show.Image;
-
+                
+                if (show.Image != null) {
+                    using var contentStream = show.Image.OpenReadStream();
+                    MemoryStream memStream = new MemoryStream();
+                    await contentStream.CopyToAsync(memStream);
+                    var bytes = memStream.ToArray();
+                    s.Image = bytes;
+                }
                 await _db.SaveChangesAsync();
                 return Ok();
             }
@@ -50,7 +65,7 @@ namespace mst.Controllers {
             }
         }
 
-        [HttpDelete("Delete")]
+        [HttpPost("Delete")]
         public async Task<IActionResult> Delete([FromQuery]int Id) {
             try {
                 var s = _db.Shows.Where(x => x.Id == Id).Single();

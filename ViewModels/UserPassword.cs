@@ -1,4 +1,4 @@
-namespace mst.Models {
+namespace mst.ViewModels {
     public class UserPassword {
         public int Id { get; set; }
         public string Login { get; set; }

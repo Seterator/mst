@@ -20,7 +20,10 @@ namespace mst
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Referee>(entity => {
-                entity.Property(x => x.Avatar).HasColumnType("blob");
+                entity.Property(x => x.Avatar).HasColumnType("longblob");
+            });
+            modelBuilder.Entity<Show>(entity => {
+                entity.Property(x => x.Image).HasColumnType("longblob");
             });
 
             modelBuilder.Entity<Nomination>()
