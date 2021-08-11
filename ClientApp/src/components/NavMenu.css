@@ -30,12 +30,24 @@ html {
 .bottom-navbar-item{
   color: grey;
   margin: 0 5px;
+  display: block;
 }
 
 .bottom-navbar-item:hover{
   color:white;
   text-decoration: none;
 }
+
+.bottom-navbar-item:hover img.hover-img{
+  visibility:visible
+
+    }
+    
+    img.hover-img{
+      display: block;
+      margin-top: 10px;
+      visibility: hidden
+    }
 
 .bottom-header{
   display: inline-block;

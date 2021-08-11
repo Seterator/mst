@@ -64,12 +64,12 @@ export default function AddProfileModal(props) {
                 <h2>Создание пользователя</h2>
 
                 <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="Email" id='email' defaultValue={props?.preValue?.email} onChange={handleChange} />
-                <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="Email" id='login' defaultValue={props?.preValue?.login} onChange={handleChange} />
-                <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="Email" id='password' defaultValue={props?.preValue?.password} onChange={handleChange} />
+                <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="Логин" id='login' defaultValue={props?.preValue?.login} onChange={handleChange} />
+                <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="Пароль" id='password' defaultValue={props?.preValue?.password} onChange={handleChange} />
                 <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="ФИО" id='fullName' defaultValue={props?.preValue?.fullName} onChange={handleChange} />
                 <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="Город" id='city' defaultValue={props?.preValue?.city} onChange={handleChange} />
                 <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="О себе" id='bio' defaultValue={props?.preValue?.bio} onChange={handleChange} />
-                <input style={{margin:'10px 0', height:'55px'}} type="file" placeholder="Фото" id='avatar' defaultValue={props?.preValue?.avatar} onChange={handleLoadFile} />
+                <input style={{margin:'10px 0', height:'55px'}} type="file" placeholder="Фото" id='avatar' onChange={handleLoadFile} />
 
                 <button style={{margin:'10px 0', height:'55px'}} disabled={buttonDisable} onClick={props.cancel}>Cancel</button>
                 <button style={{margin:'10px 0', height:'55px'}} disabled={buttonDisable} onClick={submit}>Save</button>

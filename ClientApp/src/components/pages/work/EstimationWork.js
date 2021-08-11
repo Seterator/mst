@@ -25,11 +25,15 @@ export function EstimationWork(){
         setData(testData.videos.filter(f => f.id == id)[0]);
         setNominations(testData.nominations);
     },[id]);
-    return (<div>
+    return (<div className="container" style={{maxWidth: '1230px'}}>
+        <p style={{margin:'40px 0'}}>Оценивание работ {'>'} {data.title}</p>
         <iframe src={getYouTubeUrl(data.url)} height='690' width='1230'/>
-        <p style={{fontSize: "24px", lineHeight: '34px'}}>{data.title}</p>
-            <p style={{fontSize: "16px", lineHeight: '26px'}}>{data.other}</p>
-            <a href={`${data.url}`}>Перейти на страницу работы</a>
+        <p className="nomination-title">{data.title}</p>
+            <p className="nomination-description">{data.other}</p>
+            <div style={{display:'ruby'}}>
+            <a style={{margin:'40px 0 90px 0', display:'block'}} href={`${data.url}`}>Перейти на страницу работы</a>
+            <div style={{height:'1px', width:'970px', border:'1px solid white', marginLeft: '30px'}}></div>
+            </div>
             {EstimationBlock(id,nominations)}
             {EstimationBasePart(id)}
         </div>)

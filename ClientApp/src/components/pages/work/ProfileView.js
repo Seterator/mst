@@ -35,7 +35,7 @@ export function ProfileView(){
             <div className="container">
                 <div className="nav-content president">
                     <h2 className="nav-content-title">{data.fio}</h2>
-                    <p className="mail">{data.work} * {data.city} * {data.mail}</p>
+                    <p className="mail">{data.work} <div className="dot"></div> {data.city} <div className="dot"></div> {data.mail}</p>
                     <div className="twoCol">
                         <div className="about">
                             <img height="252px" width="182px" src="https://avatars.mds.yandex.net/get-zen_doc/1219682/pub_5eaa7423102eee24419d5607_5eaa74d77e79087ec3668df9/scale_1200" alt=""/>

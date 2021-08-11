@@ -4,18 +4,28 @@ import Modal from 'react-modal'
 
 Modal.setAppElement('#root')
 
-export default function AddCompetitionModal(props) {
-    const [profileData, setProfileData] = useState({})
+export default function AddShowModal(props) {
+    const [showData, setShowData] = useState({})
 
     const [buttonDisable, setButtonDisable] = useState(false)
 
     const handleChange = (e)=>{
-        const newData = profileData;
+        const newData = showData;
         newData[e.target.getAttribute('id')] = e.target.value;
-        setProfileData(newData) ;
+        setShowData(newData) ;
+    }
+    const handleLoadFile = (e)=>{
+        const newData = showData;
+        
+        //const formData = new FormData();
+		//formData.append('File', e.target.files[0]);
+
+        newData[e.target.getAttribute('id')] = e.target.files[0]
+        setShowData(newData) ;
     }
     const submit = () => {
-            props.submit(profileData);
+
+            props.submit(showData);
             props.cancel();
     }
 
@@ -44,9 +54,11 @@ export default function AddCompetitionModal(props) {
                 <h2>Создание пользователя</h2>
 
                 <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="Название" id='name' defaultValue={props?.preValue?.name} onChange={handleChange} />
-                <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="Ссылка" id='link' defaultValue={props?.preValue?.link} onChange={handleChange} />
-                <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="Дата начала" id='beginDate' defaultValue={props?.preValue?.beginDate} onChange={handleChange} />
-                <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="Дата окончания" id='endDate' defaultValue={props?.preValue?.endDate} onChange={handleChange} />
+                <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="Описание" id='description' defaultValue={props?.preValue?.description} onChange={handleChange} />
+                <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="Короткое описание" id='shortDescription' defaultValue={props?.preValue?.shortDescription} onChange={handleChange} />
+                <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="Ссылка" id='webLink' defaultValue={props?.preValue?.webLink} onChange={handleChange} />
+                <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="Видео" id='videoLink' defaultValue={props?.preValue?.videoLink} onChange={handleChange} />
+                <input style={{margin:'10px 0', height:'55px'}} type="file" placeholder="Фото" id='image' onChange={handleLoadFile} />
 
                 <button style={{margin:'10px 0', height:'55px'}} disabled={buttonDisable} onClick={props.cancel}>Cancel</button>
                 <button style={{margin:'10px 0', height:'55px'}} disabled={buttonDisable} onClick={submit}>Save</button>

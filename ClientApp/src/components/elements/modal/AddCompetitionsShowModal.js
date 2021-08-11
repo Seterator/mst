@@ -162,7 +162,7 @@ export default function AddCompetitionsShowModal(props) {
                         </tr>
                     </thead>
                     <tbody>
-                        {shows?.filter(f=>f.title.toLowerCase().includes(filter.toLowerCase())).map((m,i)=>{
+                        {shows?.filter(f=>f.title?.toLowerCase()?.includes(filter?.toLowerCase())).map((m,i)=>{
                             return(<tr>
                                 <td><input type='checkbox' defaultChecked={tempChecked.includes(`${m.id}`)} id={m.id} onChange={handleCheck}/></td>
                                 <td>{m.other}</td>

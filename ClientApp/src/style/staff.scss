@@ -61,7 +61,14 @@ body {
         opacity: .25;
         text-align: center;
         margin-top: 0;
-      
+        display: block ruby;
+      .dot{
+        width: 7px;
+height: 7px;
+border: 4px solid white;
+border-radius: 10px;
+margin: 0 10px 1px;
+      }
     }
 
     .nav-content-title {

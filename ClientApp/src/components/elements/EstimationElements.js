@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom'
-import {WarningHorizontMessage} from './MessageElements'
+import {WarningMessage} from './MessageElements'
 
 export function VoteElement(data, f){
 
     return(
-    <span style={{display:'block', width:'390px', margin:'20px', float:'left',borderStyle: 'solid',
+    <span style={{display:'block', width:'390px', margin:'15px', float:'left',borderStyle: 'solid',
     borderImage: 'linear-gradient(to left, #770D37, #211452) 0 0 100% 0', paddingBottom:'20px'}}>
     <Link to={`/work/${data.videoId}`}  style={{display:'block'}}>
     <div height='247' width='390' style={{
@@ -79,28 +79,28 @@ export function EstimationBlock(videoId, nominations){
     }
 
     return (<div><div>
-        <h1>Выбор номинации для оценивания</h1>
-        {WarningHorizontMessage('Внезапно, непосредственные участники технического прогресса в равной степени предоставлены сами себе. Значимость этих проблем настолько очевидна, что сложившаяся структура организации представляет собой интересный эксперимент проверки новых принципов формирования материально-технической и кадровой базы.')}
-        <div style={{width:'1200px', display:'table', backgroundColor:'white', padding:'45px 75px',margin: '10px 0 10px 0'}}>
-        {nominations?.map((v,i)=><div onClick={()=>nominationClick(v.id)} style={{display:'table-row', float:'left', margin:'15px 25px',width:'475px',opacity:`${choosenNomination !== -1 && choosenNomination !== v.id?'0.4':'1'}`, height:'55px', backgroundColor:`${choosenNomination == v.id?'black':'#770D37'}`, borderRadius:'5px'}} key={i}>
-            <p>{v.title}</p>
-            <p>{v.name}</p>
+        <p className="show-nomination-title">Выбор номинации для оценивания:</p>
+        {WarningMessage('Внезапно, непосредственные участники технического прогресса в равной степени предоставлены сами себе. Значимость этих проблем настолько очевидна, что сложившаяся структура организации представляет собой интересный эксперимент проверки новых принципов формирования материально-технической и кадровой базы.','1230px')}
+        <div className="show-nomination-container">
+        {nominations?.map((v,i)=><div className="show-nomination" onClick={()=>nominationClick(v.id)} style={{opacity:`${choosenNomination !== -1 && choosenNomination !== v.id?'0.4':'1'}`, background:`${choosenNomination == v.id?'radial-gradient(180.91% 1388.43% at 100% 7.27%, #770D37 0%, #211452 100%)':'#770D37'}`}} key={i}>
+            <p className="show-nomination-title">{v.title}</p>
+            <p className="show-nomination-name">{v.name}</p>
             </div>)}
 
             
         </div>
     </div>
-    <div style={{width:'1200px', height:'200px', backgroundColor:'grey', padding:'50px 105px 40px 105px',margin: '10px 0', opacity:`${choosenNomination==-1?'0.4':'1'}`}}>
+    <div className="estimate-btn-container" style={{opacity:`${choosenNomination==-1?'0.4':'1'}`}}>
                 <p style={{fontSize: '24px',lineHeight: '34px'}}>Оцените работу</p>
                 <div>
-                <button onClick={()=>placeClick(1)} style={{width:'70px', height:'55px',margin: '20px 10px', opacity:`${choosenPlace==2 || choosenPlace==3?'0.4':'1'}`}}>1</button>
-                <button onClick={()=>placeClick(2)} style={{width:'70px', height:'55px',margin: '20px 10px', opacity:`${choosenPlace==1 || choosenPlace==3?'0.4':'1'}`}}>2</button>
-                <button onClick={()=>placeClick(3)} style={{width:'70px', height:'55px',margin: '20px 10px', opacity:`${choosenPlace==2 || choosenPlace==1?'0.4':'1'}`}}>3</button>
-                <button onClick={()=>saveClick()} style={{float:'right',width: '168px',height: '55px', background: '#111111', borderRadius: '5px', opacity:`${choosenPlace==-1?'0.4':'1'}`}}>Сохранить</button>
+                <button className="estimate-btn" onClick={()=>placeClick(1)} style={{background:'linear-gradient(138.95deg, #BBA151 -28.75%, #F4DE9D 60.24%, #E3C877 76.72%)', opacity:`${choosenPlace==2 || choosenPlace==3?'0.4':'1'}`}}>1</button>
+                <button className="estimate-btn" onClick={()=>placeClick(2)} style={{background:'linear-gradient(138.95deg, #DCDCDC -28.75%, #B2B0AA 60.24%, #6F6E6B 76.72%)', opacity:`${choosenPlace==1 || choosenPlace==3?'0.4':'1'}`}}>2</button>
+                <button className="estimate-btn" onClick={()=>placeClick(3)} style={{background:'linear-gradient(138.95deg, #FFFFFF -28.75%, #F3B378 45.77%, #DF8D2D 76.72%)', opacity:`${choosenPlace==2 || choosenPlace==1?'0.4':'1'}`}}>3</button>
+                <button onClick={()=>saveClick()} style={{float:'right',width: '168px',marginTop: '20px', height: '55px', background:`${choosenPlace==1?'linear-gradient(138.95deg, #BBA151 -28.75%, #F4DE9D 60.24%, #E3C877 76.72%)':choosenPlace==2?'linear-gradient(138.95deg, #DCDCDC -28.75%, #B2B0AA 60.24%, #6F6E6B 76.72%)':choosenPlace==3?'linear-gradient(138.95deg, #FFFFFF -28.75%, #F3B378 45.77%, #DF8D2D 76.72%)':'#111111'}` , borderRadius: '5px', opacity:`${choosenPlace==-1?'0.4':'1'}`}}>Сохранить</button>
                 </div>
                 
                 </div>
-                <p>*Напоминаем, что данный раздел отвечает лишь за оценивание работы по конкретным номинациям, для того чтобы Ваши оценки были учтены Вам необходимо перейти в раздел История оценивания и подтвердить отправку результата на сервер.</p>
+                <p className="estimate-note">*Напоминаем, что данный раздел отвечает лишь за оценивание работы по конкретным номинациям, для того чтобы Ваши оценки были учтены Вам необходимо перейти в раздел История оценивания и подтвердить отправку результата на сервер.</p>
     </div>)
 }
 

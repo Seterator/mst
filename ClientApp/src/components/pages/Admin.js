@@ -1,5 +1,5 @@
 import React, { Component, useEffect, useState } from 'react';
-import { EstimationListView } from '../elements/admin/EstimationListView';
+import { ShowListView } from '../elements/admin/ShowListView';
 import { ProfileListView } from '../elements/admin/ProfileListView';
 import { CompetitionListView } from '../elements/admin/CompetitionListView';
 import Container from 'reactstrap/lib/Container';
@@ -13,15 +13,15 @@ export function Admin(){
         <div style={{ display:'flex'}}>
         <div style={{ display:'block'}}>
             <a className='admin' onClick={()=>setActivePage(1)}>Пользователи</a>
-            <a className='admin' onClick={()=>setActivePage(2)}>Конкурсанты</a>
-            <a className='admin' onClick={()=>setActivePage(3)}>Номинации</a>
+            <a className='admin' onClick={()=>setActivePage(2)}>Спектакли</a>
+            <a className='admin' onClick={()=>setActivePage(3)}>Конкурсы</a>
         </div>
         <div style={{ display:'table'}}>
         <div className='admin-content' style={{display:`${activePage == 1 ? 'block':'none'}`}}>
         {ProfileListView()}
         </div>
         <div className='admin-content' style={{display:`${activePage == 2 ? 'block':'none'}`}}>
-            {EstimationListView()}
+            {ShowListView()}
         </div>
         <div className='admin-content' style={{display:`${activePage == 3 ? 'block':'none'}`}}>
             {CompetitionListView()}

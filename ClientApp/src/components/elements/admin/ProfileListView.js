@@ -44,10 +44,11 @@ function deleteProfile(i){
         fetch(`User/Delete`, {
             method: 'post',
             headers: {'Content-Type':'application/json'},
-            body: {
-             "id": i.id
-            }
+            body: i.id
            }).then(res=>{
+               if(!res?.ok){
+                   return;
+               }
             let toDelete = profileData?.data?.filter(f => f.id == i.id)[0]
             let index = profileData?.data?.indexOf(toDelete);
             let newData = profileData.data;
@@ -68,13 +69,19 @@ function editProfile(i){
 function profileAdded(d){
     
 
+    
+
     let formData = new FormData();
     formData.append('file', d.avatar);
     formData.append('email', d.email);
+    formData.append('login', d.login);
+    formData.append('password', d.password);
+    formData.append('fullName', d.fullName);
+    formData.append('city', d.city);
+    formData.append('bio', d.bio);
+    
     fetch(`User/Create`, {
         method: 'post',
-        //headers: {'Content-Type':'application/json'},
-        
         body:formData
         
        }).then(r => {
@@ -90,18 +97,36 @@ function profileAdded(d){
     
 }
 function profileEdited(d){
+    let formData = new FormData();
+    formData.append('id', profileEditData.id);
+    formData.append('file', d.avatar);
+    formData.append('email', d.email);
+    formData.append('login', d.login);
+    formData.append('password', d.password);
+    formData.append('fullName', d.fullName);
+    formData.append('city', d.city);
+    formData.append('bio', d.bio);
+
+
+    fetch(`User/Edit`, {
+        method: 'post',
+        body:formData
+        
+       }).then(r => {
+        if(!r.ok){
+            return;
+        }
     let newArr = profileData?.data;
     let toEdit = newArr?.filter(f => f.id == profileEditData.id)[0]
     let index = newArr?.indexOf(toEdit);
     let newData = {...newArr[index],...d};
     newArr[index] = newData;
     setProfileData({...profileData,data: newArr});
+    });
 }
   
     return(<div>
         <div><input onChange={(e)=>setFilter(e.target.value)}></input><a onClick={()=>OpenAddModal(true)}>Добавить пользователя</a></div>
-        
-
     {Table(profileDataView)}
     <AddProfileModal submit ={profileAdded} cancel={() => { OpenAddModal(false) }} isOpen={isModalAddOpen} />
     <AddProfileModal submit ={profileEdited} cancel={() => { OpenEditModal(false) }} isOpen={isModalEditOpen} preValue ={profileEditData}/>

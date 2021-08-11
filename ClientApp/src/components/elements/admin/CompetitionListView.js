@@ -15,7 +15,12 @@ export function CompetitionListView(){
     const [filter, setFilter] = useState('');
     const [changeIndex, setChangeIndex] = useState(1);
     useEffect(()=>{
-        setCompetitionData(testData);
+        fetch('Competition/GetAll').then(r => r.json()).then(json =>{
+            setCompetitionData({data:json, columns:[{key:'id', value:'Id'},{key:'name', value:'Название'},{key:'link', value:'Ссылка'},{key:'beginDate', value:'Дата начала'},{key:'endDate', value:'Дата окончания'},{key:'members', value:'Жюри'},{key:'nominations', value:'Номинации'},{key:'shows', value:'Спектакли'}],
+            setData:[{ execute:(i)=>deleteCompetition(i),title:'Удалить'},
+            { execute:(i)=>editCompetition(i),title:'Изменить'}]});
+        });
+
     },[])
     useEffect(()=>{
         competitionEditData&&competitionEditData.id&&OpenEditModal(true);
@@ -27,44 +32,65 @@ export function CompetitionListView(){
 
     },[competitionData,changeIndex]);
 
-
-
-    const testData = {columns:[{key:'id', value:'Id'},{key:'title', value:'Название'},{key:'url', value:'Ссылка'},{key:'startDate', value:'Дата начала'},{key:'endDate', value:'Дата окончания'},{key:'members', value:'Жюри'},{key:'nominations', value:'Номинации'},{key:'shows', value:'Спектакли'}],
-data:[{ id: 5,url:'https://avatars.mds.yandex.net/get-zen_doc/1219682/pub_5eaa7423102eee24419d5607_5eaa74d77e79087ec3668df9/scale_1200', title: 'Конкурс Лисичков', startDate:'28.01.2021', endDate:'28.01.2022',members:[],nominations:[],shows:[] },
-{ id: 6,url:'https://avatars.mds.yandex.net/get-zen_doc/1219682/pub_5eaa7423102eee24419d5607_5eaa74d77e79087ec3668df9/scale_1200', title: 'Конкурс Лисичков2', startDate:'25.01.2021', endDate:'25.01.2022',members:[],nominations:[],shows:[] }
-],
-setData:[
-{ execute:(i)=>deleteCompetition(i),title:'Удалить'},
-{ execute:(i)=>editCompetition(i),title:'Изменить'}]};
-
 function deleteCompetition(i){
     if(window.confirm(`Удалить конкурс ${i.title}`)){
-        let toDelete = competitionData?.data?.filter(f => f.id == i.id)[0]
-        let index = competitionData?.data?.indexOf(toDelete);
-        let newData = competitionData.data;
-        newData.splice(index,1);
-        setCompetitionData({...competitionData,data: newData});
-        setChangeIndex(changeIndex+1)
+        fetch(`Competition/Delete`, {
+            method: 'post',
+            headers: {'Content-Type':'application/json'},
+            body: i.id
+           }).then(res=>{
+               if(!res?.ok){
+                   return;
+               }
+               let toDelete = competitionData?.data?.filter(f => f.id == i.id)[0]
+               let index = competitionData?.data?.indexOf(toDelete);
+               let newData = competitionData.data;
+               newData.splice(index,1);
+               setCompetitionData({...competitionData,data: newData});
+               setChangeIndex(changeIndex+1)
+           }); 
     }
-
 }
 function editCompetition(i){
     setCompetitionEditData(i);
 }
 
 function competitionAdded(i){
-    const nextId = competitionData?.data?.length>0 ? Math.max(...competitionData?.data?.map(item => item.id)) +1: 1;
-    let newItem = {...i,id:nextId};
-    let newArr = [...competitionData.data,newItem];
-    setCompetitionData({...competitionData,data:newArr});
+
+    let r = i;
+    fetch(`Competition/Create`, {
+        method: 'post',
+        body:i
+        
+       }).then(r => {
+           if(!r.ok){
+               return;
+           }
+           const nextId = competitionData?.data?.length>0 ? Math.max(...competitionData?.data?.map(item => item.id)) +1: 1;
+           let newItem = {...i,id:nextId};
+           let newArr = [...competitionData.data,newItem];
+           setCompetitionData({...competitionData,data:newArr});
+       });
+
+    
 }
 function competitionEdited(i){
-    let newArr = competitionData?.data;
-    let toEdit = newArr?.filter(f => f.id == competitionEditData.id)[0]
-    let index = newArr?.indexOf(toEdit);
-    let newData = {...newArr[index],...i};
-    newArr[index] = newData;
-    setCompetitionData({...competitionData,data: newArr});
+    fetch(`Competition/Edit`, {
+        method: 'post',
+        body:{...i, id:competitionEditData.id}
+        
+       }).then(r => {
+        if(!r.ok){
+            return;
+        }
+        let newArr = competitionData?.data;
+        let toEdit = newArr?.filter(f => f.id == competitionEditData.id)[0]
+        let index = newArr?.indexOf(toEdit);
+        let newData = {...newArr[index],...i};
+        newArr[index] = newData;
+        setCompetitionData({...competitionData,data: newArr});
+    });
+    
 }
 
 
@@ -118,10 +144,19 @@ const showsTestData = [
  
 
     useEffect(()=>{
-        setMembers(testData);
-        setShows(showsTestData);
+        fetch('Show/GetAll').then(r => r.json()).then(json =>{
+            setShows(json);
+        });
+        fetch('User/GetAll').then(r => r.json()).then(json =>{
+            setMembers(json);
+        });
+
+        
     },[])
 
+    useEffect(()=>{
+        data&&data?.map(m=>m.nominations).length>0&&setNominations([].concat.apply([], data?.map(m=>m.nominations)));
+    },[data])
 
     useEffect(()=>{
         if(editNominationData?.value != undefined &&editNominationData?.value != '' && !isModalNominationEditOpen){
@@ -156,13 +191,25 @@ const showsTestData = [
     }
 
     function editNominationSubmit(v){
-
         if(v&&v!=''){
+        fetch(`Nomination/Edit`, {
+            method: 'post',
+            headers: {'Content-Type':'application/json'},
+            body:JSON.stringify(v)
+            
+           }).then(r => {
+            if(!r.ok){
+                return;
+            }
             let newArr = nominations;
-            newArr[newArr.indexOf(newArr.filter(f=> f.competitionId == editCompetitionData.id && f.value == editNominationData.value)[0])] = {competitionId:editCompetitionData?.id,value:v};
+            newArr[newArr.indexOf(newArr.filter(f=> f.id == editNominationData.value.id)[0])] = {...editNominationData.value,name:v.name};
 
             setNominations(newArr);
             setEditNominationData({});
+        });
+
+        
+            
         }
     }
 
@@ -179,8 +226,17 @@ const showsTestData = [
 
     }
     function addNominationToList(v){
-        setNominations([...nominations,v]);
-
+        fetch(`Nomination/Create`, {
+            method: 'post',
+                headers: {'Content-Type':'application/json'},
+                body:JSON.stringify(v)
+            
+           }).then(r => {
+               if(!r.ok){
+                   return;
+               }
+               setNominations([...nominations,v]);
+           });
     }
     function addMembersSubmit(m){
         let newArr = membersChecked;
@@ -247,7 +303,7 @@ const showsTestData = [
                 })}
             </tbody>
         </table>
-        {EditNominationsListModal({competitionId: editCompetitionData.id,isOpen:isModalNominationOpen,nominations:nominationsView.filter(f=>f.competitionId == editCompetitionData.id).map(m=>m.value),add:addNominationToList,edit:editNomination,delete:deleteNomination,cancel:()=>{OpenNominationModal(false)}})}
+        {EditNominationsListModal({competitionId: editCompetitionData.id,isOpen:isModalNominationOpen,nominations:nominationsView?.filter(f=>f.competitionId == editCompetitionData.id),add:addNominationToList,edit:editNomination,delete:deleteNomination,cancel:()=>{OpenNominationModal(false)}})}
         {EditNominationModal({isOpen:isModalNominationEditOpen,preValue:editNominationData.value,cancel:()=>{OpenNominationEditModal(false)}, submit:editNominationSubmit})}
         {AddMembersModal({competitionId: editCompetitionData.id,isOpen:isModalMembersOpen, members:members,checked:membersChecked,cancel:()=>{OpenMembersModal(false)}, submit:addMembersSubmit})}
         

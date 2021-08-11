@@ -13,20 +13,10 @@ export default function EditNominationModal(props) {
     },[])
 
     const handleChange = (e)=>{
-        setNominationData(e.target.value);
+        setNominationData({...props?.preValue,name:e.target.value});
     }
     const submit = () => {
-        setButtonDisable(true);
-        //Post('api/Main/InsertUser', { Title: inputTitle, Login: inputLogin, Pass: inputPass, Name: inputName, LastName: inputLastName, Email: inputEmail })
-        //    .then(res => {
-        //        if (res.ok)
-        //            props.cancel();
-        //        else
-        //            alert("error InsertUser");
 
-        //        setButtonDisable(false);
-        //    })
-            setButtonDisable(false)
             props.submit(nominationData);
             props.cancel();
     }
@@ -55,7 +45,7 @@ export default function EditNominationModal(props) {
                 <div style={{display:'grid', padding:'20px', backgroundColor: '#2B111B'}}> 
                 <h2>Изменение номинации</h2>
 
-                <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="Название" defaultValue={props?.preValue} onChange={handleChange} />
+                <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="Название" defaultValue={props?.preValue?.name} onChange={handleChange} />
 
                 <button style={{margin:'10px 0', height:'55px'}} disabled={buttonDisable} onClick={props.cancel}>Cancel</button>
                 <button style={{margin:'10px 0', height:'55px'}} disabled={buttonDisable} onClick={submit}>Save</button>

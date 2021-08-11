@@ -19,7 +19,7 @@ function redirect(p){
     return (
       <div className="container" style={{maxWidth:'1230px'}}>
 
-      <header className="notWelcome border-bottom">
+      <header className="notWelcome border-bottom visibility-hidden" id="notWelcome">
         <Navbar className="height-max navbar-expand-sm navbar-toggleable-sm ng-white box-shadow mb-3" light>
           <Container>
             
@@ -28,14 +28,14 @@ function redirect(p){
               <div className="bottom-header-left-part">
               <ul className="navbar-nav flex-grow">
                 <NavItem className="bottom-navbar-item ">
-                  <a className="bottom-navbar-item" onClick={()=>redirect('/profileView')}><img src={require('../img/Polygon2.svg')} alt=""/>Общее</a>
+                  <Link className="bottom-navbar-item" to='/profileView'>Общее<img className="hover-img" src={require('../img/Polygon2.svg')} alt=""/></Link>
                   
                 </NavItem>
                 <NavItem className="bottom-navbar-item">
-                  <a className="bottom-navbar-item" onClick={()=>redirect('/estimation')}>Оценивание работ</a>
+                  <Link className="bottom-navbar-item" to='/estimation'>Оценивание работ<img className="hover-img" src={require('../img/Polygon2.svg')} alt=""/></Link>
                 </NavItem>
                 <NavItem className="bottom-navbar-item">
-                  <a className="bottom-navbar-item" onClick={()=>redirect('/profileView')}>Полный список оценивания</a>
+                  <a className="bottom-navbar-item" onClick={()=>redirect('/profileView')}>Полный список оценивания<img className="hover-img" src={require('../img/Polygon2.svg')} alt=""/></a>
                 </NavItem>
               </ul>
 
@@ -43,13 +43,13 @@ function redirect(p){
               <div className="bottom-header-right-part">
               <ul className="navbar-nav flex-grow">
               <NavItem className="bottom-navbar-item">
-                  <a className="bottom-navbar-item" onClick={()=>redirect('/admin')}>Админка</a>
+                  <a className="bottom-navbar-item" onClick={()=>redirect('/admin')}>Админка<img className="hover-img" src={require('../img/Polygon2.svg')} alt=""/></a>
                 </NavItem>
                 <NavItem className="bottom-navbar-item">
-                  <a className="bottom-navbar-item" onClick={()=>redirect('/profileEdit')}>Изменение данных</a>
+                  <a className="bottom-navbar-item" onClick={()=>redirect('/profileEdit')}>Изменение данных<img className="hover-img" src={require('../img/Polygon2.svg')} alt=""/></a>
                 </NavItem>
                 <NavItem className="bottom-navbar-item">
-                <a className="bottom-navbar-item" onClick={()=>props.logout()}>Выйти</a>
+                <a className="bottom-navbar-item" onClick={()=>props.logout()}>Выйти<img className="hover-img" src={require('../img/Polygon2.svg')} alt=""/></a>
                 </NavItem>
               </ul>
 

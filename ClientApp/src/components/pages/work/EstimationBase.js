@@ -64,7 +64,7 @@ const dropDownClick = (i) =>{
 }
 
 
-    return(<div className='container' style={{maxWidth:'1500px'}}>
+    return(<div className='container' style={{maxWidth:'1290px'}}>
         <input placeholder="Поиск" onChange={(e)=>setFilter(e.target.value)} style={{width: '285px',
 height: '82px',
 background: '#454343',

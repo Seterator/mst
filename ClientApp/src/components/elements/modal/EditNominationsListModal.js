@@ -11,9 +11,10 @@ export default function EditNominationsListModal(props) {
 
     function add(){
         if(nominationData!=''){
-            props.add({competitionId:props.competitionId, value:nominationData});
+            props.add({competitionId:props.competitionId, name:nominationData});
             setNominationData('');
-        } 
+
+        }
     }
     function cancel(){
         setNominationData('');
@@ -54,7 +55,7 @@ export default function EditNominationsListModal(props) {
                     <tbody>
                         {props?.nominations?.map((m,i)=>{
                             return(<tr>
-                                <td>{m}</td>
+                                <td>{m.name}</td>
                                 <td><a onClick={(e)=>props.delete(i)}>Удалить</a><a onClick={(e)=>props.edit(m,i)}>Изменить</a></td>
                             </tr>)
                         })}
