@@ -42,7 +42,10 @@ title:'Оказывается, известный инсайдер,в предд
 other: 'Разнообразный и богатый опыт говорит нам, что консультация с широким активом не оставляет шанса для прогресса профессионального сообщества.',
 nominations:[{title:'Лучший текст песен (авор/перевод)', position:2}, {title:'Лучшее пластическое решение (хореограф)', position:3}]}]}
     useEffect(()=>{
-        setData(testData.members.map(v =>{ return {...v, dropDownVisible:false}})  );
+        fetch('Show/GetAll').then(r => r.json()).then(json =>{
+            setData(json.map(v =>{ return {...v, dropDownVisible:false}}));
+         });
+        //setData(testData.members.map(v =>{ return {...v, dropDownVisible:false}})  );
         //fetch('getActiveRequest').then(res=>res.json()).then(json => setData(json));
 
     },[]);
@@ -51,7 +54,7 @@ nominations:[{title:'Лучший текст песен (авор/перевод
         const v = (
         <div className='container'  style={{display:'inline'}}>
             
-        {data && data?.filter(f=>f.title.toLowerCase().includes(filter?.toLowerCase())).map((v,i) => VoteElement(v,() => dropDownClick(i)))}
+        {data && data?.filter(f=>f.name.toLowerCase().includes(filter?.toLowerCase())).map((v,i) => VoteElement(v,() => dropDownClick(i)))}
         
         </div>);
         setView(v);

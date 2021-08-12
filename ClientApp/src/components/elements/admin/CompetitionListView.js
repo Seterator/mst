@@ -27,6 +27,10 @@ export function CompetitionListView(){
     },[competitionEditData]);
 
     useEffect(()=>{
+        !isModalEditOpen&&setCompetitionEditData({});
+    },[isModalEditOpen]);
+
+    useEffect(()=>{
         setCompetitionDataView({...competitionData,setData:[{ execute:(i)=>deleteCompetition(i),title:'Удалить'},
         { execute:(i)=>editCompetition(i),title:'Изменить'}]});
 
@@ -77,9 +81,11 @@ function competitionAdded(i){
     
 }
 function competitionEdited(i){
+    const editData = {...i, id:competitionEditData.id}
     fetch(`Competition/Edit`, {
         method: 'post',
-        body:{...i, id:competitionEditData.id}
+        headers: {'Content-Type':'application/json'},
+        body:JSON.stringify(editData)
         
        }).then(r => {
         if(!r.ok){
@@ -216,11 +222,21 @@ const showsTestData = [
     }
 
     function deleteNomination(i){
-        let newArr = nominations;
-        let curArr = newArr.filter(f=> f.competitionId == editCompetitionData.id);
-        newArr.splice(newArr.indexOf(curArr[i]),1);
-        setNominations(newArr);
-        setChangeIndex(changeIndex+1);
+        fetch(`Nomination/Delete?id=${i}`, {
+            method: 'post',
+            headers: {'Content-Type':'application/json'}
+           }).then(res=>{
+               if(!res?.ok){
+                   return;
+               }
+               let newArr = nominations;
+               let curArr = newArr.filter(f=> f.competitionId == editCompetitionData.id);
+               newArr.splice(newArr.indexOf(curArr[i]),1);
+               setNominations(newArr);
+               setChangeIndex(changeIndex+1);
+
+           });
+
     }
 
     function editCompetition(id, exec){
@@ -237,10 +253,18 @@ const showsTestData = [
                if(!r.ok){
                    return;
                }
-               setNominations([...nominations,v]);
+               return r.json()
+               
+           }).then(json =>{
+            setNominations([...nominations,{...v, id:json}]);
            });
     }
     function addMembersSubmit(m){
+
+        //fetch post competition - referee
+        //[{memberId, competitionId}]
+
+
         let newArr = membersChecked;
         var curMembers = newArr.filter(f=> f.competitionId == editCompetitionData.id);
 
@@ -250,6 +274,12 @@ const showsTestData = [
         setMembersChecked([...newArr,...m])
     }
     function addCompetitionsShowSubmit(m){
+        //fetch post competition - nomination - show - nominant?
+        // [{showId: "1",nominationId: 1,nominationTitle: "sdada",nominationValue: ""}]
+        // editCompetitionData.id
+
+
+
         let newArr = showsChecked;
         var curShows = newArr.filter(f=> f.competitionId == editCompetitionData.id);
         
@@ -257,12 +287,13 @@ const showsTestData = [
         curShows.forEach(v => {
             newArr.splice(newArr.indexOf(v),1);
         })
+        let newChecked = m.checked.map(c => {return {showId:c, competitionId:editCompetitionData.id}})
         setShowsChecked([...newArr,...m.checked]);
 
 
         let newShowNomArr = showNominationsValue;
         var curShowsNom = newShowNomArr.filter(f=> f.competitionId == editCompetitionData.id);
-        curShowsNom = curShowsNom.filter(f => m.checked.map(c => c.showId).includes(f.showId));
+        curShowsNom = curShowsNom.filter(f => m.checked.includes(f.showId));
 
         curShowsNom.forEach(v => {
             newShowNomArr.splice(newShowNomArr.indexOf(v),1);

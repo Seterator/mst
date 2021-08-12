@@ -29,7 +29,9 @@ export default function AddCompetitionsShowModal(props) {
     },[checked, showNominationsValue, nominations])
 
     useEffect(()=>{
-        let newArr = showNominationsModalData.map(m=>{return {showId:editShowData.id, nominationTitle:m.title,nominationValue:m.value }});
+        if(showNominationsModalData?.length >0){
+
+        let newArr = showNominationsModalData.map(m=>{return {showId:editShowData.id, nominationId:m.id, nominationTitle:m.name,nominationValue:m.value }});
 
         let submitTemp = toSubmit;
         var curShowsNom = submitTemp?.filter(f=> f.showId == editShowData.id);
@@ -40,6 +42,7 @@ export default function AddCompetitionsShowModal(props) {
         })
 
         setToSubmit([...submitTemp,...newArr]);
+        }
 
     },[showNominationsModalData]);
 
@@ -47,7 +50,7 @@ export default function AddCompetitionsShowModal(props) {
         
         if(editShowData && editShowData.id && !isModalShowNominationOpen){
             setShowNominationsModalData(toSubmit.filter(f=>f?.showId == editShowData.id)
-            .map(m => {return{title:m?.nominationTitle, value:m?.nominationValue}}));
+            .map(m => {return{name:m?.nominationTitle, value:m?.nominationValue, id:m?.nominationId}}));
             OpenShowNominationModal(true);
         }
     },[editShowData])
@@ -76,11 +79,11 @@ export default function AddCompetitionsShowModal(props) {
 
     function handleEditNominations(e){
         let id = e.target.getAttribute('id');
-        setEditShowData({id:id});
+        setEditShowData({id:id.slice(-1)});
     }
 
     function handleShowNominationsSubmit(v){
-        let newArr = v.map(m=>{return {showId:editShowData.id, nominationTitle:m.title,nominationValue:m.value }});
+        let newArr = v.map(m=>{return {showId:editShowData.id,nominationId:m.id, nominationTitle:m.name,nominationValue:m.value }});
 
         let submitTemp = toSubmit;
         var curShowsNom = submitTemp?.filter(f=> f.showId == editShowData.id);
@@ -99,14 +102,23 @@ export default function AddCompetitionsShowModal(props) {
         let id = e.target.getAttribute('id');
         if(val){
             if(tempChecked.indexOf(id)<0){
+                let el = document.getElementById(`show-nomination${id}`);
+                el.classList.toggle('visibility-visible');
+                el.classList.remove('visibility-hidden');
+
                 setTempChecked([...tempChecked, id]);
 
-                let newArr = nominationsData.map(m => {return {showId:id,nominationTitle:m.value, nominationValue:'' }});
+                let newArr = nominationsData.map(m => {return {showId:id, nominationId:m.id,nominationTitle:m.name, nominationValue:'' }});
                 setToSubmit([...toSubmit,...newArr]);
             }           
         }
         else{
             if(tempChecked.indexOf(id)>-1){
+
+                let el = document.getElementById(`show-nomination${id}`);
+                el.classList.remove('visibility-visible');
+                el.classList.toggle('visibility-hidden');
+
                 let newArr = tempChecked;
                 newArr.splice(newArr.indexOf(id),1);
                 setTempChecked(newArr);
@@ -162,12 +174,12 @@ export default function AddCompetitionsShowModal(props) {
                         </tr>
                     </thead>
                     <tbody>
-                        {shows?.filter(f=>f.title?.toLowerCase()?.includes(filter?.toLowerCase())).map((m,i)=>{
+                        {shows?.filter(f=>f.name?.toLowerCase()?.includes(filter?.toLowerCase())).map((m,i)=>{
                             return(<tr>
                                 <td><input type='checkbox' defaultChecked={tempChecked.includes(`${m.id}`)} id={m.id} onChange={handleCheck}/></td>
-                                <td>{m.other}</td>
-                                <td>{m.title}</td>
-                                <td><a id={m.id} style={{display:`${tempChecked.includes(`${m.id}`)?'block':'none'}`}} onClick={handleEditNominations}>Номинации</a></td>
+                                <td>{m.description}</td>
+                                <td>{m.name}</td>
+                                <td><a id={`show-nomination${m.id}`} className="visibility-hidden" onClick={handleEditNominations}>Номинации</a></td>
                             </tr>)
                         })}
 

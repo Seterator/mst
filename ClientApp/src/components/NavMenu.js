@@ -19,7 +19,7 @@ function redirect(p){
     return (
       <div className="container" style={{maxWidth:'1230px'}}>
 
-      <header className="notWelcome border-bottom visibility-hidden" id="notWelcome">
+      <header className="notWelcome border-bottom" id="notWelcome">
         <Navbar className="height-max navbar-expand-sm navbar-toggleable-sm ng-white box-shadow mb-3" light>
           <Container>
             

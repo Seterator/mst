@@ -7,9 +7,9 @@ export function VoteElement(data, f){
     return(
     <span style={{display:'block', width:'390px', margin:'15px', float:'left',borderStyle: 'solid',
     borderImage: 'linear-gradient(to left, #770D37, #211452) 0 0 100% 0', paddingBottom:'20px'}}>
-    <Link to={`/work/${data.videoId}`}  style={{display:'block'}}>
+    <Link to={`/work/${data.id}`}  style={{display:'block'}}>
     <div height='247' width='390' style={{
-        backgroundImage:`url(${data.image})`
+        backgroundImage:`url(data:image/png;base64,${data.image})`
         , width:'390px', height:'247px', position:'relative', opacity:'0.7'}}>
             <div style={{position:'absolute', bottom:'10px', left:'0', right:'0', height:'30px', textAlign:'center'}}>
             <button className="vote-button" hidden={!data.options?.some(s => s == 'notVoting')}>Без голосования</button>
@@ -20,8 +20,8 @@ export function VoteElement(data, f){
     </div>
             
             </Link>
-             <p style={{fontSize: "24px", lineHeight: '34px'}}>{data.title}</p>
-            <p style={{fontSize: "16px", lineHeight: '26px'}}>{data.other}</p>
+             <p style={{fontSize: "24px", lineHeight: '34px'}}>{data.name}</p>
+            <p style={{fontSize: "16px", lineHeight: '26px'}}>{data.description}</p>
             <button style={{opacity:'0.5', background:'none'}} onClick={f}>Посмотреть список номинаций</button>
             {DropDownNomination(data.nominations, data.dropDownVisible)}
             </span> 

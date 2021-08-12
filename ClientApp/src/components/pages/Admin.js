@@ -1,11 +1,21 @@
-import React, { Component, useEffect, useState } from 'react';
+import React, { Component, useEffect, useState, useContext } from 'react';
+import { Link, useHistory } from 'react-router-dom'
 import { ShowListView } from '../elements/admin/ShowListView';
 import { ProfileListView } from '../elements/admin/ProfileListView';
 import { CompetitionListView } from '../elements/admin/CompetitionListView';
 import Container from 'reactstrap/lib/Container';
+import { UserContext } from '../../LoginMiddleware'
 
 export function Admin(){
     const [activePage, setActivePage] = useState(1)
+    const h = useHistory();
+    const {user} = useContext(UserContext);
+    useEffect(()=>{
+        if(user.id != -2){
+            h.push('/');
+        }
+
+    },[])
 
 
     return(<Container style={{textAlign:'center'}}>

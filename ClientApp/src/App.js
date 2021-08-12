@@ -23,7 +23,7 @@ export default function App(props) {
         <Route path='/estimation' component={EstimationBase} />
         <Route path='/profileView' component={ProfileView} />
         <Route path='/profileEdit' component={ProfileEdit} />
-        <Route component={NotFoundRedirect} />
+        
       </Layout>
     );
   

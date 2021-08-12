@@ -126,7 +126,7 @@ export function ProfileEdit(){
                     <div className="twoCol">
                         <div className="about">
                             <img style={{height:'465px', width:'390px'}}  src={avatarView} alt=""/>
-                            <h3 className="name">{data.name}</h3>
+                            <div className="file-message">Вы можте загрузить изображения для профиля в формате .png или .jpeg</div>
                             <input type="file" id="avatar" onChange={handleLoadFile} placeholder="Обновить фото"></input>
                         </div>
                         <div className="content" style={{display:'grid'}}>

@@ -1,4 +1,5 @@
 import React, { Component, useEffect, useState} from 'react';
+import { useHistory } from 'react-router-dom'
 import App from './App'
 import { MainNavMenu } from './components/MainNavMenu';
 import {Login} from './Login'
@@ -13,8 +14,7 @@ export function LoginMiddleware() {
 
     const [isLogin, setLogin] = useState(false)
     const [user, setUser] = useState({})
-
-    const [change, setChange] = useState(1)
+    const h = useHistory();
 
     const testData = { id: -2, login:'lisaLis', fullname: 'Лиса Лисичкова', email:'lisa@mail.ru', avatar:'', bio:'', city:'' }
 
@@ -81,9 +81,10 @@ export function LoginMiddleware() {
     }
 
     const logout = () => {
-        localStorage.setItem(USER_ID, 0)
+        localStorage.setItem(USER_ID, 0);
         localStorage.setItem(USER_EMAIL, '');
-        setLogin(false)
+        setLogin(false);
+        h.push('/');
     }
 
 

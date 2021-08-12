@@ -1,4 +1,4 @@
-import React, { Component, useState, useContext } from 'react';
+import React, { Component, useState, useContext, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom'
 import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
 import {UserContext } from '../../LoginMiddleware'
@@ -9,6 +9,13 @@ export function WelcomePage(props){
 
     const h = useHistory();
     const {user} = useContext(UserContext)
+
+    useEffect(()=>{
+        let clList = document.getElementById("notWelcome").classList;
+        if(!clList.contains("visibility-hidden")){
+            clList.toggle("visibility-hidden")
+        }
+    },[])
 
     function handleClick(){
         h.push('/profileView');

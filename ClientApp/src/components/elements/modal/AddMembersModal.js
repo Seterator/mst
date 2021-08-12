@@ -35,17 +35,6 @@ export default function AddMembersModal(props) {
         //setChangeIndex(changeIndex+1);
     }
     const handleSubmit = () => {
-        setButtonDisable(true);
-        //Post('api/Main/InsertUser', { Title: inputTitle, Login: inputLogin, Pass: inputPass, Name: inputName, LastName: inputLastName, Email: inputEmail })
-        //    .then(res => {
-        //        if (res.ok)
-        //            props.cancel();
-        //        else
-        //            alert("error InsertUser");
-
-        //        setButtonDisable(false);
-        //    })
-            setButtonDisable(false)
             submit(tempChecked.map(m=>{return {competitionId:competitionId,memberId:m}}));
             setFilter('');
             cancel();
@@ -78,7 +67,7 @@ export default function AddMembersModal(props) {
                 shouldCloseOnOverlayClick={false}
             >
                 <div style={{display:'grid', padding:'20px', backgroundColor: '#2B111B'}}> 
-                <h2>Изменение пользователей</h2>
+                <h2>Выбор пользователей</h2>
 
                 <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="ФИО" value={filter} onChange={(e)=>setFilter(e.target.value)} />
                 <table>
@@ -90,11 +79,11 @@ export default function AddMembersModal(props) {
                         </tr>
                     </thead>
                     <tbody>
-                        {members?.filter(f=>f.name?.toLowerCase()?.includes(filter?.toLowerCase())).map((m,i)=>{
+                        {members?.filter(f=>f.fullName?.toLowerCase()?.includes(filter?.toLowerCase())).map((m,i)=>{
                             return(<tr>
                                 <td><input type='checkbox' defaultChecked={tempChecked.includes(`${m.id}`)} id={m.id} onChange={handleCheck}/></td>
                                 <td>{m.email}</td>
-                                <td>{m.name}</td>
+                                <td>{m.fullName}</td>
                             </tr>)
                         })}
 

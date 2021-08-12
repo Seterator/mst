@@ -21,17 +21,17 @@ export function EstimationWork(){
     {id:'16',url:"https://www.youtube.com/watch?v=9JOyTf1q6gE", title:'moustache', other:'усатые женщины в желтом'}]}
 
     useEffect(()=>{
-        //fetch(`/api/${videoId}`).then(res=>res.json()).then(json => setData(json));
-        setData(testData.videos.filter(f => f.id == id)[0]);
+        fetch(`Show/GetById?id=${id}`).then(res=>res.json()).then(json => setData(json));
+        //setData(testData.videos.filter(f => f.id == id)[0]);
         setNominations(testData.nominations);
     },[id]);
     return (<div className="container" style={{maxWidth: '1230px'}}>
-        <p style={{margin:'40px 0'}}>Оценивание работ {'>'} {data.title}</p>
-        <iframe src={getYouTubeUrl(data.url)} height='690' width='1230'/>
-        <p className="nomination-title">{data.title}</p>
-            <p className="nomination-description">{data.other}</p>
+        <p style={{margin:'40px 0'}}>Оценивание работ {'>'} {data.name}</p>
+        <iframe src={getYouTubeUrl(data.videoLink)} height='690' width='1230'/>
+        <p className="nomination-title">{data.name}</p>
+            <p className="nomination-description">{data.description}</p>
             <div style={{display:'ruby'}}>
-            <a style={{margin:'40px 0 90px 0', display:'block'}} href={`${data.url}`}>Перейти на страницу работы</a>
+            <a style={{margin:'40px 0 90px 0', display:'block'}} href={`${data.webLink}`}>Перейти на страницу работы</a>
             <div style={{height:'1px', width:'1020px', border:'1px solid white', marginLeft: '30px'}}></div>
             </div>
             {EstimationBlock(id,nominations)}

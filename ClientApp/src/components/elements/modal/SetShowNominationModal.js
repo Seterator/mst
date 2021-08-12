@@ -15,10 +15,10 @@ export default function SetShowNominationModal(props) {
         setShowNominationsData(showNominations);
 
     },[showNominations])
-    const handleChange = (val,index)=>{
+    const handleChange = (val,id)=>{
         const newData = showNominationsData;
         
-        newData[index].value = val;
+        newData[newData.indexOf(newData.filter(f=>f.id == id)[0])].value = val;
 
         setShowNominationsData(newData) ;
     }
@@ -64,8 +64,8 @@ export default function SetShowNominationModal(props) {
                 {showNominationsData?.map((v,i)=>{
                     return(
                     <div>
-                    <label>{v.title}</label>
-                    <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="Номинант" id={v.title} defaultValue={v.value} onChange={(e)=>handleChange(e.target.value,i)} />
+                    <label>{v.name}</label>
+                    <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="Номинант" id={v.name} defaultValue={v.value} onChange={(e)=>handleChange(e.target.value,v.id)} />
                     </div>)
                 })}
 
