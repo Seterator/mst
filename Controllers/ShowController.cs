@@ -117,5 +117,16 @@ namespace mst.Controllers {
                 return BadRequest();
             }
         }
+
+        [HttpPost("Estimate")]
+        public async Task<IActionResult> Estimate([FromBody]Estimation estimation) {
+            if (_db.Referees.Where(x => estimation.Re == newUser.Email).ToList().Count == 0 &&
+                _db.Referees.Where(q => q.Login == newUser.Login).ToList().Count == 0)
+            {
+            else 
+            {
+
+                }
+        }
     }
 }

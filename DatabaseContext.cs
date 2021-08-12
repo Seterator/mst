@@ -13,7 +13,7 @@ namespace mst
         public DbSet<ShowReferee> ShowReferees { get; set; }
 
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) {
-            //Database.EnsureDeleted();
+            Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 
@@ -32,7 +32,7 @@ namespace mst
                 .HasForeignKey(p => p.CompetitionId);
 
             modelBuilder.Entity<ShowNomination>()
-                .HasKey( u => new { u.ShowId, u.NominationId, u.RefereeId });
+                .HasKey( u => new { u.ShowId, u.NominationId });
 
             modelBuilder.Entity<ShowNomination>()
                 .HasOne(sn => sn.Nomination)
@@ -43,6 +43,20 @@ namespace mst
                 .HasOne(sn => sn.Show)
                 .WithMany(s => s.ShowNominations)
                 .HasForeignKey(sn => sn.ShowId);
+
+            modelBuilder.Entity<Estimation>()
+                .HasKey( u => new { u.ShowId, u.NominationId, u.RefereeId });
+
+            modelBuilder.Entity<Estimation>()
+                .HasOne(e => e.ShowNomination)
+                .WithMany(sn => sn.Estimations)
+                .HasForeignKey(e => new {e.NominationId, e.ShowId});
+
+            modelBuilder.Entity<Estimation>()
+                .HasOne(e => e.Referee)
+                .WithMany(r => r.Estimations)
+                .HasForeignKey(e => e.RefereeId);
+
             
             modelBuilder.Entity<Referee>()
                 .HasOne(x => x.User).WithOne(q => q.Referee)

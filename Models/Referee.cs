@@ -13,5 +13,10 @@ namespace mst.Models {
         public string City { get; set; }
 
         public User User { get; set; }
+
+        public List<Estimation> Estimations { get; set; }
+        public Referee() {
+            Estimations = new List<Estimation>();
+        }
     }
 }
