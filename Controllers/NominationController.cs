@@ -33,7 +33,7 @@ namespace mst.Controllers
                 await _db.Nominations.AddAsync(nom);
                 await _db.SaveChangesAsync();
 
-                return Ok();
+                return Ok(nom);
             }
             catch {
                 return BadRequest();

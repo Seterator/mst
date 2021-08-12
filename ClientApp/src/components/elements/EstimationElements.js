@@ -80,7 +80,7 @@ export function EstimationBlock(videoId, nominations){
 
     return (<div><div>
         <p className="show-nomination-title">Выбор номинации для оценивания:</p>
-        {WarningMessage('Внезапно, непосредственные участники технического прогресса в равной степени предоставлены сами себе. Значимость этих проблем настолько очевидна, что сложившаяся структура организации представляет собой интересный эксперимент проверки новых принципов формирования материально-технической и кадровой базы.','1230px')}
+        {WarningMessage('Внезапно, непосредственные участники технического прогресса в равной степени предоставлены сами себе. Значимость этих проблем настолько очевидна, что сложившаяся структура организации представляет собой интересный эксперимент проверки новых принципов формирования материально-технической и кадровой базы.','show-warn')}
         <div className="show-nomination-container">
         {nominations?.map((v,i)=><div className="show-nomination" onClick={()=>nominationClick(v.id)} style={{opacity:`${choosenNomination !== -1 && choosenNomination !== v.id?'0.4':'1'}`, background:`${choosenNomination == v.id?'radial-gradient(180.91% 1388.43% at 100% 7.27%, #770D37 0%, #211452 100%)':'#770D37'}`}} key={i}>
             <p className="show-nomination-title">{v.title}</p>

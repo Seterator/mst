@@ -98,9 +98,9 @@ namespace mst.Controllers
         }
 
         [HttpGet("GetById")]
-        public IActionResult GetById([FromBody] int id)
+        public IActionResult GetById([FromQuery] int id)
         {
-            var referee = _db.Referees.Where(referee => referee.Id == id);
+            var referee = _db.Referees.Where(referee => referee.Id == id).Single();
             if (referee == null) {
                 return BadRequest("Пользователь не найден");
             }
@@ -125,11 +125,13 @@ namespace mst.Controllers
         }
 
         [HttpGet("Login")]
-        public IActionResult Login([FromBody]User user) {
+        public IActionResult Login([FromQuery]string login, [FromQuery] string password) {
             try {
-                var u = _db.Users.Where(x => x.Login == user.Login).Single();
-                if (u.Password == user.Password) {
-                    return Ok();
+                var u = _db.Users.Include(x=>x.Referee).Where(x => x.Login == login).Single();
+                if (u.Password == password) {
+ 
+                    u.Referee.User = null;
+                    return Ok(u.Referee);
                 }
                 else {
                     throw new Exception();

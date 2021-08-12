@@ -90,7 +90,7 @@ export default function AddMembersModal(props) {
                         </tr>
                     </thead>
                     <tbody>
-                        {members?.filter(f=>f.name.toLowerCase().includes(filter.toLowerCase())).map((m,i)=>{
+                        {members?.filter(f=>f.name?.toLowerCase()?.includes(filter?.toLowerCase())).map((m,i)=>{
                             return(<tr>
                                 <td><input type='checkbox' defaultChecked={tempChecked.includes(`${m.id}`)} id={m.id} onChange={handleCheck}/></td>
                                 <td>{m.email}</td>

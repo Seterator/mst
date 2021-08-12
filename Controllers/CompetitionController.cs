@@ -28,7 +28,7 @@ namespace mst.Controllers {
             await _db.Competitions.AddAsync(comp);
             await _db.SaveChangesAsync();
 
-            return Ok();
+            return Ok(comp);
         }
 
         [HttpPost("Edit")]

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal'
 
 
@@ -9,6 +9,9 @@ export default function AddProfileModal(props) {
 
     const [buttonDisable, setButtonDisable] = useState(false)
 
+    useEffect(()=>{
+        setProfileData(props?.preValue);
+    });
     const handleChange = (e)=>{
         const newData = profileData;
         newData[e.target.getAttribute('id')] = e.target.value;

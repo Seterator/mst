@@ -32,7 +32,7 @@ export function EstimationWork(){
             <p className="nomination-description">{data.other}</p>
             <div style={{display:'ruby'}}>
             <a style={{margin:'40px 0 90px 0', display:'block'}} href={`${data.url}`}>Перейти на страницу работы</a>
-            <div style={{height:'1px', width:'970px', border:'1px solid white', marginLeft: '30px'}}></div>
+            <div style={{height:'1px', width:'1020px', border:'1px solid white', marginLeft: '30px'}}></div>
             </div>
             {EstimationBlock(id,nominations)}
             {EstimationBasePart(id)}

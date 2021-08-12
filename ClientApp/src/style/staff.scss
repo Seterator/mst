@@ -4,8 +4,69 @@
 
 @import '_label';
 
-body {
-  //background: linear-gradient(90deg, rgba($blue, .25) 0%, rgba($red, .25) 100%);
+
+.profile-container{
+  display: flex;
+  min-height: 700px;
+  margin: 60px auto;
+
+
+.profile-left{
+  margin: 0 30px 0 0;
+  width: 30%;
+}
+
+.profile-right{
+  
+  width: 100%;
+  .profile-bio{
+    font-family: Optima Cyr;
+font-style: normal;
+font-weight: normal;
+font-size: 18px;
+line-height: 38px;
+letter-spacing: 0.05em;
+color: #FFFFFF;
+  }
+
+div.profile-title{
+
+  font-family: Optima;
+font-style: normal;
+font-weight: bold;
+font-size: 28px;
+line-height: 28px;
+letter-spacing: 0.05em;
+color: #FFFFFF;
+}
+
+
+.profile-mail{
+
+ 
+
+
+  display: inline-flex;
+
+  margin: 30px 0 40px;
+font-family: Optima Cyr;
+font-style: normal;
+font-weight: normal;
+font-size: 18px;
+line-height: 18px;
+letter-spacing: 0.05em;
+color: #FFFFFF;
+opacity: 0.25;
+
+  .dot{
+    width: 7px;
+    height: 7px;
+    border: 4px solid white;
+    border-radius: 10px;
+    margin:  6px 10px 8px;
+  }
+}
+}
 }
 
 .section-content {
@@ -49,25 +110,25 @@ body {
   }
 
   .nav-content {
-    width: 57.1875rem;
+    width: 100%;
     display: block;
 
     &.hidden {
       display: none;
     }
 
-    p.mail{
+    div.mail{
         @include fontStyle (1.125rem, 1.75rem, .05em);
         opacity: .25;
         text-align: center;
         margin-top: 0;
-        display: block ruby;
+        display: inline-flex;
       .dot{
         width: 7px;
 height: 7px;
 border: 4px solid white;
 border-radius: 10px;
-margin: 0 10px 1px;
+margin:  6px 10px 8px;
       }
     }
 
@@ -75,6 +136,7 @@ margin: 0 10px 1px;
       @include fontStyle (2.625rem, 3rem, .05em, 700);
       text-align: center;
       margin-top: 0;
+      margin-bottom: 60px;
       
     }
   }
@@ -102,7 +164,7 @@ margin: 0 10px 1px;
     align-items: flex-start;
 
     .about {
-      margin-right: $three;
+      
 
       img {
         width: 17.8125rem;
@@ -275,3 +337,38 @@ margin: 0 10px 1px;
     }
   }
 }
+
+.profile-warn{
+  background-color: #575555;
+  width: 390px;
+  padding: 30px 40px 40px 40px;
+  display: block;
+
+  &.opacity{
+    opacity: 0.4;
+  }
+
+  &.margin-top{
+    margin-top:26px;
+  }
+
+  div{
+    margin: 0 0 20px;
+
+  }
+}
+
+.show-warn{
+  background-color: #575555;
+width: 1230px;
+padding: 30px 34px 30px 40px;
+display: flex;
+
+  
+
+  div{
+    margin: 0 27px 0 0;
+
+  }
+}
+

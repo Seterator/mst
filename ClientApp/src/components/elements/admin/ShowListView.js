@@ -13,21 +13,21 @@ export function ShowListView(){
     const [filter, setFilter] = useState('');
 
     useEffect(()=>{
-        fetch('Show/GetAll').then(r => r.json()).then(json =>{
-            setShowData({data:json, columns:[
-                {key:'id', value:'Id'},
-                {key:'name', value:'Название'},
-                {key:'description', value:'Описание'},
-                {key:'shortDescription', value:'Короткое описание'},
-                {key:'webLink', value:'Ссылка'},
-                {key:'videoLink', value:'Видео'}
-            ],
-        setdata:[
-            { execute:(i)=>deleteShow(i),title:'Удалить'},
-            { execute:(i)=>editShow(i),title:'Изменить'}
-            ]});
-        });
-        
+       fetch('Show/GetAll').then(r => r.json()).then(json =>{
+           setShowData({data:json, columns:[
+               {key:'id', value:'Id'},
+               {key:'name', value:'Название'},
+               {key:'description', value:'Описание'},
+               {key:'shortDescription', value:'Короткое описание'},
+               {key:'webLink', value:'Ссылка'},
+               {key:'videoLink', value:'Видео'}
+           ],
+       setdata:[
+           { execute:(i)=>deleteShow(i),title:'Удалить'},
+           { execute:(i)=>editShow(i),title:'Изменить'}
+           ]});
+       });
+
     },[])
     useEffect(()=>{
         showEditData&&showEditData.id&&OpenEditModal(true);
@@ -129,7 +129,7 @@ function showEdited(d){
 
     return(<div>
         <div><input onChange={(e)=>setFilter(e.target.value)}></input><a onClick={()=>OpenAddModal(true)}>Добавить спектакль</a></div>
-        {Table(showData)}
+        {Table(showDataView)}
         <AddShowModal submit ={showAdded} cancel={() => { OpenAddModal(false) }} isOpen={isModalAddOpen} />
     <AddShowModal submit ={showEdited} cancel={() => { OpenEditModal(false) }} isOpen={isModalEditOpen} preValue ={showEditData}/>
     </div>)

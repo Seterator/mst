@@ -57,19 +57,21 @@ function editCompetition(i){
 
 function competitionAdded(i){
 
-    let r = i;
     fetch(`Competition/Create`, {
         method: 'post',
-        body:i
+        headers: {'Content-Type':'application/json'},
+        body:JSON.stringify(i)
         
        }).then(r => {
            if(!r.ok){
                return;
            }
-           const nextId = competitionData?.data?.length>0 ? Math.max(...competitionData?.data?.map(item => item.id)) +1: 1;
-           let newItem = {...i,id:nextId};
-           let newArr = [...competitionData.data,newItem];
-           setCompetitionData({...competitionData,data:newArr});
+           return r.json();
+           
+       })
+       .then(json=>{
+        let newArr = [...competitionData.data,json];
+        setCompetitionData({...competitionData,data:newArr});
        });
 
     
@@ -145,7 +147,7 @@ const showsTestData = [
 
     useEffect(()=>{
         fetch('Show/GetAll').then(r => r.json()).then(json =>{
-            setShows(json);
+           setShows(json);
         });
         fetch('User/GetAll').then(r => r.json()).then(json =>{
             setMembers(json);
@@ -286,10 +288,10 @@ const showsTestData = [
                             let val = v[propKey];
 
                             if(propKey == 'members'){
-                                return <td><a onClick={()=>editCompetition(v.id,()=>OpenMembersModal(true))}>Редактировать {membersChecked.filter(f=>f.competitionId == v.id).length}</a></td>
+                                return <td><a onClick={()=>editCompetition(v.id,()=>OpenMembersModal(true))}>Редактировать {membersChecked?.filter(f=>f.competitionId == v.id)?.length}</a></td>
                             }
                             if(propKey == 'nominations'){
-                                return <td><a onClick={()=>editCompetition(v.id,()=>OpenNominationModal(true))}>Редактировать {nominations.filter(f=>f.competitionId == v.id).length}</a></td>
+                                return <td><a onClick={()=>editCompetition(v?.id,()=>OpenNominationModal(true))}>Редактировать {nominations?.filter(f=>f.competitionId == v.id)?.length}</a></td>
                             }
                             if(propKey == 'shows'){
                                 return <td><a onClick={()=>editCompetition(v.id,()=>OpenShowCompetitionModal(true))}>Редактировать</a></td>

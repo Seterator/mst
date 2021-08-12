@@ -1,12 +1,14 @@
-import React, { Component, useState } from 'react';
+import React, { Component, useState, useContext } from 'react';
 import { Link, useHistory } from 'react-router-dom'
 import { Collapse, Container, Navbar, NavbarBrand, NavbarToggler, NavItem, NavLink } from 'reactstrap';
+import {UserContext } from '../../LoginMiddleware'
 
 import { Footer } from '../Footer';
 
 export function WelcomePage(props){
 
     const h = useHistory();
+    const {user} = useContext(UserContext)
 
     function handleClick(){
         h.push('/profileView');
@@ -14,6 +16,14 @@ export function WelcomePage(props){
         if(clList.contains("visibility-hidden")){
             clList.remove("visibility-hidden")
         }
+
+        if(user.email == 'lisa@mail.ru'){
+            let clList = document.getElementById("admin-panel").classList;
+            if(clList.contains("visibility-hidden")){
+                clList.remove("visibility-hidden")
+            }
+        }
+        
     }
     return ( <div><Container><div className="welcome">
         <h1>Добро пожаловать!</h1>

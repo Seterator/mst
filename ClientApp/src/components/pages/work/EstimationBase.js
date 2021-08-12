@@ -65,15 +65,10 @@ const dropDownClick = (i) =>{
 
 
     return(<div className='container' style={{maxWidth:'1290px'}}>
-        <input placeholder="Поиск" onChange={(e)=>setFilter(e.target.value)} style={{width: '285px',
-height: '82px',
-background: '#454343',
-display: 'block',
-margin: '60px 0 40px 20px',
-color: 'white'}}/>
+        <input className="search-input-image" placeholder="Поиск" onChange={(e)=>setFilter(e.target.value)} />
         {view}
         <div style={{display:'inline-block'}}>
-        {WarningMessage('Внезапно, непосредственные участники технического прогресса в равной степени предоставлены сами себе. Значимость этих проблем настолько очевидна, что сложившаяся структура организации представляет собой интересный эксперимент проверки новых принципов формирования материально-технической и кадровой базы.', '1230px')}
+        {WarningMessage('Внезапно, непосредственные участники технического прогресса в равной степени предоставлены сами себе. Значимость этих проблем настолько очевидна, что сложившаяся структура организации представляет собой интересный эксперимент проверки новых принципов формирования материально-технической и кадровой базы.', 'show-warn')}
         <button style={{width:'1230px', height:'55px', margin:'10px 0'}}>Подтвердить и отправить</button>
         </div>
 

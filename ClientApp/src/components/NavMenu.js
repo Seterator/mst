@@ -35,7 +35,7 @@ function redirect(p){
                   <Link className="bottom-navbar-item" to='/estimation'>Оценивание работ<img className="hover-img" src={require('../img/Polygon2.svg')} alt=""/></Link>
                 </NavItem>
                 <NavItem className="bottom-navbar-item">
-                  <a className="bottom-navbar-item" onClick={()=>redirect('/profileView')}>Полный список оценивания<img className="hover-img" src={require('../img/Polygon2.svg')} alt=""/></a>
+                  <Link className="bottom-navbar-item" onClick={()=>redirect('/profileView')}>Полный список оценивания<img className="hover-img" src={require('../img/Polygon2.svg')} alt=""/></Link>
                 </NavItem>
               </ul>
 
@@ -43,13 +43,13 @@ function redirect(p){
               <div className="bottom-header-right-part">
               <ul className="navbar-nav flex-grow">
               <NavItem className="bottom-navbar-item">
-                  <a className="bottom-navbar-item" onClick={()=>redirect('/admin')}>Админка<img className="hover-img" src={require('../img/Polygon2.svg')} alt=""/></a>
+                  <Link className="bottom-navbar-item visibility-hidden" id="admin-panel" onClick={()=>redirect('/admin')}>Админка<img className="hover-img" src={require('../img/Polygon2.svg')} alt=""/></Link>
                 </NavItem>
                 <NavItem className="bottom-navbar-item">
-                  <a className="bottom-navbar-item" onClick={()=>redirect('/profileEdit')}>Изменение данных<img className="hover-img" src={require('../img/Polygon2.svg')} alt=""/></a>
+                  <Link className="bottom-navbar-item" onClick={()=>redirect('/profileEdit')}>Изменение данных<img className="hover-img" src={require('../img/Polygon2.svg')} alt=""/></Link>
                 </NavItem>
                 <NavItem className="bottom-navbar-item">
-                <a className="bottom-navbar-item" onClick={()=>props.logout()}>Выйти<img className="hover-img" src={require('../img/Polygon2.svg')} alt=""/></a>
+                <Link className="bottom-navbar-item" onClick={()=>props.logout()}>Выйти<img className="hover-img" src={require('../img/Polygon2.svg')} alt=""/></Link>
                 </NavItem>
               </ul>
 

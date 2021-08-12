@@ -12,54 +12,77 @@ export const USER_ID = 'userIdMst';
 export function LoginMiddleware() {
 
     const [isLogin, setLogin] = useState(false)
-    const [user, setUser] = useState({ id: -1, visibleName: '', email:'', role:'' })
+    const [user, setUser] = useState({})
 
-    const testData = { id: 5, visibleName: 'Лиса Лисичкова', email:'lisa@mail.ru', role:'Admin' }
+    const [change, setChange] = useState(1)
+
+    const testData = { id: -2, login:'lisaLis', fullname: 'Лиса Лисичкова', email:'lisa@mail.ru', avatar:'', bio:'', city:'' }
 
     useEffect(() => {
-        if (user.id && user.id !== 0 && user.id !== -1 && user.id !== null) {
+        const id = localStorage.getItem(USER_ID);
+        const em = localStorage.getItem(USER_EMAIL)
+
+        if(id == -2){
+            setUser(testData);
+            setLogin(true)
+        }
+        else if (id && id != 0 && id !== -1 && id !== null) {
             setLogin(true)
 
-            setUser(testData);
-            //Get('User/GetById?user_id=' + user.id)
-            //    .then(res => setUser(res))
+            fetch(`User/GetById?id=${id}`)
+            .then(r=>r.json())
+            .then(res => {
+                let t = res;
+                setUser(res);
+            });
         }
-    }, [user.id])
-
-    useEffect(() => {
-        const id = localStorage.getItem(USER_ID)
-
-        setUser({
-            id: id && id != null ? parseInt(id) : 0
-        })
 
     }, [])
 
-    const login = (l, p) => {
+    useEffect(()=>{
+        let t = user;
+
+    },[user])
+
+    function login(l, p) {
 
         if(l == 'lisa@mail.ru'){
-            localStorage.setItem(USER_ID, 5);
+            localStorage.setItem(USER_ID, -2);
+            localStorage.setItem(USER_EMAIL, 'lisa@mail.ru');
             setUser({
-                id: 5
+                id: -2,
+                email:'lisa@mail.ru'
             })
             setLogin(true)
 
         }
+        else{
+            fetch(`User/Login?login=${l}&password=${p}`)
+            .then( res=> {
+               return res.json();
+               
+            })
+            .then(json => {
+                
+                json&&setLogin(true);
+                    json&&setUser({...json, avatar:`data:image/png;base64,${json.avatar}`})
+                    localStorage.setItem(USER_ID, json.id);
+            localStorage.setItem(USER_EMAIL, json.email);
+            localStorage.setItem('passwordMst', p);
+                
+                
+            }).catch(c=>{
+                alert(c);
 
-        //Get('User/Login/' + l + '/' + p).then(res => {
-        //    if (res) {
-        //        localStorage.setItem(USER_ID, res.id)
+            });
 
-        //        setUser({
-        //            id: res.id
-        //        })
-        //        setLogin(true)
-        //    }
-        //})
+        }
+
     }
 
     const logout = () => {
         localStorage.setItem(USER_ID, 0)
+        localStorage.setItem(USER_EMAIL, '');
         setLogin(false)
     }
 
@@ -72,7 +95,7 @@ export function LoginMiddleware() {
             <MainNavMenu />
             <div>
 
-            {user.id == -1 ? <div>Loading...</div> : isLogin ?<App logout={logout}/>: <Login login={login} />}
+            { isLogin ?<App logout={logout}/>: <Login login={login} />}
             </div>
             
             </div>

@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Footer } from './components/Footer';
 
 export function Login(props){
-    const [userName, setUserName] = useState('lisa@mail.ru');
-    const [password, setPassword] = useState('');
+    const [userName, setUserName] = useState('rsemenov');
+    const [password, setPassword] = useState('rsemenov');
 
 
     return(<div>
@@ -19,8 +19,8 @@ lineHeight: '52px',
 textAlign: 'center',
 letterApacing: '0.05em',
 textTransform: 'uppercase'}}>Авторизация для академиков</p>
-        <input style={{width:'390px', height:'55px', margin:'10px 0'}} onChange={(e) => { setUserName(e.target.value) }} placeholder='Логин или почта' defaultValue='lisa@mail.ru'/>
-        <input style={{width:'390px', height:'55px', margin:'10px 0'}} onChange={(e) => { setPassword(e.target.value) }} type='password' placeholder='Пароль'/>
+        <input style={{width:'390px', height:'55px', margin:'10px 0'}} onChange={(e) => { setUserName(e.target.value) }} placeholder='Логин или почта' defaultValue='rsemenov'/>
+        <input style={{width:'390px', height:'55px', margin:'10px 0'}} onChange={(e) => { setPassword(e.target.value) }} type='password' placeholder='Пароль' defaultValue='rsemenov'/>
         <button style={{width:'390px', height:'55px', margin:'10px 0'}} onClick={()=>props.login(userName,password)}>Войти</button>
         </div>
         <Footer/>
