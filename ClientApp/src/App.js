@@ -5,6 +5,7 @@ import { Admin } from './components/pages/Admin';
 import { WelcomePage } from './components/pages/Welcome'
 import { EstimationWork } from './components/pages/work/EstimationWork'
 import { EstimationBase } from './components/pages/work/EstimationBase'
+import EstimationHistory from './components/pages/work/EstimationHistory'
 import { ProfileView } from './components/pages/work/ProfileView'
 import { ProfileEdit } from './components/pages/work/ProfileEdit'
 
@@ -23,6 +24,7 @@ export default function App(props) {
         <Route path='/estimation' component={EstimationBase} />
         <Route path='/profileView' component={ProfileView} />
         <Route path='/profileEdit' component={ProfileEdit} />
+        <Route path='/history' component={EstimationHistory} />
         
       </Layout>
     );

@@ -35,7 +35,7 @@ function redirect(p){
                   <Link className="bottom-navbar-item" to='/estimation'>Оценивание работ<img className="hover-img" src={require('../img/Polygon2.svg')} alt=""/></Link>
                 </NavItem>
                 <NavItem className="bottom-navbar-item">
-                  <Link className="bottom-navbar-item" onClick={()=>redirect('/profileView')}>Полный список оценивания<img className="hover-img" src={require('../img/Polygon2.svg')} alt=""/></Link>
+                  <Link className="bottom-navbar-item" onClick={()=>redirect('/history')}>Полный список оценивания<img className="hover-img" src={require('../img/Polygon2.svg')} alt=""/></Link>
                 </NavItem>
               </ul>
 

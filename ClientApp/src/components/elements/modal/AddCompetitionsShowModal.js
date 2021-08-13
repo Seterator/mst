@@ -7,7 +7,7 @@ Modal.setAppElement('#root')
 
 export default function AddCompetitionsShowModal(props) {
 
-    const {isOpen, checked, shows, cancel, submit, nominations, showNominationsValue} = props;
+    const {isOpen, checked, shows, cancel, competitionId, submit, nominations, showNominationsValue} = props;
 
     const [filter, setFilter] = useState('');
     const [buttonDisable, setButtonDisable] = useState(false)
@@ -23,14 +23,13 @@ export default function AddCompetitionsShowModal(props) {
     const [toSubmit, setToSubmit] = useState([]);
 
     useEffect(()=>{
-        setTempChecked(checked);
+        setTempChecked(checked.filter(f=>f.competitionId == competitionId).map(m=>m.showId));
         setToSubmit(showNominationsValue);
-        setNominationsData(nominations);
-    },[checked, showNominationsValue, nominations])
+        setNominationsData(nominations.filter(f=>f.competitionId == competitionId));
+    },[checked, showNominationsValue, nominations, competitionId])
 
     useEffect(()=>{
         if(showNominationsModalData?.length >0){
-
         let newArr = showNominationsModalData.map(m=>{return {showId:editShowData.id, nominationId:m.id, nominationTitle:m.name,nominationValue:m.value }});
 
         let submitTemp = toSubmit;
@@ -68,6 +67,8 @@ export default function AddCompetitionsShowModal(props) {
         //    })
             setButtonDisable(false)
             submit({checked:tempChecked, showNominations:toSubmit});
+            setTempChecked([]);
+            setToSubmit([]);
             setFilter('');
             cancel();
     }
@@ -179,7 +180,7 @@ export default function AddCompetitionsShowModal(props) {
                                 <td><input type='checkbox' defaultChecked={tempChecked.includes(`${m.id}`)} id={m.id} onChange={handleCheck}/></td>
                                 <td>{m.description}</td>
                                 <td>{m.name}</td>
-                                <td><a id={`show-nomination${m.id}`} className="visibility-hidden" onClick={handleEditNominations}>Номинации</a></td>
+                                <td><a id={`show-nomination${m.id}`} className={tempChecked.includes(`${m.id}`)?'visibility-visible':"visibility-hidden"} onClick={handleEditNominations}>Номинации</a></td>
                             </tr>)
                         })}
 
