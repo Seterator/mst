@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { Link, useParams } from 'react-router-dom'
 import {WarningMessage} from './MessageElements'
+import { UserContext } from '../../LoginMiddleware';
 
-export function VoteElement(data, f){
+export function VoteElement(data,index, f){
 
+    let place = index % 3 == 1;
     return(
-    <span style={{display:'block', width:'390px', margin:'15px', float:'left',borderStyle: 'solid',
+    <span style={{display:'block', width:'390px', margin:`${place?'15px 30px':'15px 0'}`, float:'left',
     borderImage: 'linear-gradient(to left, #770D37, #211452) 0 0 100% 0', paddingBottom:'20px'}}>
     <Link to={`/work/${data.id}`}  style={{display:'block'}}>
     <div height='247' width='390' style={{
@@ -44,15 +46,23 @@ color: '#FFFFFF'}} key={i}>{v.title} ({v.position})</div>)}
         </a>)
 }
 
-export function EstimationBlock(videoId, nominations){
+export function EstimationBlock(showId, nominations, score){
 
     const [choosenNomination, chooseNomination] = useState(-1);
     const [choosenPlace, choosePlace] = useState(-1);
 
+    const [scoredData, setScoredData] = useState([]);
+
+    const {user} = useContext(UserContext);
+
     useEffect(()=>{
         chooseNomination(-1);
         choosePlace(-1);
-    },[videoId])
+    },[showId])
+
+    useEffect(()=>{
+        setScoredData(score);
+    },[score])
 
     function nominationClick(nomId){
         choosenNomination == nomId 
@@ -75,17 +85,48 @@ export function EstimationBlock(videoId, nominations){
         if(choosenPlace ==-1 || choosenNomination ==-1){
             return;
         }
-        alert(`${choosenPlace} ${choosenNomination}`)
+        //fetch post {score:choosenPlace, nominationId:choosenNomination, showId:showId, refereeId:user.id }
+        //alert(`${choosenPlace} ${choosenNomination}`)
+        let newData = scoredData;
+        let alreadyScored = newData.filter(f=>f.score == choosenPlace);
+        let index = alreadyScored.length>0 ? newData.indexOf(alreadyScored[0]) : -1;
+        if(index>-1 && newData[index].nominationId !=choosenNomination && window.confirm(`Оценка ${choosenPlace} уже была поставлена. Заменить?`)){
+
+            newData.splice(index,1);
+
+            let anotherScore = newData.filter(f=>f.nominationId == choosenNomination);
+            let j = anotherScore.length>0 ? newData.indexOf(anotherScore[0]) : -1;
+            if(j == -1){
+                setScoredData([...newData, {nominationId:choosenNomination, score:choosenPlace}]);
+            } 
+            else{
+                newData[j].score =choosenPlace;
+                setScoredData(newData);
+            }
+
+        }
+        else{
+            setScoredData([...newData, {nominationId:choosenNomination, score:choosenPlace}]);
+        }
+
+        choosePlace(-1);
+        chooseNomination(-1);
     }
 
     return (<div><div>
-        <p className="show-nomination-title">Выбор номинации для оценивания:</p>
+        <p className="show-nomination-main-title">Выбор номинации для оценивания:</p>
         {WarningMessage('Внезапно, непосредственные участники технического прогресса в равной степени предоставлены сами себе. Значимость этих проблем настолько очевидна, что сложившаяся структура организации представляет собой интересный эксперимент проверки новых принципов формирования материально-технической и кадровой базы.','show-warn')}
         <div className="show-nomination-container">
-        {nominations?.map((v,i)=><div className="show-nomination" onClick={()=>nominationClick(v.id)} style={{opacity:`${choosenNomination !== -1 && choosenNomination !== v.id?'0.4':'1'}`, background:`${choosenNomination == v.id?'radial-gradient(180.91% 1388.43% at 100% 7.27%, #770D37 0%, #211452 100%)':'#770D37'}`}} key={i}>
-            <p className="show-nomination-title">{v.title}</p>
-            <p className="show-nomination-name">{v.name}</p>
-            </div>)}
+        {nominations?.map((v,i)=>{
+        let scored = scoredData.map(m=>m.nominationId).includes(v.id);
+        let score = scored && scoredData.filter(m=>m.nominationId == v.id)[0].score;
+        let classList = `${scored?'visible':'hidden'} ${scored?`score${score}`:''}`
+        return(<div  className="show-nomination-panel"><div className="show-nomination" onClick={()=>nominationClick(v.id)} style={{opacity:`${choosenNomination !== -1 && choosenNomination !== v.id?'0.4':'1'}`, background:`${choosenNomination == v.id?'radial-gradient(180.91% 1388.43% at 100% 7.27%, #770D37 0%, #211452 100%)':'#770D37'}`}} key={i}>
+            <div className="show-nomination-title">{v.title}</div>
+            <div className="show-nomination-name">{v.name}</div>
+            </div><div className={`show-nomination-score ${classList}`}>{score}</div></div>)
+        
+        })}
 
             
         </div>
@@ -107,27 +148,27 @@ export function EstimationBlock(videoId, nominations){
 export function EstimationBasePart(id){
     const testData ={ nominations:['Лучший текст песен (авор/перевод)','Лучшее пластическое решение (хореограф)','Лучшее световое оформление (художник по свету)'],
     members: [{image:'https://avatars.mds.yandex.net/get-zen_doc/1219682/pub_5eaa7423102eee24419d5607_5eaa74d77e79087ec3668df9/scale_1200'
-, videoId:'12', options:['viewed', 'estimated', 'notVoting'], 
+, showId:'12', options:['viewed', 'estimated', 'notVoting'], 
 title:'Оказывается, известный инсайдер,в преддверии важного события, продолжает удивлять',
 other: 'Разнообразный и богатый опыт говорит нам, что консультация с широким активом не оставляет шанса для прогресса профессионального сообщества.',
 nominations:[{title:'Лучшее световое оформление (художник по свету)', position:1}, {title:'Лучшее пластическое решение (хореограф)', position:2}]},
 {image:'https://avatars.mds.yandex.net/get-zen_doc/1219682/pub_5eaa7423102eee24419d5607_5eaa74d77e79087ec3668df9/scale_1200'
-, videoId:'13', options:['viewed', 'notVoting'],
+, showId:'13', options:['viewed', 'notVoting'],
 title:'Оказывается, известный инсайдер,в преддверии важного события, продолжает удивлять',
 other: 'Разнообразный и богатый опыт говорит нам, что консультация с широким активом не оставляет шанса для прогресса профессионального сообщества.',
 nominations:[{title:'Лучший текст песен (автор/перевод)', position:2}, {title:'Лучшее пластическое решение (хореограф)', position:3}]},
 {image:'https://avatars.mds.yandex.net/get-zen_doc/1219682/pub_5eaa7423102eee24419d5607_5eaa74d77e79087ec3668df9/scale_1200'
-, videoId:'14', options:['viewed', 'notVoting'],
+, showId:'14', options:['viewed', 'notVoting'],
 title:'Оказывается, известный инсайдер,в преддверии важного события, продолжает удивлять',
 other: 'Разнообразный и богатый опыт говорит нам, что консультация с широким активом не оставляет шанса для прогресса профессионального сообщества.',
 nominations:[{title:'Лучший текст песен (автор/перевод)', position:2}, {title:'Лучшее пластическое решение (хореограф)', position:3}]},
 {image:'https://avatars.mds.yandex.net/get-zen_doc/1219682/pub_5eaa7423102eee24419d5607_5eaa74d77e79087ec3668df9/scale_1200'
-, videoId:'15', options:[],
+, showId:'15', options:[],
 title:'Оказывается, известный инсайдер,в преддверии важного события, продолжает удивлять',
 other: 'Разнообразный и богатый опыт говорит нам, что консультация с широким активом не оставляет шанса для прогресса профессионального сообщества.',
 nominations:[{title:'Лучший текст песен (автор/перевод)', position:2}, {title:'Лучшее пластическое решение (хореограф)', position:3}]},
 {image:'https://avatars.mds.yandex.net/get-zen_doc/1219682/pub_5eaa7423102eee24419d5607_5eaa74d77e79087ec3668df9/scale_1200'
-, videoId:'16', options:['viewed'],
+, showId:'16', options:['viewed'],
 title:'Оказывается, известный инсайдер,в преддверии важного события, продолжает удивлять',
 other: 'Разнообразный и богатый опыт говорит нам, что консультация с широким активом не оставляет шанса для прогресса профессионального сообщества.',
 nominations:[{title:'Лучший текст песен (авор/перевод)', position:2}, {title:'Лучшее пластическое решение (хореограф)', position:3}]}]}
@@ -137,7 +178,7 @@ const [data, setData] = useState([]);
     const [index, setIndex] = useState(0);
 
     useEffect(()=>{
-        setData(testData.members.filter(f=>!f.options.some(s=>s=='notVoting') && !f.options.some(s=>s== 'estimated') && f.videoId != id ).map(v =>{ return {...v, dropDownVisible:false}})  );
+        setData(testData.members.filter(f=>!f.options.some(s=>s=='notVoting') && !f.options.some(s=>s== 'estimated') && f.showId != id ).map(v =>{ return {...v, dropDownVisible:false}})  );
         //fetch('getActiveRequest').then(res=>res.json()).then(json => setData(json));
 
     },[id]);

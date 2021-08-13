@@ -37,11 +37,9 @@ export function CompetitionListView(){
     },[competitionData,changeIndex]);
 
 function deleteCompetition(i){
-    if(window.confirm(`Удалить конкурс ${i.title}`)){
-        fetch(`Competition/Delete`, {
-            method: 'post',
-            headers: {'Content-Type':'application/json'},
-            body: i.id
+    if(window.confirm(`Удалить конкурс ${i.name}`)){
+        fetch(`Competition/Delete?id=${i.id}`, {
+            method: 'post'
            }).then(res=>{
                if(!res?.ok){
                    return;
@@ -288,7 +286,7 @@ const showsTestData = [
             newArr.splice(newArr.indexOf(v),1);
         })
         let newChecked = m.checked.map(c => {return {showId:c, competitionId:editCompetitionData.id}})
-        setShowsChecked([...newArr,...m.checked]);
+        setShowsChecked([...newArr,...newChecked]);
 
 
         let newShowNomArr = showNominationsValue;
@@ -340,7 +338,7 @@ const showsTestData = [
         {EditNominationModal({isOpen:isModalNominationEditOpen,preValue:editNominationData.value,cancel:()=>{OpenNominationEditModal(false)}, submit:editNominationSubmit})}
         {AddMembersModal({competitionId: editCompetitionData.id,isOpen:isModalMembersOpen, members:members,checked:membersChecked,cancel:()=>{OpenMembersModal(false)}, submit:addMembersSubmit})}
         
-        {AddCompetitionsShowModal({shows:shows,checked:showsChecked, isOpen:isModalShowCompetitionOpen, cancel:()=>OpenShowCompetitionModal(false),competitionId:editCompetitionData.id, submit:addCompetitionsShowSubmit,nominations:nominationsView, showNominationsValue:showNominationsValue, setShowNominationsValue:setShowNominationsValue})}
+        {AddCompetitionsShowModal({shows:shows,checked:showsChecked,competitionId:editCompetitionData?.id, isOpen:isModalShowCompetitionOpen, cancel:()=>OpenShowCompetitionModal(false), submit:addCompetitionsShowSubmit,nominations:nominationsView, showNominationsValue:showNominationsValue, setShowNominationsValue:setShowNominationsValue})}
         
         </div>)
 }

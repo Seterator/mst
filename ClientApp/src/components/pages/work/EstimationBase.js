@@ -43,7 +43,9 @@ other: 'Разнообразный и богатый опыт говорит н�
 nominations:[{title:'Лучший текст песен (авор/перевод)', position:2}, {title:'Лучшее пластическое решение (хореограф)', position:3}]}]}
     useEffect(()=>{
         fetch('Show/GetAll').then(r => r.json()).then(json =>{
-            setData(json.map(v =>{ return {...v, dropDownVisible:false}}));
+            let fAr = [...json,...json];
+            let fAr1 = [...fAr,...fAr];
+            setData(fAr1.map(v =>{ return {...v, dropDownVisible:false}}));
          });
         //setData(testData.members.map(v =>{ return {...v, dropDownVisible:false}})  );
         //fetch('getActiveRequest').then(res=>res.json()).then(json => setData(json));
@@ -52,9 +54,9 @@ nominations:[{title:'Лучший текст песен (авор/перевод
 
     useEffect(()=>{
         const v = (
-        <div className='container'  style={{display:'inline'}}>
+        <div   style={{width:'100%'}}>
             
-        {data && data?.filter(f=>f.name.toLowerCase().includes(filter?.toLowerCase())).map((v,i) => VoteElement(v,() => dropDownClick(i)))}
+        {data && data?.filter(f=>f.name.toLowerCase().includes(filter?.toLowerCase())).map((v,i) => VoteElement(v,i,() => dropDownClick(i)))}
         
         </div>);
         setView(v);
@@ -67,7 +69,7 @@ const dropDownClick = (i) =>{
 }
 
 
-    return(<div className='container' style={{maxWidth:'1290px'}}>
+    return(<div className='container' style={{maxWidth:'1291px', paddingLeft: '46px'}}>
         <input className="search-input-image" placeholder="Поиск" onChange={(e)=>setFilter(e.target.value)} />
         {view}
         <div style={{display:'inline-block'}}>
