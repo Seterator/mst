@@ -16,6 +16,7 @@ const [collapsed, setCollapsed] = useState(true);
         <header className="header">
         <a className="logo-header"><img src={require("../img/logo.svg")} alt=""/></a>
         <nav className="nav-header">
+          <a href="http://musicalheart.ru" className="nav-item">Главная</a>
           <a className="nav-item">О нас</a>
           <a className="nav-item">Фестиваль 2021</a>
           <a className="nav-item">Персоналии</a>

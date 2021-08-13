@@ -197,6 +197,10 @@ h1,
   }
 }
 
+.logo-footer{
+  margin-right: 223px;
+}
+
 // FOOTER
 .footer {
   padding: $six 0;
@@ -277,6 +281,7 @@ h1,
   .nav-social {
     display: flex;
     align-items: center;
+    margin-top: 80px;
 
     a {
       display: flex;
