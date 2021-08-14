@@ -59,18 +59,20 @@ export function LoginMiddleware() {
         else{
             fetch(`User/Login?login=${l}&password=${p}`)
             .then( res=> {
-               return res.json();
-               
+                if(res.ok){
+                    return res.json();
+                }
             })
             .then(json => {
                 
-                json&&setLogin(true);
-                    json&&setUser({...json, avatar:`data:image/png;base64,${json.avatar}`})
+                if(json){
+                    setLogin(true);
+                    setUser({...json, avatar:`data:image/png;base64,${json.avatar}`})
                     localStorage.setItem(USER_ID, json.id);
-            localStorage.setItem(USER_EMAIL, json.email);
-            localStorage.setItem('passwordMst', p);
-                
-                
+                    localStorage.setItem(USER_EMAIL, json.email);
+                    localStorage.setItem('passwordMst', p);
+                }
+
             }).catch(c=>{
                 alert(c);
 

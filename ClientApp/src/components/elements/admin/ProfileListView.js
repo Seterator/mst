@@ -67,9 +67,6 @@ function editProfile(i){
 }
 
 function profileAdded(d){
-    
-
-    
 
     let formData = new FormData();
     formData.append('file', d.avatar);

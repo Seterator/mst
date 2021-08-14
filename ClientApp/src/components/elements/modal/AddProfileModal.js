@@ -10,21 +10,23 @@ export default function AddProfileModal(props) {
     const [buttonDisable, setButtonDisable] = useState(false)
 
     useEffect(()=>{
-        setProfileData(props?.preValue);
-    });
+        props?.preValue&& setProfileData(props?.preValue);
+    },[]);
     const handleChange = (e)=>{
+        if(profileData){
+
         const newData = profileData;
         newData[e.target.getAttribute('id')] = e.target.value;
         setProfileData(newData) ;
+        }
     }
     const handleLoadFile = (e)=>{
+        if(profileData){
         const newData = profileData;
-        
-        //const formData = new FormData();
-		//formData.append('File', e.target.files[0]);
 
         newData[e.target.getAttribute('id')] = e.target.files[0]
-        setProfileData(newData) ;
+        setProfileData(newData);
+        }
     }
     const submit = () => {
         setButtonDisable(true);

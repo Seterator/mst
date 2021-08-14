@@ -120,6 +120,8 @@ namespace mst.Controllers
                 ) {
                     throw new Exception();
                 }
+
+                _db.Remove(showNomination);
                 await _db.AddAsync(showNomination);
                 await _db.SaveChangesAsync();
                 return Ok();

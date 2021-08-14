@@ -183,10 +183,12 @@ h1,
       background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, #FFFFFF 48.78%, rgba(255, 255, 255, 0) 100%);
       opacity: 0;
       transition: .25s;
+      text-decoration: none;
     }
 
     &:hover:before {
       opacity: .1;
+      
     }
   }
 

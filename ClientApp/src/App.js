@@ -8,6 +8,7 @@ import { EstimationBase } from './components/pages/work/EstimationBase'
 import EstimationHistory from './components/pages/work/EstimationHistory'
 import { ProfileView } from './components/pages/work/ProfileView'
 import { ProfileEdit } from './components/pages/work/ProfileEdit'
+import LoginSN from './LoginSN';
 
 import './custom.css'
 import './../src/style/index.scss'
@@ -25,6 +26,7 @@ export default function App(props) {
         <Route path='/profileView' component={ProfileView} />
         <Route path='/profileEdit' component={ProfileEdit} />
         <Route path='/history' component={EstimationHistory} />
+        <Route path='/sn' component={LoginSN} />
         
       </Layout>
     );

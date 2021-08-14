@@ -162,6 +162,7 @@ const showsTestData = [
 
     useEffect(()=>{
         data&&data?.map(m=>m.nominations).length>0&&setNominations([].concat.apply([], data?.map(m=>m.nominations)));
+
     },[data])
 
     useEffect(()=>{
@@ -180,6 +181,17 @@ const showsTestData = [
 
     useEffect(()=>{
         setNominationsView(nominations);
+        let checkedArr = [];
+        let valArr = [];
+        nominations.map(m=>{
+            m.showNominations.map(s=>{
+                checkedArr.push({competitionId:m.competitionId, showId:`${s.showId}`});
+                valArr.push({showId:s.showId,nominationId:m.id, nominationTitle:m.name,nominationValue:s.person })
+            })
+        });
+
+        setShowsChecked(checkedArr)
+        setShowNominationsValue(valArr)
     },[nominations,changeIndex])
 
     useEffect(()=>{
@@ -273,30 +285,45 @@ const showsTestData = [
     }
     function addCompetitionsShowSubmit(m){
         //fetch post competition - nomination - show - nominant?
-        // [{showId: "1",nominationId: 1,nominationTitle: "sdada",nominationValue: ""}]
+        // [{showId: "1",nominationId: 1,person: ""}]
         // editCompetitionData.id
 
-
-
-        let newArr = showsChecked;
-        var curShows = newArr.filter(f=> f.competitionId == editCompetitionData.id);
-        
-
-        curShows.forEach(v => {
-            newArr.splice(newArr.indexOf(v),1);
+        let error = false;
+        m.showNominations.map(async a =>{
+            await fetch(`Nomination/AddShow`, {
+                method: 'post',
+                headers: {'Content-Type':'application/json'},
+                body:JSON.stringify({showId: a.showId,nominationId: a.nominationId,person: a.nominationValue})
+                
+               }).then(r => {
+                if(!r.ok){
+                    error = true;
+                    return;
+                }})
         })
-        let newChecked = m.checked.map(c => {return {showId:c, competitionId:editCompetitionData.id}})
-        setShowsChecked([...newArr,...newChecked]);
+       
+       
 
-
-        let newShowNomArr = showNominationsValue;
-        var curShowsNom = newShowNomArr.filter(f=> f.competitionId == editCompetitionData.id);
-        curShowsNom = curShowsNom.filter(f => m.checked.includes(f.showId));
-
-        curShowsNom.forEach(v => {
-            newShowNomArr.splice(newShowNomArr.indexOf(v),1);
-        })
-        setShowNominationsValue([...newShowNomArr,...m.showNominations])
+            let newArr = showsChecked;
+            var curShows = newArr.filter(f=> f.competitionId == editCompetitionData.id);
+            
+    
+            curShows.forEach(v => {
+                newArr.splice(newArr.indexOf(v),1);
+            })
+            let newChecked = m.checked.map(c => {return {showId:c, competitionId:editCompetitionData.id}})
+            setShowsChecked([...newArr,...newChecked]);
+    
+    
+            let newShowNomArr = showNominationsValue;
+            var curShowsNom = newShowNomArr.filter(f=> f.competitionId == editCompetitionData.id);
+            curShowsNom = curShowsNom.filter(f => m.checked.includes(f.showId));
+    
+            curShowsNom.forEach(v => {
+                newShowNomArr.splice(newShowNomArr.indexOf(v),1);
+            })
+            setShowNominationsValue([...newShowNomArr,...m.showNominations])    
+           
     }
     return(<div>
         <table>

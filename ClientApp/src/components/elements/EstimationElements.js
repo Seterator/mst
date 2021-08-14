@@ -90,10 +90,12 @@ export function EstimationBlock(showId, nominations, score){
         let newData = scoredData;
         let alreadyScored = newData.filter(f=>f.score == choosenPlace);
         let index = alreadyScored.length>0 ? newData.indexOf(alreadyScored[0]) : -1;
+
+
+        
         if(index>-1 && newData[index].nominationId !=choosenNomination && window.confirm(`Оценка ${choosenPlace} уже была поставлена. Заменить?`)){
 
             newData.splice(index,1);
-
             let anotherScore = newData.filter(f=>f.nominationId == choosenNomination);
             let j = anotherScore.length>0 ? newData.indexOf(anotherScore[0]) : -1;
             if(j == -1){
@@ -103,10 +105,20 @@ export function EstimationBlock(showId, nominations, score){
                 newData[j].score =choosenPlace;
                 setScoredData(newData);
             }
+            
 
         }
         else{
-            setScoredData([...newData, {nominationId:choosenNomination, score:choosenPlace}]);
+            let anotherScore = newData.filter(f=>f.nominationId == choosenNomination);
+            let j = anotherScore.length>0 ? newData.indexOf(anotherScore[0]) : -1;
+            if(j == -1){
+                setScoredData([...newData, {nominationId:choosenNomination, score:choosenPlace}]);
+            } 
+            else{
+                newData[j].score =choosenPlace;
+                setScoredData(newData);
+            }
+            
         }
 
         choosePlace(-1);

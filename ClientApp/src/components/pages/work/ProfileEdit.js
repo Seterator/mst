@@ -19,8 +19,11 @@ export function ProfileEdit(){
             .then(r=>r.json())
             .then(res => {
 
-                setData(res);
-                setAvatarView(`data:image/png;base64,${res.avatar}`);
+                if(res){
+                    setData(res);
+                    setAvatarView(`data:image/png;base64,${res.avatar}`);
+                }
+                
             });
         }
         
@@ -85,8 +88,10 @@ export function ProfileEdit(){
         return r.json();
         })
         .then(res=>{
-            setData(res);
-            setAvatarView(`data:image/png;base64,${res.avatar}`);
+            if(res){
+                setData(res);
+                setAvatarView(`data:image/png;base64,${res.avatar}`);
+            } 
         });
     } 
 
@@ -130,10 +135,10 @@ export function ProfileEdit(){
                             <input type="file" id="avatar" onChange={handleLoadFile} placeholder="Обновить фото"></input>
                         </div>
                         <div className="content" style={{display:'grid'}}>
-                            <input onChange={handleChange} className="profile" id="email" placeholder="Электронная почта" defaultValue={data.email}/>
-                            <input onChange={handleChange} className="profile" id="fullName" placeholder="ФИО" defaultValue={data.fullName}/>
-                            <input onChange={handleChange} className="profile" id="city" placeholder="Город" defaultValue={data.city}/>
-                            <textarea  onChange={handleChange} className="profile" id="bio" placeholder="О себе" defaultValue={data.bio}/>
+                            <input onChange={handleChange} className="profile" id="email" placeholder="Электронная почта" defaultValue={data?.email}/>
+                            <input onChange={handleChange} className="profile" id="fullName" placeholder="ФИО" defaultValue={data?.fullName}/>
+                            <input onChange={handleChange} className="profile" id="city" placeholder="Город" defaultValue={data?.city}/>
+                            <textarea  onChange={handleChange} className="profile" id="bio" placeholder="О себе" defaultValue={data?.bio}/>
                             <button onClick={()=>AskModeration()}>Запросить модерацию</button>
                             <h3 style={{opacity:'0.25',textAlign: 'center'}}>Изменить пароль</h3>
                             <input onChange={handleChangeOldPass} value={password?.old} className="profile" placeholder="Старый пароль"/>
