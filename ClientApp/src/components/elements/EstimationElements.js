@@ -85,8 +85,17 @@ export function EstimationBlock(showId, nominations, score){
         if(choosenPlace ==-1 || choosenNomination ==-1){
             return;
         }
-        //fetch post {score:choosenPlace, nominationId:choosenNomination, showId:showId, refereeId:user.id }
-        //alert(`${choosenPlace} ${choosenNomination}`)
+        fetch(`Show/Estimate`, {
+            method: 'post',
+            headers: {'Content-Type':'application/json'},
+            body:JSON.stringify({score:choosenPlace, nominationId:choosenNomination, showId:showId, refereeId:user.id })
+            
+           }).then(r => {
+            if(!r.ok){
+                
+                return;
+            }
+        
         let newData = scoredData;
         let alreadyScored = newData.filter(f=>f.score == choosenPlace);
         let index = alreadyScored.length>0 ? newData.indexOf(alreadyScored[0]) : -1;
@@ -123,6 +132,7 @@ export function EstimationBlock(showId, nominations, score){
 
         choosePlace(-1);
         chooseNomination(-1);
+    })
     }
 
     return (<div><div>
