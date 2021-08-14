@@ -89,7 +89,7 @@ table th{
   border: 1px solid black;
 }
 .admin-content{
-  margin: 20px 0 0 20px;
+  margin: 20px 0 100px 20px;
   width:1000px; 
   height:400px; 
   float:left;

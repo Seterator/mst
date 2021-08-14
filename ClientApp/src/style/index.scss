@@ -630,3 +630,83 @@ opacity: 0.5;
 height: 55px;
   }
 }
+
+table.borderless{
+  border: none;
+  width: 100%;
+  td:last-child{
+    border: none;
+    font-family: Optima Cyr;
+font-style: normal;
+font-weight: normal;
+font-size: 14px;
+line-height: 18px;
+
+/* identical to box height, or 129% */
+
+color: #FFFFFF;
+
+  }
+  td{
+    border: none;
+    font-family: Optima Cyr;
+font-style: normal;
+font-weight: normal;
+font-size: 14px;
+line-height: 18px;
+
+/* identical to box height, or 129% */
+letter-spacing: 0.05em;
+
+color: #333333;
+    
+  }
+  th{
+    border: none;
+    font-family: Optima Cyr;
+font-style: normal;
+font-weight: normal;
+font-size: 14px;
+line-height: 18px;
+
+/* identical to box height, or 129% */
+
+color: #FFFFFF;
+
+  }
+  tr{
+    &.score-show-row{
+      background: white;
+font-family: Optima Cyr;
+font-style: normal;
+font-weight: normal;
+font-size: 14px;
+line-height: 18px;
+letter-spacing: 0.05em;
+color: #333;
+padding: 8px 17px;
+    }
+    &.spacer{
+      height: 35px;
+    }
+    &.score-row{
+      
+      height: 34px;
+    }
+    border: none;
+  }
+}
+
+div.score-show-row{
+  background: white;
+font-family: Optima Cyr;
+font-style: normal;
+font-weight: normal;
+font-size: 14px;
+line-height: 18px;
+letter-spacing: 0.05em;
+color: #333;
+padding: 8px 17px;
+text-align: left;
+margin-bottom: 15px;
+}

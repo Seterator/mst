@@ -5,6 +5,7 @@ import { ProfileListView } from '../elements/admin/ProfileListView';
 import { CompetitionListView } from '../elements/admin/CompetitionListView';
 import Container from 'reactstrap/lib/Container';
 import { UserContext } from '../../LoginMiddleware'
+import ScorePanel from '../elements/admin/ScorePanel';
 
 export function Admin(){
     const [activePage, setActivePage] = useState(1)
@@ -25,16 +26,20 @@ export function Admin(){
             <a className='admin' onClick={()=>setActivePage(1)}>Пользователи</a>
             <a className='admin' onClick={()=>setActivePage(2)}>Спектакли</a>
             <a className='admin' onClick={()=>setActivePage(3)}>Конкурсы</a>
+            <a className='admin' onClick={()=>setActivePage(4)}>Оценки</a>
         </div>
         <div style={{ display:'table'}}>
-        <div className='admin-content' style={{display:`${activePage == 1 ? 'block':'none'}`}}>
+        <div className='admin-content' style={{display:`${activePage == 1 ? 'table':'none'}`}}>
         {ProfileListView()}
         </div>
-        <div className='admin-content' style={{display:`${activePage == 2 ? 'block':'none'}`}}>
+        <div className='admin-content' style={{display:`${activePage == 2 ? 'table':'none'}`}}>
             {ShowListView()}
         </div>
-        <div className='admin-content' style={{display:`${activePage == 3 ? 'block':'none'}`}}>
+        <div className='admin-content' style={{display:`${activePage == 3 ? 'table':'none'}`}}>
             {CompetitionListView()}
+        </div>
+        <div className='admin-content' style={{display:`${activePage == 4 ? 'table':'none'}`}}>
+            {ScorePanel()}
         </div>
         </div>
         </div>
