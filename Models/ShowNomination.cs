@@ -6,6 +6,8 @@ namespace mst.Models {
         public Show Show { get; set; }
         public int NominationId { get; set; }
         public Nomination Nomination { get; set; }
+        // Номинант
+        public string Person { get; set; }
 
         public List<Estimation> Estimations { get; set; }
         public ShowNomination() {

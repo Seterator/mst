@@ -13,7 +13,7 @@ namespace mst
         public DbSet<ShowReferee> ShowReferees { get; set; }
 
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) {
-            Database.EnsureDeleted();
+            //Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 
@@ -66,7 +66,18 @@ namespace mst
             modelBuilder.Entity<ShowReferee>()
                 .HasKey(q => new { q.RefereeId, q.ShowId });
 
+            modelBuilder.Entity<BlockedReferee>()
+                .HasKey( x => new { x.CompetitionId, x.RefereeId });
+
+            modelBuilder.Entity<BlockedReferee>()
+                .HasOne(e => e.Competition)
+                .WithMany(c => c.BlockedReferees)
+                .HasForeignKey(x => x.CompetitionId);
             
+            modelBuilder.Entity<BlockedReferee>()
+                .HasOne(e => e.Referee)
+                .WithMany(c => c.BlockedReferees)
+                .HasForeignKey(x => x.RefereeId);
         }
     }
 }

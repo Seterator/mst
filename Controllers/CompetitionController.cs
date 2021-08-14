@@ -75,13 +75,30 @@ namespace mst.Controllers {
             }
         }
 
+        // Выводятся данные для большой таблицы с оценками
         [HttpGet("GetAll")]
         public IActionResult GetAll() {
             try {
-                var comps = _db.Competitions.Include(x => x.Nominations).ToList();
+                var comps = _db.Competitions
+                    .Include(x => x.Nominations)
+                    .ThenInclude(q => q.ShowNominations)
+                    .ThenInclude(s => s.Show)
+                    .ThenInclude(e => e.Estimations)
+                    .ThenInclude(r => r.Referee)
+                    .ToList();
                 foreach (var c in comps) {
-                    foreach (var n in c.Nominations) {
-                        n.Competition = null;
+                    foreach (var nomination in c.Nominations) {
+                        nomination.Competition = null;
+                        foreach (var sn in nomination.ShowNominations)
+                        {
+                            sn.Nomination = null;
+                            sn.Show.ShowNominations = null;
+
+                            foreach (var est in sn.Show.Estimations) {
+                                est.ShowNomination = null;
+                                est.Referee.Estimations = null;
+                            }
+                        }
                     }
                 }
                 return Ok(comps);
@@ -89,6 +106,18 @@ namespace mst.Controllers {
             catch {
                 return BadRequest();
             }
-        } 
+        }
+
+        // //Возврат спектаклей, которые доступны юзеру по конкретному конкурсу
+        // [HttpGet("GetShowsByRefereeId")]
+        // public IActionResult GetAvailableShowsByRefereeId([FromQuery]int refereeId, [FromQuery]int competitionId) {
+        //     try {
+        //         var referee = _db.Referees.Include(x => x.BlockedReferees).Where(y => y.Id == refereeId).Single();
+                
+        //     }
+        //     catch {
+                
+        //     }
+        // }
     }
 } 

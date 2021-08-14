@@ -15,8 +15,10 @@ namespace mst.Models {
         public User User { get; set; }
 
         public List<Estimation> Estimations { get; set; }
+        public List<BlockedReferee> BlockedReferees { get; set; }
         public Referee() {
             Estimations = new List<Estimation>();
+            BlockedReferees = new List<BlockedReferee>();
         }
     }
 }
