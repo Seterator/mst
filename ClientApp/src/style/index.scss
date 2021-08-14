@@ -362,23 +362,29 @@ font-weight: bold;
   width: 1230px;
 display: table;
 background-color: white;
-padding: 45px 75px;
+padding: 45px 55px 45px 80px;
 margin: 30px 0px 10px;
+
+.show-nomination-panel{
+
+  display: flex;
+margin: 15px 20px;
+width: 505px;
+float: left;
 
   .show-nomination{
 
     float: left;
-margin: 15px 25px;
 width: 475px;
 opacity: 1;
 height: 55px;
 background-color: rgb(119, 13, 55);
 border-radius: 5px;
-position: relative;
+padding: 12px 0 10px 20px;
+
     .show-nomination-title{
-      position: absolute;
-left: 20px;
-top: 13px;
+      
+
 font-family: Optima;
 font-style: normal;
 font-weight: bold;
@@ -390,11 +396,7 @@ letter-spacing: 0.05em;
 
 
     .show-nomination-name{
-      position: absolute;
 
-left: 20px;
-
-top: 33px;
       font-family: Optima Cyr;
 font-style: normal;
 font-weight: normal;
@@ -404,13 +406,48 @@ letter-spacing: 0.05em;
 color: #FFFFFF;
 opacity: 0.5;
 border-radius: 5px;
+margin-top: 7px;
 
     }
   }
+  .show-nomination-score{
+    width: 30px;
+height: 45px;
+display: block;
+float: left;
+
+border-radius: 5px;
+text-align: center;
+font-family: Optima;
+font-style: normal;
+font-weight: bold;
+font-size: 16px;
+line-height: 16px;
+letter-spacing: 0.05em;
+color: #333333;
+padding-top: 14px;
+  }
+  .visible{
+    visibility: visible;
+  }
+
+  .hidden{
+    visibility: hidden;
+  }
+  .score1{
+    background: linear-gradient(138.95deg, #BBA151 -28.75%, #F4DE9D 60.24%, #E3C877 76.72%);
+  }
+  .score2{
+    background: linear-gradient(138.95deg, #DCDCDC -28.75%, #B2B0AA 60.24%, #6F6E6B 76.72%);
+  }
+  .score3{
+    background: linear-gradient(138.95deg, #FFFFFF -28.75%, #F3B378 45.77%, #DF8D2D 76.72%);
+  }
+}
 
 }
 
-.show-nomination-title{
+.show-nomination-main-title{
   font-family: Optima Cyr;
 font-style: normal;
 font-weight: normal;
@@ -488,4 +525,108 @@ opacity: 0.25;
 width: 282px;
 display: inline-block;
 margin: 30px 0;
+}
+
+.hist-container{
+  .hist-title{
+    margin: 60px 0 46px;
+font-family: Optima;
+font-style: normal;
+font-weight: bold;
+font-size: 42px;
+line-height: 48px;
+text-align: center;
+letter-spacing: 0.05em;
+text-transform: uppercase;
+color: #FFFFFF;
+
+  }
+  .hist-nom-container{
+
+    margin: 30px 0;
+border-bottom: 2px solid white;
+width: 1230px;
+height: 300px;
+    .hist-nom-title{
+      font-family: Optima Cyr;
+font-style: normal;
+font-weight: normal;
+font-size: 24px;
+line-height: 24px;
+letter-spacing: 0.01em;
+color: #FFFFFF;
+
+    }
+    .hist-show-container{
+
+      padding: 25px 41px;
+      display: grid;
+    .hist-nom-panel{
+      display: inline-flex;
+      margin: 15px 0;
+      .score1{
+        background: linear-gradient(138.95deg, #BBA151 -28.75%, #F4DE9D 60.24%, #E3C877 76.72%);
+      }
+      .score2{
+        background: linear-gradient(138.95deg, #DCDCDC -28.75%, #B2B0AA 60.24%, #6F6E6B 76.72%);
+      }
+      .score3{
+        background: linear-gradient(138.95deg, #FFFFFF -28.75%, #F3B378 45.77%, #DF8D2D 76.72%);
+      }
+      .hist-nom-score{
+
+        
+        height: 45px;
+width: 29px;
+text-align: center;
+padding-top: 13px;
+margin-right: 20px;
+padding-left: 2px;
+font-family: Optima;
+font-style: normal;
+font-weight: bold;
+font-size: 16px;
+line-height: 16px;
+letter-spacing: 0.05em;
+color: #333333;
+
+border-radius: 5px;
+
+      }
+      .hist-show-panel{
+        .hist-show-name{
+          font-family: Optima;
+font-style: normal;
+font-weight: bold;
+font-size: 14px;
+line-height: 14px;
+letter-spacing: 0.05em;
+text-decoration-line: underline;
+color: #FFFFFF;
+margin: 5px 0 15px;
+
+        }
+        .hist-show-memb{
+          font-family: Optima Cyr;
+font-style: normal;
+font-weight: normal;
+font-size: 12px;
+line-height: 12px;
+letter-spacing: 0.05em;
+color: #FFFFFF;
+opacity: 0.5;
+
+        }
+      }
+    }
+  }
+  
+  
+  }
+  .hist-send{
+    background: radial-gradient(180.91% 1388.43% at 100% 7.27%, #770D37 0%, #211452 100%);
+    margin: 90px 0 120px;
+    width: 1230px;
+height: 55px;
+  }
 }
