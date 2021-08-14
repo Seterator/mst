@@ -12,5 +12,6 @@ namespace mst.Models {
         public DateTime EndDate { get; set; }
 
         public List<Nomination> Nominations { get; set; }
+        public List<BlockedReferee> BlockedReferees { get; set; }
     }
 }

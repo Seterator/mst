@@ -117,5 +117,17 @@ namespace mst.Controllers {
                 return BadRequest();
             }
         }
+
+        [HttpPost("Estimate")]
+        public async Task<IActionResult> Estimate([FromBody]Estimation estimation) {
+            try {
+                _db.Referees.Where(x => x.Id == estimation.RefereeId).Single().Estimations.Add(estimation);
+                await _db.SaveChangesAsync();
+                return Ok();
+            }
+            catch {
+                return BadRequest();
+            }
+        }
     }
 }

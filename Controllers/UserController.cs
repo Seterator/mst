@@ -166,5 +166,17 @@ namespace mst.Controllers
                 return BadRequest("Неверный id/email пользователя");
             }
         }
+
+        [HttpPost("Block")]
+        public async Task<IActionResult> Block([FromBody]BlockedReferee blockedReferee) {
+            try {
+                _db.Referees.Where(x => x.Id == blockedReferee.RefereeId).Single().BlockedReferees.Add(blockedReferee);
+                await _db.SaveChangesAsync();
+                return Ok();
+            }
+            catch {
+                return BadRequest();
+            }
+        }
     }
 }

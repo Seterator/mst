@@ -13,8 +13,10 @@ namespace mst.Models {
         public byte[] Image { get; set; }
 
         public List<ShowNomination> ShowNominations { get; set; }
+        public List<Estimation> Estimations { get; set; }
         public Show() {
             ShowNominations = new List<ShowNomination>();
+            Estimations = new List<Estimation>();
         }
     }
 }
