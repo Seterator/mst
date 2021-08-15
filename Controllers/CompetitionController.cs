@@ -95,7 +95,8 @@ namespace mst.Controllers {
                             sn.Show.ShowNominations = null;
 
                             foreach (var est in sn.Show.Estimations) {
-                                est.ShowNomination = null;
+                                est.Nomination = null;
+                                est.Show = null;
                                 est.Referee.Estimations = null;
                             }
                         }

@@ -48,9 +48,14 @@ namespace mst
                 .HasKey( u => new { u.ShowId, u.NominationId, u.RefereeId });
 
             modelBuilder.Entity<Estimation>()
-                .HasOne(e => e.ShowNomination)
+                .HasOne(e => e.Show)
                 .WithMany(sn => sn.Estimations)
-                .HasForeignKey(e => new {e.NominationId, e.ShowId});
+                .HasForeignKey(e => e.ShowId);
+
+            modelBuilder.Entity<Estimation>()
+                .HasOne(e => e.Nomination)
+                .WithMany(sn => sn.Estimations)
+                .HasForeignKey(e => e.NominationId);
 
             modelBuilder.Entity<Estimation>()
                 .HasOne(e => e.Referee)

@@ -9,9 +9,7 @@ namespace mst.Models {
         public int CompetitionId { get; set; }
         public Competition Competition { get; set; }
         
-        public List<ShowNomination> ShowNominations { get; set; }
-        public Nomination() {
-            ShowNominations = new List<ShowNomination>();
-        }
+        public List<ShowNomination> ShowNominations { get; set; } = new List<ShowNomination>();
+        public List<Estimation> Estimations { get; set; } = new List<Estimation>();
     }
 }
