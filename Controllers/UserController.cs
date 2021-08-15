@@ -132,7 +132,7 @@ namespace mst.Controllers
         [HttpGet("Login")]
         public IActionResult Login([FromQuery]string login, [FromQuery] string password) {
             try {
-                var u = _db.Users.Include(x=>x.Referee).Where(x => x.Login == login).Single();
+                var u = _db.Users.Include(x=>x.Referee).Where(x => x.Login == login || x.Referee.Email == login).Single();
                 if (u.Password == password) {
  
                     u.Referee.User = null;
@@ -143,22 +143,9 @@ namespace mst.Controllers
                 }
             }
             catch {
-                try {
-                    var u = _db.Users.Include(x=>x.Referee).Where(x => x.Referee.Email == login).Single();
-                    if (u.Password == password) {
-    
-                        u.Referee.User = null;
-                        return Ok(u.Referee);
-                    }
-                    else {
-                        throw new Exception();
-                    }
-
-                }
-                catch {
                     return BadRequest();
                 }
-            }
+            
         }
 
         [HttpPost("ChangePassword")]

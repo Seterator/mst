@@ -177,7 +177,7 @@ function CompetitionTable({ columns, data, setData }){
         let checkedArr = [];
         let valArr = [];
         nominations.map(m=>{
-            m.showNominations && m.showNominations.map(s=>{
+            m?.showNominations && m.showNominations.map(s=>{
                 checkedArr.push({competitionId:m.competitionId, showId:`${s.showId}`});
                 valArr.push({showId:s.showId,nominationId:m.id, nominationTitle:m.name,nominationValue:s.person })
             })
