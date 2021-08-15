@@ -100,11 +100,16 @@ namespace mst.Controllers
         [HttpGet("GetById")]
         public IActionResult GetById([FromQuery] int id)
         {
-            var referee = _db.Referees.Where(referee => referee.Id == id).Single();
-            if (referee == null) {
-                return BadRequest("Пользователь не найден");
+            try {
+                var referee = _db.Referees.Where(referee => referee.Id == id).Single();
+                if (referee == null) {
+                    return BadRequest("Пользователь не найден");
+                }
+                return Ok(referee);
             }
-            return Ok(referee);
+            catch {
+                return BadRequest();
+            }
         }
 
         [HttpGet("GetByEmail")]

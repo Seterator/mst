@@ -130,5 +130,17 @@ namespace mst.Controllers {
                 return BadRequest();
             }
         }
+
+        [HttpGet("GetEstimations")]
+        public IActionResult GetEstimations([FromQuery]int refereeId, [FromQuery]int showId) {
+            try {
+                var show = _db.Shows.Include(x => x.Estimations).Where(x => x.Id == showId).Single();
+                var estimations = show.Estimations.Where(x => x.RefereeId == refereeId).ToList();
+                return Ok(estimations);
+            }
+            catch {
+                return BadRequest();
+            }
+        }
     }
 }
