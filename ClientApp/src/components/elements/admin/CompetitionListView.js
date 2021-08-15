@@ -177,7 +177,7 @@ function CompetitionTable({ columns, data, setData }){
         let checkedArr = [];
         let valArr = [];
         nominations.map(m=>{
-            m.showNominations.map(s=>{
+            m.showNominations && m.showNominations.map(s=>{
                 checkedArr.push({competitionId:m.competitionId, showId:`${s.showId}`});
                 valArr.push({showId:s.showId,nominationId:m.id, nominationTitle:m.name,nominationValue:s.person })
             })
@@ -337,10 +337,10 @@ function CompetitionTable({ columns, data, setData }){
                             let val = v[propKey];
 
                             if(propKey == 'members'){
-                                return <td><a onClick={()=>editCompetition(v.id,()=>OpenMembersModal(true))}>Редактировать {membersChecked?.filter(f=>f.competitionId == v.id)?.length}</a></td>
+                                return <td><a onClick={()=>editCompetition(v.id,()=>OpenMembersModal(true))}>Редактировать {membersChecked?.filter(f=>f?.competitionId == v.id)?.length}</a></td>
                             }
                             if(propKey == 'nominations'){
-                                return <td><a onClick={()=>editCompetition(v?.id,()=>OpenNominationModal(true))}>Редактировать {nominations?.filter(f=>f.competitionId == v.id)?.length}</a></td>
+                                return <td><a onClick={()=>editCompetition(v?.id,()=>OpenNominationModal(true))}>Редактировать {nominations?.filter(f=>f?.competitionId == v.id)?.length}</a></td>
                             }
                             if(propKey == 'shows'){
                                 return <td><a onClick={()=>editCompetition(v.id,()=>OpenShowCompetitionModal(true))}>Редактировать</a></td>
