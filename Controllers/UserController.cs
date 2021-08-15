@@ -143,7 +143,21 @@ namespace mst.Controllers
                 }
             }
             catch {
-                return BadRequest();
+                try {
+                    var u = _db.Users.Include(x=>x.Referee).Where(x => x.Referee.Email == login).Single();
+                    if (u.Password == password) {
+    
+                        u.Referee.User = null;
+                        return Ok(u.Referee);
+                    }
+                    else {
+                        throw new Exception();
+                    }
+
+                }
+                catch {
+                    return BadRequest();
+                }
             }
         }
 
