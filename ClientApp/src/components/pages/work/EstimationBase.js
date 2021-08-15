@@ -31,6 +31,7 @@ export function EstimationBase(){
             setEstimations(estArr);
 
          });
+         //fetch(`Show/GetEstimations?refereeId=${user.id}&showId=${id}`).then(res=>res.json()).then(json => setScored(json));
 
     },[]);
 

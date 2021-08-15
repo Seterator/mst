@@ -36,6 +36,7 @@ function DropDownNomination(data, visible,estimations, userId){
         {data?.map((v,i) => { 
             let estimation = estimations.filter(e=>e.nominationId == v.nominationId && e.showId == v.showId && e.refereeId == userId);
             let curScore = estimation.length>0 && estimation[0].score;
+            if(!curScore) return '';
             return (<div style={{fontFamily: 'Optima Cyr',
 fontStyle: 'normal',
 fontWeight: 'normal',

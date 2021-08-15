@@ -96,12 +96,18 @@ namespace mst.Controllers
             try {
                 var noms = _db.Nominations
                                 .Include(x => x.ShowNominations)
+                                .ThenInclude(sn => sn.Estimations)
                                 .ThenInclude(sn => sn.Show)
                                 .ToList();
                 foreach(var nom in noms) {
                     foreach(var showNomination in nom.ShowNominations) {
                     showNomination.Show.ShowNominations = null;
                     showNomination.Nomination = null;
+                        foreach(var estimations in showNomination.Estimations)
+                        {
+                            estimations.Show = null;
+                            estimations.Nomination = null;
+                        }
                     }
                 }
                 return Ok(noms);

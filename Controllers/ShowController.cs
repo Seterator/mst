@@ -103,13 +103,20 @@ namespace mst.Controllers {
         public IActionResult GetAll() {
             try {
                 var shows = _db.Shows
+                    .Include(sn => sn.Estimations)
                                 .Include(x => x.ShowNominations)
                                 .ThenInclude(sn => sn.Nomination)
+                                
                                 .ToList();
                 foreach(var show in shows) {
                     foreach(var showNomination in show.ShowNominations) {
                     showNomination.Nomination.ShowNominations = null;
                     showNomination.Show = null;
+                    }
+                    foreach (var estimation in show.Estimations)
+                    {
+                        estimation.Nomination = null;
+                        estimation.Show = null;
                     }
                 }
                 return Ok(shows);
@@ -136,7 +143,8 @@ namespace mst.Controllers {
             try {
                 var show = _db.Shows.Include(x => x.Estimations).Where(x => x.Id == showId).Single();
                 var estimations = show.Estimations.Where(x => x.RefereeId == refereeId).ToList();
-                return Ok(estimations);
+                
+                return Ok(estimations.Select(s=> new {s.ShowId, s.NominationId, s.RefereeId, s.Score }));
             }
             catch {
                 return BadRequest();
