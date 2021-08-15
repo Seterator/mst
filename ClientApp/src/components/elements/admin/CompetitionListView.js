@@ -118,13 +118,6 @@ function competitionEdited(i){
 
 function CompetitionTable({ columns, data, setData }){
 
-    const testData = [{ id: 5,image:'https://avatars.mds.yandex.net/get-zen_doc/1219682/pub_5eaa7423102eee24419d5607_5eaa74d77e79087ec3668df9/scale_1200', name: 'Лиса Лисичкова', email:'lisa@mail.ru', city:'г.Таганрог',bio:'пью виски, кушаю сосиски' },
-{ id: 6,image:'https://avatars.mds.yandex.net/get-zen_doc/1219682/pub_5eaa7423102eee24419d5607_5eaa74d77e79087ec3668df9/scale_1200', name: 'Лиза Лисичкова', email:'lisa1@mail.ru', city:'г.Таганрог', bio:'пью колу, кушаю ролы' }
-]
-const showsTestData = [
-    { id: 9, url: 'http://localhost:3000/admin', title:'Лучшая админка в мире', other:'Зайди посмотри как все удобно'},
-    { id: 10, url: 'http://localhost:3000/work', title:'Хочешь бабала, иди работай', other:'читай выше'}
-    ]
     const [changeIndex, setChangeIndex] = useState(1);
 
     const [nominations, setNominations] = useState([]);

@@ -178,7 +178,7 @@ const [data, setData] = useState([]);
     const {user} = useContext(UserContext);
 
     useEffect(()=>{
-        //setData(testData.members.filter(f=>!f.options.some(s=>s=='notVoting') && !f.options.some(s=>s== 'estimated') && f.showId != id ).map(v =>{ return {...v, dropDownVisible:false}})  );
+        
         fetch('Show/GetAll').then(res=>res.json()).then(json => {
             setData(json.filter(f=>f.id != id));
             let estArr = [];
@@ -188,10 +188,6 @@ const [data, setData] = useState([]);
                     estArr.push({showId:e.showId, nominationId:e.nominationId, score:e.score, refereeId:e.refereeId});
                 })
             })
-
-            estArr.push({showId:1, nominationId:1, score:2, refereeId:2});
-            estArr.push({showId:1, nominationId:2, score:3, refereeId:2});
-            estArr.push({showId:1, nominationId:2, score:1, refereeId:3});
 
             setEstimations(estArr);
         });

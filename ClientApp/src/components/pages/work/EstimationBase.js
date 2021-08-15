@@ -17,9 +17,7 @@ export function EstimationBase(){
     
     useEffect(()=>{
         fetch('Show/GetAll').then(r => r.json()).then(json =>{
-            let fAr = [...json,...json];
-            let fAr1 = [...fAr,...fAr];
-            let fAr2 = [...fAr1,...fAr1];
+
             setData(json.map(v =>{ return {...v, dropDownVisible:false}}));
 
             let estArr = [];
@@ -30,15 +28,9 @@ export function EstimationBase(){
                 })
             })
 
-            estArr.push({showId:1, nominationId:1, score:2, refereeId:2});
-            estArr.push({showId:1, nominationId:2, score:3, refereeId:2});
-            estArr.push({showId:1, nominationId:2, score:1, refereeId:3});
-
             setEstimations(estArr);
 
          });
-        //setData(testData.members.map(v =>{ return {...v, dropDownVisible:false}})  ); 
-        //fetch('getActiveRequest').then(res=>res.json()).then(json => setData(json));
 
     },[]);
 

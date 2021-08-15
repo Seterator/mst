@@ -3,17 +3,6 @@ import AddScoreModal from '../modal/AddScoreModal'
 
 export default function ScorePanel(){
 
-    const refereeTestData = [
-        {id:1, fullName:"Галина Евгеньевна8"},
-        {id:2, fullName:"Галина Евгеньевна7"},
-        {id:3, fullName:"Галина Евгеньевна66"},
-        {id:4, fullName:"Галина Евгеньевна5"},
-        {id:6, fullName:"Галина Евгеньевна4"},
-        {id:5, fullName:"Галина Евгеньевна3"},
-        {id:7, fullName:"Галина Евгеньевна2"},
-        {id:8, fullName:"Галина Евгеньевна1"}
-    ]
-
     const [data,setData] = useState([]);
     const [isOpen,setIsOpen] = useState(false);
 
@@ -23,120 +12,12 @@ export default function ScorePanel(){
     const [editedShow, setEditedShow] = useState({});
 
 
-    const testData = [
-        {nominationId:1, nominationName:"qqwrqwrqr", 
-            show:[
-                {id:2, name:"showTitle", 
-                    score:[
-                        {refereeId:4, fullName:"Галина Евгеньевна4", value:2},
-                        {refereeId:5, fullName:"Галина Евгеньевна5", value:1}
-                    ] 
-                },
-                {id:3, name:"showTitle2", 
-                    score:[
-                        {refereeId:4, fullName:"Галина Евгеньевна4", value:1},
-                        {refereeId:8, fullName:"Галина Евгеньевна8", value:1}
-                    ] 
-                },
-                {id:4, name:"showTitle5", 
-                    score:[
-                        {refereeId:1, fullName:"Галина Евгеньевна1", value:3},
-                        {refereeId:8, fullName:"Галина Евгеньевна8", value:1},
-                        {refereeId:2, fullName:"Галина Евгеньевна2", value:1},
-                        {refereeId:3, fullName:"Галина Евгеньевна3", value:2},
-                        {refereeId:5, fullName:"Галина Евгеньевна5", value:1}
-                    ] 
-                },
-            ]
-        },
-        {nominationId:2, nominationName:"ttttttttt", 
-            show:[
-                {id:2, name:"showTitle555", 
-                    score:[
-                        {refereeId:1, fullName:"Галина Евгеньевна1", value:3},
-                        {refereeId:8, fullName:"Галина Евгеньевна8", value:1},
-                        {refereeId:2, fullName:"Галина Евгеньевна2", value:1},
-                    ] 
-                },
-                {id:4, name:"showTitle5", 
-                    score:[
-                        {refereeId:1, fullName:"Галина Евгеньевна1", value:3},
-                        {refereeId:8, fullName:"Галина Евгеньевна8", value:1},
-                        {refereeId:2, fullName:"Галина Евгеньевна2", value:1},
-                        {refereeId:3, fullName:"Галина Евгеньевна3", value:2},
-                        {refereeId:5, fullName:"Галина Евгеньевна5", value:1}
-                    ] 
-                },
-            ]
-        },
-        {nominationId:3, nominationName:"qyyyyyyyyyyy", 
-            show:[
-                {id:2, name:"showTitle", 
-                    score:[
-                        {refereeId:5, fullName:"Галина Евгеньевна5", value:1},
-                        {refereeId:7, fullName:"Галина Евгеньевна7", value:3}
-                    ] 
-                },
-                {id:3, name:"showTitle2", 
-                    score:[
-                        {refereeId:4, fullName:"Галина Евгеньевна4", value:1},
-                        {refereeId:8, fullName:"Галина Евгеньевна8", value:1}
-                    ] 
-                },
-                {id:4, name:"showTitle23", 
-                    score:[
-                        {refereeId:1, fullName:"Галина Евгеньевна1", value:3},
-                        {refereeId:8, fullName:"Галина Евгеньевна8", value:1}
-                    ] 
-                },
-            ]
-        },
-        {nominationId:4, nominationName:"nnnnnnnnnnnn", 
-            show:[
-                {id:2, name:"showTitle", 
-                    score:[
-                        {refereeId:4, fullName:"Галина Евгеньевна4", value:2},
-                        {refereeId:5, fullName:"Галина Евгеньевна5", value:1}
-                    ] 
-                },
-                {id:3, name:"showTitle2", 
-                    score:[
-                        {refereeId:4, fullName:"Галина Евгеньевна4", value:1},
-                        {refereeId:8, fullName:"Галина Евгеньевна8", value:1}
-                    ] 
-                },
-                {id:3, name:"showTitle3", 
-                    score:[
-                        {refereeId:4, fullName:"Галина Евгеньевна4", value:1},
-                        {refereeId:8, fullName:"Галина Евгеньевна8", value:1}
-                    ] 
-                },
-                {id:3, name:"showTitle5", 
-                    score:[
-                        {refereeId:4, fullName:"Галина Евгеньевна4", value:1},
-                        {refereeId:8, fullName:"Галина Евгеньевна8", value:1}
-                    ] 
-                },
-                {id:4, name:"showTitle9", 
-                    score:[
-                        {refereeId:1, fullName:"Галина Евгеньевна1", value:3},
-                        {refereeId:8, fullName:"Галина Евгеньевна8", value:1},
-                        {refereeId:2, fullName:"Галина Евгеньевна2", value:1},
-                        {refereeId:3, fullName:"Галина Евгеньевна3", value:2},
-                        {refereeId:5, fullName:"Галина Евгеньевна5", value:1}
-                    ] 
-                },
-            ]
-        },
-    ]
- 
     useEffect(()=>{
 
         fetch('Nomination/GetAll').then(res => res.ok&&res.json())
         .then(json =>{
             json&&setData(json);
         })
-        //fetch score
         
         setEditedShow({});
         
@@ -144,13 +25,6 @@ export default function ScorePanel(){
 
     useEffect(()=>{
 
-        // let newArr = data.map(m=>{return{...m,show:m.show.map(s=>{return{...s, score: s.score.map(c=>{
-        //     let num = getScoreSum(s.score);
-        //     return{...c,place:'', warn:false}
-        // })}})}});
-        // let editedNom = newArr.filter(f=>f.nominationId == d.nominationId)[0];
-        // let editedShow = editedNom.show.filter(f=>f.id == d.showId)[0]
-        // setDataView([...data, show:[...data.show,score:[]]]);
         setDataView(data);
         
     },[data,change]);
