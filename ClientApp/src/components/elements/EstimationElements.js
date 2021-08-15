@@ -170,46 +170,50 @@ export function EstimationBlock(showId, nominations, score){
 }
 
 export function EstimationBasePart(id){
-    const testData ={ nominations:['Лучший текст песен (авор/перевод)','Лучшее пластическое решение (хореограф)','Лучшее световое оформление (художник по свету)'],
-    members: [{image:'https://avatars.mds.yandex.net/get-zen_doc/1219682/pub_5eaa7423102eee24419d5607_5eaa74d77e79087ec3668df9/scale_1200'
-, showId:'12', options:['viewed', 'estimated', 'notVoting'], 
-title:'Оказывается, известный инсайдер,в преддверии важного события, продолжает удивлять',
-other: 'Разнообразный и богатый опыт говорит нам, что консультация с широким активом не оставляет шанса для прогресса профессионального сообщества.',
-nominations:[{title:'Лучшее световое оформление (художник по свету)', position:1}, {title:'Лучшее пластическое решение (хореограф)', position:2}]},
-{image:'https://avatars.mds.yandex.net/get-zen_doc/1219682/pub_5eaa7423102eee24419d5607_5eaa74d77e79087ec3668df9/scale_1200'
-, showId:'13', options:['viewed', 'notVoting'],
-title:'Оказывается, известный инсайдер,в преддверии важного события, продолжает удивлять',
-other: 'Разнообразный и богатый опыт говорит нам, что консультация с широким активом не оставляет шанса для прогресса профессионального сообщества.',
-nominations:[{title:'Лучший текст песен (автор/перевод)', position:2}, {title:'Лучшее пластическое решение (хореограф)', position:3}]},
-{image:'https://avatars.mds.yandex.net/get-zen_doc/1219682/pub_5eaa7423102eee24419d5607_5eaa74d77e79087ec3668df9/scale_1200'
-, showId:'14', options:['viewed', 'notVoting'],
-title:'Оказывается, известный инсайдер,в преддверии важного события, продолжает удивлять',
-other: 'Разнообразный и богатый опыт говорит нам, что консультация с широким активом не оставляет шанса для прогресса профессионального сообщества.',
-nominations:[{title:'Лучший текст песен (автор/перевод)', position:2}, {title:'Лучшее пластическое решение (хореограф)', position:3}]},
-{image:'https://avatars.mds.yandex.net/get-zen_doc/1219682/pub_5eaa7423102eee24419d5607_5eaa74d77e79087ec3668df9/scale_1200'
-, showId:'15', options:[],
-title:'Оказывается, известный инсайдер,в преддверии важного события, продолжает удивлять',
-other: 'Разнообразный и богатый опыт говорит нам, что консультация с широким активом не оставляет шанса для прогресса профессионального сообщества.',
-nominations:[{title:'Лучший текст песен (автор/перевод)', position:2}, {title:'Лучшее пластическое решение (хореограф)', position:3}]},
-{image:'https://avatars.mds.yandex.net/get-zen_doc/1219682/pub_5eaa7423102eee24419d5607_5eaa74d77e79087ec3668df9/scale_1200'
-, showId:'16', options:['viewed'],
-title:'Оказывается, известный инсайдер,в преддверии важного события, продолжает удивлять',
-other: 'Разнообразный и богатый опыт говорит нам, что консультация с широким активом не оставляет шанса для прогресса профессионального сообщества.',
-nominations:[{title:'Лучший текст песен (авор/перевод)', position:2}, {title:'Лучшее пластическое решение (хореограф)', position:3}]}]}
-
+   
 const [data, setData] = useState([]);
     const [view, setView] = useState([]);
     const [index, setIndex] = useState(0);
+    const [estimations, setEstimations] = useState([]);
+    const {user} = useContext(UserContext);
 
     useEffect(()=>{
-        setData(testData.members.filter(f=>!f.options.some(s=>s=='notVoting') && !f.options.some(s=>s== 'estimated') && f.showId != id ).map(v =>{ return {...v, dropDownVisible:false}})  );
-        //fetch('getActiveRequest').then(res=>res.json()).then(json => setData(json));
+        //setData(testData.members.filter(f=>!f.options.some(s=>s=='notVoting') && !f.options.some(s=>s== 'estimated') && f.showId != id ).map(v =>{ return {...v, dropDownVisible:false}})  );
+        fetch('Show/GetAll').then(res=>res.json()).then(json => {
+            setData(json.filter(f=>f.id != id));
+            let estArr = [];
+            json.map(m=>{
+
+                m.estimations.map(e=>{
+                    estArr.push({showId:e.showId, nominationId:e.nominationId, score:e.score, refereeId:e.refereeId});
+                })
+            })
+
+            estArr.push({showId:1, nominationId:1, score:2, refereeId:2});
+            estArr.push({showId:1, nominationId:2, score:3, refereeId:2});
+            estArr.push({showId:1, nominationId:2, score:1, refereeId:3});
+
+            setEstimations(estArr);
+        });
 
     },[id]);
     useEffect(()=>{
-        const v = (<div className='container'  style={{display:'inline-block'}}>
-        {data && data?.map((v,i) => VoteElement(v,() => dropDownClick(i)))}
-        </div>);
+        const v = (
+            <div   style={{width:'100%', display:'table'}}>
+                <div style={{width:'33%', float:'left'}}>
+    
+                {data && data?.map((v,i) => i%3==0&&VoteElement(v,estimations, user.id,() => dropDownClick(i)))}
+                </div>
+                <div style={{width:'33%', float:'left'}}>
+                {data && data?.map((v,i) => i%3==1&&VoteElement(v,estimations, user.id,() => dropDownClick(i)))}
+                </div>
+                <div style={{width:'33%', float:'left'}}>
+                {data && data?.map((v,i) => i%3==2&&VoteElement(v,estimations, user.id,() => dropDownClick(i)))}
+                </div>
+                
+            
+            
+            </div>);
         setView(v);
     },[data, index]);
 

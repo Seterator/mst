@@ -1,56 +1,57 @@
-import React, { Component, useEffect, useState } from 'react';
+import React, { Component, useEffect, useState, useContext} from 'react';
+import { UserContext } from '../../../LoginMiddleware';
 
 export default function EstimationHistory(){
 
-    const [showNomination, setShowNomination] = useState([]);
+    const {user} = useContext(UserContext);
+    const [nomination, setNomination] = useState([]);
 
 
     useEffect(()=>{
-        setShowNomination([{nominationName:"Лучший вася на деревне",nominationId:1, 
-        show:[
-            {id:2, showName:"Деревня на диком западе", score:3, fullName:"Андрей Васильевич"},
-            {id:3, showName:"Деревня на диком востоке", score:2, fullName:"Андрей Андреевич"},
-            {id:4, showName:"Деревня на диком севере", score:1, fullName:"Василий Васильевич"},
-        ] 
-    },
-    {nominationName:"Средненькая катя по селу",nominationId:2, 
-        show:[
-            {id:2, showName:"Деревня на диком западе", score:2, fullName:"Антон Васильевич"},
-            {id:8, showName:"Осел сел в лесу", score:1, fullName:"Екатерина Екатериновна"},
-            {id:4, showName:"Деревня на диком севере", score:3, fullName:"Василий Васильевич"},
-        ] 
-    },
-    ,
-    {nominationName:"Самый плохой оленевод",nominationId:4, 
-        show:[
-            {id:2, showName:"Деревня на диком западе", score:1, fullName:"Антон Васильевич"},
-            {id:8, showName:"Осел сел в лесу", score:3, fullName:"Екатерина Екатериновна"},
-            {id:99, showName:"Чукотский волк", score:2, fullName:"Собякин"},
-        ] 
-    }
-    ]);
+
+        fetch('Nomination/GetAll').then(r=>r.ok&&r.json())
+        .then(json=>json&&setNomination(json))
 
     },[])
 
     return(<div className="container hist-container">
         <h1 className="hist-title" >Полный список оценивания</h1>
-        {showNomination.map(m=>HistoryElement(m))}
+        {nomination.map(m=>HistoryElement(m,user.id))}
         <button className="hist-send" onClick={()=>{}}>Отправить</button>
         </div>)
 }
+function getPerson(data, showId, nominationId){
+    let arr = data?.filter(f=> f.showId == showId && f.nominationId == nominationId);
+    return arr.length>0&&arr[0].person;
+}
+function getShowName(data, showId){
+    let arr = data?.filter(f=> f.showId == showId);
+    return arr.length>0&&arr[0].show.name;
+}
+function HistoryElement(data, userId){
+    let etsArr = [];
 
-function HistoryElement(data){
+    let tt = data.showNominations?.map(m =>{
+        m.estimations.filter(f=>f.refereeId == userId).map(e=>{
+            etsArr.push(e);
+        })
+    });
+
+    if( etsArr.length == 0){
+        return (<div></div>)
+    }
+
     return(<div className="hist-nom-container">
-        <div className="hist-nom-title">{data.nominationName}</div>
+        <div className="hist-nom-title">{data.name}</div>
         <div className="hist-show-container">
-        {data.show?.sort((a,b)=>{
+        {etsArr.sort((a,b)=>{
             return a?.score - b?.score;
         }).map(m=>{
             return(<div className="hist-nom-panel">
                     <div className={`hist-nom-score score${m?.score}` }>{m?.score}</div>
                     <div className="hist-show-panel">
-                        <div className="hist-show-name">{m?.showName}</div>
-                        <div className="hist-show-memb">{m?.fullName}</div>
+                        <div className="hist-show-name">{getShowName(data.showNominations, m.showId)}</div>
+                        <div className="hist-show-memb">{getPerson(data.showNominations, m.showId, m.nominationId)}</div>
                     </div>
                 </div>)
 

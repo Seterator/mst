@@ -20,7 +20,7 @@ export function EstimationBase(){
             let fAr = [...json,...json];
             let fAr1 = [...fAr,...fAr];
             let fAr2 = [...fAr1,...fAr1];
-            setData(fAr2.map(v =>{ return {...v, dropDownVisible:false}}));
+            setData(json.map(v =>{ return {...v, dropDownVisible:false}}));
 
             let estArr = [];
             json.map(m=>{

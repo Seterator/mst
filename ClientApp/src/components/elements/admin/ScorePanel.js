@@ -132,8 +132,12 @@ export default function ScorePanel(){
  
     useEffect(()=>{
 
+        fetch('Nomination/GetAll').then(res => res.ok&&res.json())
+        .then(json =>{
+            json&&setData(json);
+        })
         //fetch score
-        setData(testData);
+        
         setEditedShow({});
         
     },[]);
@@ -224,12 +228,12 @@ function ScoreNomination(nom, setEdited, setToDelete){
     }
 
     function getScoreSum(scores){
-        return scores.map(m=>m.value).reduce((a, b) => a + placeToScore(b), 0)
+        return scores.map(m=>m.score).reduce((a, b) => a + placeToScore(b), 0)
     }
 
     return(<div>
-        <div className="score-show-row"  onClick={()=>{dropdown(nom.nominationId)}}><a id={nom.nominationId}>{nom.nominationName}</a></div>
-        <div className="visibility-hidden" id={`dropdown${nom.nominationId}`}>
+        <div className="score-show-row"  onClick={()=>{dropdown(nom.id)}}><a id={nom.id}>{nom.name}</a></div>
+        <div className="visibility-hidden" id={`dropdown${nom.id}`}>
             <table  className="borderless">
                 <thead>
                     <tr>
@@ -241,7 +245,9 @@ function ScoreNomination(nom, setEdited, setToDelete){
                     </tr>
                 </thead>
                 <tbody>
-                {nom.show.map((m,i)=>{
+                {nom.showNominations?.map((sn,i)=>{
+                    let m = sn?.show;
+
                     const content = (<tr><td colSpan="4">
                         <table className="borderless" style={{width:'100%'}} >
                             <col style={{width:'100%'}}></col>
@@ -256,13 +262,21 @@ function ScoreNomination(nom, setEdited, setToDelete){
                             <col style={{width:'10%'}}></col>
                             </colgroup>
                             <tbody>
-                                {m.score.map((s,i) => {
+                                <tr>
+                                    <td>{m?.name}</td>
+                                    <td></td>
+                                    <td></td>
+                                    <td>{getScoreSum(m?.estimations)}</td>
+                                    <td></td>
+                                    <td><a onClick={()=>addScore(nom?.id,m?.id)}>Добавить оценку</a></td>
+                                </tr>
+                                {m?.estimations?.map((s,i) => {
                                     return(<tr className="score-row">
-                                        <td>{i==0&&m.name}</td>
-                                        <td>{s.fullName}</td>
-                                        <td><div>{s.value}</div></td>
-                                        <td>{i==0&&getScoreSum(m.score)}</td>
-                                        <td><a style={{color:'black', visibility:`${s.refereeId == -2 ? 'visible':'hidden'}`}} onClick={()=>deleteScore(nom.nominationId,m.id,s.refereeId)}>X</a></td>
+                                        <td></td>
+                                        <td>{s?.refereeId?.fullName}</td>
+                                        <td><div>{s?.score}</div></td>
+                                        <td></td>
+                                        <td><a style={{color:'black'}} onClick={()=>deleteScore(nom?.id,m?.id,s?.refereeId)}>X</a></td>
                                     </tr>)
                                 })}
                             </tbody>
@@ -275,7 +289,7 @@ function ScoreNomination(nom, setEdited, setToDelete){
                         </table>
                         
                         </td>
-                        <td><a onClick={()=>addScore(nom.nominationId,m.id)}>Добавить оценку</a></td>
+                        <td><a onClick={()=>addScore(nom?.id,m?.id)}>Добавить оценку</a></td>
                         </tr>)
 
                         return(content)
