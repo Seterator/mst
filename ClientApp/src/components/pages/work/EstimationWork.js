@@ -1,11 +1,13 @@
-import React ,{ Component, useEffect, useState }from 'react';
+import React ,{ Component, useEffect, useState, useContext }from 'react';
 import { useParams } from 'react-router-dom'
 import { getYouTubeUrl } from '../../../helper/IframeHelper'
 import { EstimationBlock, EstimationBasePart } from '../../elements/EstimationElements';
+import { UserContext } from '../../../LoginMiddleware';
 
 
 export function EstimationWork(){
     const {id} = useParams();
+   
     const[data, setData] = useState({});
     const[nominations, setNominations] = useState([]);
     const[scored, setScored] = useState([]);
@@ -22,12 +24,22 @@ export function EstimationWork(){
     {id:'16',videoLink:"https://www.youtube.com/watch?v=9JOyTf1q6gE", name:'moustache', description:'усатые женщины в желтом'}]}
 
     useEffect(()=>{
-        fetch(`Show/GetById?id=${id}`).then(res=>res.json()).then(json => setData(json));
-        //setData(testData.videos.filter(f => f.id == id)[0]);
-        setNominations(testData.nominations);
-        //fetch get scored by userId showId return {nominationId score}
-        setScored([{nominationId:3,score:1},{nominationId:5,score:2},{nominationId:6,score:3}])
+        fetch(`Show/GetById?id=${id}`).then(res=>res.json()).then(json => {
 
+            let arr = [];
+            setNominations(json.showNominations);
+            setData(json)
+            json.showNominations.map(m=>{
+                m.estimations.map(e=>{
+                    arr.push(e);
+
+                })
+            })
+
+            setScored(arr);
+        }
+            
+            );
 
     },[id]);
     return (<div className="container" style={{maxWidth: '1230px'}}>

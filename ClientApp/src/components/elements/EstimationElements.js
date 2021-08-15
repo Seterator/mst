@@ -3,11 +3,10 @@ import { Link, useParams } from 'react-router-dom'
 import {WarningMessage} from './MessageElements'
 import { UserContext } from '../../LoginMiddleware';
 
-export function VoteElement(data,index, f){
+export function VoteElement(data,estimations, userId, f){
 
-    let place = index % 3 == 1;
     return(
-    <span style={{display:'block', width:'390px', margin:`${place?'15px 30px':'15px 0'}`, float:'left',
+    <span style={{display:'block', width:'390px', margin:'15px 0', float:'left',
     borderImage: 'linear-gradient(to left, #770D37, #211452) 0 0 100% 0', paddingBottom:'20px'}}>
     <Link to={`/work/${data.id}`}  style={{display:'block'}}>
     <div height='247' width='390' style={{
@@ -25,16 +24,19 @@ export function VoteElement(data,index, f){
              <p style={{fontSize: "24px", lineHeight: '34px'}}>{data.name}</p>
             <p style={{fontSize: "16px", lineHeight: '26px'}}>{data.description}</p>
             <button style={{opacity:'0.5', background:'none'}} onClick={f}>Посмотреть список номинаций</button>
-            {DropDownNomination(data.nominations, data.dropDownVisible)}
+            {DropDownNomination(data.showNominations, data.dropDownVisible,estimations,userId)}
             </span> 
             )
 }
 
-function DropDownNomination(data, visible){
+function DropDownNomination(data, visible,estimations, userId){
 
     let d = visible ? 'block' : 'none';
     return(<a style={{display:`${d}`}}>
-        {data?.map((v,i) => <div style={{fontFamily: 'Optima Cyr',
+        {data?.map((v,i) => { 
+            let estimation = estimations.filter(e=>e.nominationId == v.nominationId && e.showId == v.showId && e.refereeId == userId);
+            let curScore = estimation.length>0 && estimation[0].score;
+            return (<div style={{fontFamily: 'Optima Cyr',
 fontStyle: 'normal',
 fontWeight: 'normal',
 fontSize: '14px',
@@ -42,7 +44,7 @@ lineHeight: '22px',
 margin:'5px 0',
 letterSpacing: '0.05em',
 
-color: '#FFFFFF'}} key={i}>{v.title} ({v.position})</div>)}
+color: '#FFFFFF'}} key={i}>{v.nomination.name} ({curScore})</div>)})}
         </a>)
 }
 
@@ -140,12 +142,12 @@ export function EstimationBlock(showId, nominations, score){
         {WarningMessage('Внезапно, непосредственные участники технического прогресса в равной степени предоставлены сами себе. Значимость этих проблем настолько очевидна, что сложившаяся структура организации представляет собой интересный эксперимент проверки новых принципов формирования материально-технической и кадровой базы.','show-warn')}
         <div className="show-nomination-container">
         {nominations?.map((v,i)=>{
-        let scored = scoredData.map(m=>m.nominationId).includes(v.id);
-        let score = scored && scoredData.filter(m=>m.nominationId == v.id)[0].score;
+        let scored = scoredData.map(m=>m.nominationId).includes(v.nominationId);
+        let score = scored && scoredData.filter(m=>m.nominationId == v.nominationId)[0].score;
         let classList = `${scored?'visible':'hidden'} ${scored?`score${score}`:''}`
-        return(<div  className="show-nomination-panel"><div className="show-nomination" onClick={()=>nominationClick(v.id)} style={{opacity:`${choosenNomination !== -1 && choosenNomination !== v.id?'0.4':'1'}`, background:`${choosenNomination == v.id?'radial-gradient(180.91% 1388.43% at 100% 7.27%, #770D37 0%, #211452 100%)':'#770D37'}`}} key={i}>
-            <div className="show-nomination-title">{v.title}</div>
-            <div className="show-nomination-name">{v.name}</div>
+        return(<div  className="show-nomination-panel"><div className="show-nomination" onClick={()=>nominationClick(v.nominationId)} style={{opacity:`${choosenNomination !== -1 && choosenNomination !== v.nominationId?'0.4':'1'}`, background:`${choosenNomination == v.nominationId?'radial-gradient(180.91% 1388.43% at 100% 7.27%, #770D37 0%, #211452 100%)':'#770D37'}`}} key={i}>
+            <div className="show-nomination-title">{v.nomination.name}</div>
+            <div className="show-nomination-name">{v.person}</div>
             </div><div className={`show-nomination-score ${classList}`}>{score}</div></div>)
         
         })}

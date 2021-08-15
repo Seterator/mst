@@ -16,7 +16,7 @@ export default function LoginSN(){
        
         <h1 className="sn-title">Название пьесы</h1>
         <div className="sn-description">Описание пьесы</div>
-        <div className="sn-auth">Авторизироваться</div>
+        <div className="sn-auth">Авторизироваться<img src={require('./img/ok.svg')}/><img src={require('./img/fb.svg')}/><img style={{marginTop:'5px'}} src={require('./img/vk2.svg')}/></div>
     
     </div>
     <Footer/>

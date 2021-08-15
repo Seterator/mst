@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -125,7 +126,7 @@ namespace mst.Controllers {
                 await _db.SaveChangesAsync();
                 return Ok();
             }
-            catch {
+            catch(Exception ex) {
                 return BadRequest();
             }
         }
