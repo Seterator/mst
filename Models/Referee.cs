@@ -16,6 +16,7 @@ namespace mst.Models {
 
         public List<Estimation> Estimations { get; set; }
         public List<BlockedReferee> BlockedReferees { get; set; }
+        public List<AvailableCompetition> AvailableCompetitions { get; set; } = new List<AvailableCompetition>();
         public Referee() {
             Estimations = new List<Estimation>();
             BlockedReferees = new List<BlockedReferee>();

@@ -8,10 +8,5 @@ namespace mst.Models {
         public Nomination Nomination { get; set; }
         // Номинант
         public string Person { get; set; }
-
-        public List<Estimation> Estimations { get; set; }
-        public ShowNomination() {
-            Estimations = new List<Estimation>();
-        }
     }
 }

@@ -142,5 +142,38 @@ namespace mst.Controllers {
                 return BadRequest();
             }
         }
+
+        [HttpPost("EditEstimation")]
+        public async Task<IActionResult> EditEstimation([FromBody]Estimation estimation) {
+            try {
+                var estimations =_db.Shows.Include(x => x.Estimations).Where(x => x.Id == estimation.ShowId).Single().Estimations;
+                var est = estimations.Where(x => x.RefereeId == estimation.RefereeId).Single();
+                est.Score = estimation.Score;
+                await _db.SaveChangesAsync();
+                return Ok();
+            }
+            catch {
+                return BadRequest();
+            }
+        }
+
+        // [HttpPost("DeleteEstimation")]
+        // public async Task<IActionResult> DeleteEstimation([FromBody]Estimation estimation) {
+        //     try {
+        //         var estimations =_db.Shows.Include(x => x.Estimations).Where(x => x.Id == estimation.ShowId).Single();
+        //         _db.Remove(
+        //             _db.Shows
+        //                 .Include(x => x.Estimations)
+        //                 .Where(x => x.Id == estimation.ShowId)
+        //                 .Single().Estimations
+        //                 .Where(x => x.RefereeId == estimation.RefereeId));
+        //         await _db.SaveChangesAsync();
+        //         return Ok();
+        //     }
+        //     catch {
+        //         return BadRequest();
+        //     }
+        // }
+
     }
 }

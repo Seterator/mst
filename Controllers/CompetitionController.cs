@@ -120,5 +120,18 @@ namespace mst.Controllers {
                 
         //     }
         // }
+
+        [HttpPost("AddReferee")]
+        public async Task<IActionResult> AddReferee([FromBody]AvailableCompetition availableCompetition) {
+            try {
+                var competition = _db.Competitions.Include(x => x.AvailableCompetitions).Where(x => x.Id == availableCompetition.CompetitionId).Single();
+                competition.AvailableCompetitions.Add(availableCompetition);
+                await _db.SaveChangesAsync();
+                return Ok();
+            }
+            catch {
+                return BadRequest();
+            }
+        }
     }
 } 

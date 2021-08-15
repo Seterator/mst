@@ -13,5 +13,6 @@ namespace mst.Models {
 
         public List<Nomination> Nominations { get; set; }
         public List<BlockedReferee> BlockedReferees { get; set; }
+        public List<AvailableCompetition> AvailableCompetitions { get; set; } = new List<AvailableCompetition>();
     }
 }

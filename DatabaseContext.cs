@@ -83,6 +83,19 @@ namespace mst
                 .HasOne(e => e.Referee)
                 .WithMany(c => c.BlockedReferees)
                 .HasForeignKey(x => x.RefereeId);
+
+            modelBuilder.Entity<AvailableCompetition>()
+                .HasKey( x => new { x.CompetitionId, x.RefereeId });
+
+            modelBuilder.Entity<AvailableCompetition>()
+                .HasOne(x => x.Competition)
+                .WithMany(x => x.AvailableCompetitions)
+                .HasForeignKey(x => x.CompetitionId);
+ 
+            modelBuilder.Entity<AvailableCompetition>()
+                .HasOne(x => x.Referee)
+                .WithMany(x => x.AvailableCompetitions)
+                .HasForeignKey(x => x.RefereeId);
         }
     }
 }
