@@ -26,7 +26,7 @@ export function ProfileListView(){
     },[profileEditData]);
     useEffect(()=>{
         filter && filter!=''
-        ? setProfileDataView({...profileData,data:profileData?.data?.filter(f => f.name.toLowerCase().includes(filter.toLowerCase()))})
+        ? setProfileDataView({...profileData,data:profileData?.data?.filter(f => f.fullName.toLowerCase().includes(filter.toLowerCase()))})
         : setProfileDataView(profileData);
     },[filter]);
 
