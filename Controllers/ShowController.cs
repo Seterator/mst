@@ -103,15 +103,15 @@ namespace mst.Controllers {
         public IActionResult GetAll() {
             try {
                 var shows = _db.Shows
-                    .Include(sn => sn.Estimations)
+                                .Include(sn => sn.Estimations)
                                 .Include(x => x.ShowNominations)
                                 .ThenInclude(sn => sn.Nomination)
-                                
                                 .ToList();
                 foreach(var show in shows) {
                     foreach(var showNomination in show.ShowNominations) {
                     showNomination.Nomination.ShowNominations = null;
-                    showNomination.Show = null;
+                        showNomination.Show = null;
+
                     }
                     foreach (var estimation in show.Estimations)
                     {

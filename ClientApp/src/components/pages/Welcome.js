@@ -24,7 +24,7 @@ export function WelcomePage(props){
             clList.remove("visibility-hidden")
         }
 
-        if(user.email == 'lisa@mail.ru'){
+        if(user.email == 'manager@musicalheart.ru'){
             let clList = document.getElementById("admin-panel").classList;
             if(clList.contains("visibility-hidden")){
                 clList.remove("visibility-hidden")

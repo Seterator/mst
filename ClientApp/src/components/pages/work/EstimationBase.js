@@ -16,12 +16,38 @@ export function EstimationBase(){
 
     
     useEffect(()=>{
-        fetch('Show/GetAll').then(r => r.json()).then(json =>{
 
-            setData(json.map(v =>{ return {...v, dropDownVisible:false}}));
+        const ff = async()=>{
+
+        if(user?.id>0){
+
+            let query = ['Show/GetAll', `User/AvailableCompetitions?refereeId=${user.id}`]
+            let results = await Promise.all( query.map(async q =>{
+
+                return await fetch(q).then(r=>r.ok&&r.json());
+              
+            }))
+   
+
+
+            let json = results[0];
+            let availableCompetitions = results[1];
+
+            let arr =[];
+            json.map(f=>{
+                f.showNominations.map(s=>{
+                    if(availableCompetitions.map(a=>a.competitionId).includes(s.nomination.competitionId)){
+                    arr.push(f.id) 
+                    }
+                })
+            })
+  
+            let sourceData = json.filter(f=>arr.includes(f.id));
+
+            setData(sourceData.filter(f=>arr.includes(f.id)).map(v =>{ return {...v, dropDownVisible:false}}));
 
             let estArr = [];
-            json.map(m=>{
+            sourceData.map(m=>{
 
                 m.estimations.map(e=>{
                     estArr.push({showId:e.showId, nominationId:e.nominationId, score:e.score, refereeId:e.refereeId});
@@ -30,10 +56,12 @@ export function EstimationBase(){
 
             setEstimations(estArr);
 
-         });
-         //fetch(`Show/GetEstimations?refereeId=${user.id}&showId=${id}`).then(res=>res.json()).then(json => setScored(json));
+        }
+    }
 
-    },[]);
+    ff();
+
+    },[user]);
 
     useEffect(()=>{
         const v = (

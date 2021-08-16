@@ -193,5 +193,21 @@ namespace mst.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpGet("AvailableCompetitions")]
+        public async Task<IActionResult> AvailableCompetitions([FromQuery]int refereeId)
+        {
+            var referees = _db.Referees.Include(i => i.AvailableCompetitions).Where(w => w.Id == refereeId);
+            foreach(var r in referees)
+            {
+                foreach(var a in r.AvailableCompetitions)
+                {
+                    a.Competition = null;
+                    a.Referee = null;
+                }
+            }
+
+            return Ok(referees.SelectMany(s=>s.AvailableCompetitions));
+        }
     }
 }

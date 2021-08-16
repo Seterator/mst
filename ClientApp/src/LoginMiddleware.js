@@ -16,7 +16,7 @@ export function LoginMiddleware() {
     const [user, setUser] = useState({})
     const h = useHistory();
 
-    const testData = { id: -2, login:'lisaLis', fullname: 'Лиса Лисичкова', email:'lisa@mail.ru', avatar:'', bio:'', city:'' }
+    const testData = { id: -2, login:'manager@musicalheart.ru', fullname: 'Администратор', email:'manager@musicalheart.ru', avatar:'', bio:'', city:'' }
 
     useEffect(() => {
         const id = localStorage.getItem(USER_ID);
@@ -46,12 +46,12 @@ export function LoginMiddleware() {
 
     function login(l, p) {
 
-        if(l == 'lisa@mail.ru'){
+        if(l == 'manager@musicalheart.ru'){
             localStorage.setItem(USER_ID, -2);
-            localStorage.setItem(USER_EMAIL, 'lisa@mail.ru');
+            localStorage.setItem(USER_EMAIL, 'manager@musicalheart.ru');
             setUser({
                 id: -2,
-                email:'lisa@mail.ru'
+                email:'manager@musicalheart.ru'
             })
             setLogin(true)
 

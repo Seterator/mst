@@ -14,21 +14,28 @@ export function EstimationWork(){
     const[scored, setScored] = useState([]);
  
     useEffect(()=>{
+
+        const ff = async()=>{
         if(id&&user?.id){
+            let query = [`Show/GetById?id=${id}`, `Show/GetEstimations?refereeId=${user.id}&showId=${id}`]
+            let results = await Promise.all( query.map(async q =>{
 
-        
-        fetch(`Show/GetById?id=${id}`).then(res=>res.json()).then(json => {
+                return await fetch(q).then(r=>r.ok&&r.json());
+              
+            }))
+   
 
-            let arr = [];
+
+            let json = results[0];
+            let scored = results[1];
+
             setNominations(json.showNominations);
             setData(json)
+            setScored(scored)
 
         }
-            
-            );
-
-            fetch(`Show/GetEstimations?refereeId=${user.id}&showId=${id}`).then(res=>res.json()).then(json => setScored(json));
     }
+    ff();
 
     },[id,user]);
     return (<div className="container" style={{maxWidth: '1230px'}}>

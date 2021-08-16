@@ -304,7 +304,7 @@ function CompetitionTable({ columns, data, setData }){
     async function addCompetitionsShowSubmit(m){
 
 
-        let results = await Promise.all( m.map(async a =>{
+        let results = await Promise.all( m.showNominations.map(async a =>{
 
             return await fetch('Nomination/AddShow',{
                 method: 'post',
