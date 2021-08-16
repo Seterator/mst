@@ -84,7 +84,7 @@ export function EstimationBlock(showId, nominations, score){
         :choosePlace(placeId);
     }
 
-    function saveClick(){
+    function saveClick(){ //Оценка заблокирована
         if(choosenPlace ==-1 || choosenNomination ==-1){
             return;
         }
@@ -162,7 +162,7 @@ export function EstimationBlock(showId, nominations, score){
                 <button className="estimate-btn" onClick={()=>placeClick(1)} style={{background:'linear-gradient(138.95deg, #BBA151 -28.75%, #F4DE9D 60.24%, #E3C877 76.72%)', opacity:`${choosenPlace==2 || choosenPlace==3?'0.4':'1'}`}}>1</button>
                 <button className="estimate-btn" onClick={()=>placeClick(2)} style={{background:'linear-gradient(138.95deg, #DCDCDC -28.75%, #B2B0AA 60.24%, #6F6E6B 76.72%)', opacity:`${choosenPlace==1 || choosenPlace==3?'0.4':'1'}`}}>2</button>
                 <button className="estimate-btn" onClick={()=>placeClick(3)} style={{background:'linear-gradient(138.95deg, #FFFFFF -28.75%, #F3B378 45.77%, #DF8D2D 76.72%)', opacity:`${choosenPlace==2 || choosenPlace==1?'0.4':'1'}`}}>3</button>
-                <button onClick={()=>saveClick()} style={{float:'right',width: '168px',marginTop: '20px', height: '55px', background:`${choosenPlace==1?'linear-gradient(138.95deg, #BBA151 -28.75%, #F4DE9D 60.24%, #E3C877 76.72%)':choosenPlace==2?'linear-gradient(138.95deg, #DCDCDC -28.75%, #B2B0AA 60.24%, #6F6E6B 76.72%)':choosenPlace==3?'linear-gradient(138.95deg, #FFFFFF -28.75%, #F3B378 45.77%, #DF8D2D 76.72%)':'#111111'}` , borderRadius: '5px', opacity:`${choosenPlace==-1?'0.4':'1'}`}}>Сохранить</button>
+                <button onClick={()=>{}} style={{float:'right',width: '168px',marginTop: '20px', height: '55px', background:`${choosenPlace==1?'linear-gradient(138.95deg, #BBA151 -28.75%, #F4DE9D 60.24%, #E3C877 76.72%)':choosenPlace==2?'linear-gradient(138.95deg, #DCDCDC -28.75%, #B2B0AA 60.24%, #6F6E6B 76.72%)':choosenPlace==3?'linear-gradient(138.95deg, #FFFFFF -28.75%, #F3B378 45.77%, #DF8D2D 76.72%)':'#111111'}` , borderRadius: '5px', opacity:`${choosenPlace==-1?'0.4':'1'}`}}>Сохранить</button>
                 </div>
                 
                 </div>
