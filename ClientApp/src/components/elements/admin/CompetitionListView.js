@@ -148,6 +148,13 @@ function CompetitionTable({ columns, data, setData }){
         });
         fetch('User/GetAll').then(r => r.json()).then(json =>{
             setMembers(json);
+            let arr =[];
+            json.map(m=>{
+                m.availableCompetitions.map(a=>{
+                    arr.push({competitionId:m.id, refereeId:a.refereeId})
+                })
+            })
+            setMembersChecked(arr);
         });
 
         
@@ -262,41 +269,53 @@ function CompetitionTable({ columns, data, setData }){
             setNominations([...nominations,{...v, id:json}]);
            });
     }
-    function addMembersSubmit(m){
+     async function addMembersSubmit(m){
 
-        //fetch post competition - referee
-        //[{memberId, competitionId}]
+     
+
+          let results = await Promise.all( m.map(async member =>{
+
+            
+            return await fetch('Competition/AddReferee',{
+                method: 'post',
+                headers: {'Content-Type':'application/json'},
+                body:JSON.stringify(member)
+                
+               }).then(r=>r.ok);
+              
+            }))
+
+            
 
 
-        let newArr = membersChecked;
-        var curMembers = newArr.filter(f=> f.competitionId == editCompetitionData.id);
+            if(!results.some(s=>s == false)){
+                let newArr = membersChecked;
+            var curMembers = newArr.filter(f=> f.competitionId == editCompetitionData.id);
+    
+            curMembers.forEach(v => {
+                newArr.splice(newArr.indexOf(v),1);
+            })
+            setMembersChecked([...newArr,...m])
 
-        curMembers.forEach(v => {
-            newArr.splice(newArr.indexOf(v),1);
-        })
-        setMembersChecked([...newArr,...m])
+            }
+        
+  
     }
-    function addCompetitionsShowSubmit(m){
-        //fetch post competition - nomination - show - nominant?
-        // [{showId: "1",nominationId: 1,person: ""}]
-        // editCompetitionData.id
+    async function addCompetitionsShowSubmit(m){
 
-        let error = false;
-        m.showNominations.map(async a =>{
-            await fetch(`Nomination/AddShow`, {
+
+        let results = await Promise.all( m.map(async a =>{
+
+            return await fetch('Nomination/AddShow',{
                 method: 'post',
                 headers: {'Content-Type':'application/json'},
                 body:JSON.stringify({showId: a.showId,nominationId: a.nominationId,person: a.nominationValue})
                 
-               }).then(r => {
-                if(!r.ok){
-                    error = true;
-                    return;
-                }})
-        })
-       
-       
+               }).then(r=>r.ok);
+              
+            }))
 
+        if(!results.some(s=>s == false)){
             let newArr = showsChecked;
             var curShows = newArr.filter(f=> f.competitionId == editCompetitionData.id);
             
@@ -315,9 +334,13 @@ function CompetitionTable({ columns, data, setData }){
             curShowsNom.forEach(v => {
                 newShowNomArr.splice(newShowNomArr.indexOf(v),1);
             })
-            setShowNominationsValue([...newShowNomArr,...m.showNominations])    
+            setShowNominationsValue([...newShowNomArr,...m.showNominations])  
+        }  
+        
            
     }
+
+
     return(<div>
         <table>
             <thead>
@@ -354,7 +377,7 @@ function CompetitionTable({ columns, data, setData }){
                 })}
             </tbody>
         </table>
-        {EditNominationsListModal({competitionId: editCompetitionData.id,isOpen:isModalNominationOpen,nominations:nominationsView?.filter(f=>f.competitionId == editCompetitionData.id),add:addNominationToList,edit:editNomination,delete:deleteNomination,cancel:()=>{OpenNominationModal(false)}})}
+        {EditNominationsListModal({competitionId: editCompetitionData.id,isOpen:isModalNominationOpen,nominations:nominationsView && nominationsView.filter(f=>f?.competitionId == editCompetitionData.id),add:addNominationToList,edit:editNomination,delete:deleteNomination,cancel:()=>{OpenNominationModal(false)}})}
         {EditNominationModal({isOpen:isModalNominationEditOpen,preValue:editNominationData.value,cancel:()=>{OpenNominationEditModal(false)}, submit:editNominationSubmit})}
         {AddMembersModal({competitionId: editCompetitionData.id,isOpen:isModalMembersOpen, members:members,checked:membersChecked,cancel:()=>{OpenMembersModal(false)}, submit:addMembersSubmit})}
         

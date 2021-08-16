@@ -32,7 +32,7 @@ namespace mst.Controllers
                 referee.Login = newUser.Login;
                 referee.Email = newUser.Email;
 
-                if (referee.Avatar != null) {
+                if (newUser.Avatar != null) {
                     using var contentStream = newUser.Avatar.OpenReadStream();
                     MemoryStream memStream = new MemoryStream();
                     await contentStream.CopyToAsync(memStream);
@@ -126,7 +126,16 @@ namespace mst.Controllers
         [HttpGet("GetAll")]
         public IActionResult GetAll()
         {
-            return Ok(_db.Referees);
+            var referees = _db.Referees.Include(x => x.AvailableCompetitions);
+            foreach(var r in referees)
+            {
+                foreach (var a in r.AvailableCompetitions)
+                {
+                    a.Referee = null;
+                    a.Competition = null;
+                }
+            }
+            return Ok(referees);
         }
 
         [HttpGet("Login")]

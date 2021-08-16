@@ -13,13 +13,13 @@ export default function AddMembersModal(props) {
 
     const [buttonDisable, setButtonDisable] = useState(false)
     useEffect(()=>{
-        setTempChecked(checked.filter(f=>f?.competitionId == competitionId).map(m => m?.memberId));
+        setTempChecked(checked.filter(f=>f?.competitionId == competitionId).map(m => m?.refereeId));
         setMembersData(members);
     },[checked,members,competitionId])
 
     function handleCheck(e){
         let val = e.target.checked;
-        let id = e.target.getAttribute('id');
+        let id = Number.parseInt(e.target.getAttribute('id'));
         if(val){
             if(tempChecked.indexOf(id)<0){
                 setTempChecked([...tempChecked, id]);
@@ -35,7 +35,7 @@ export default function AddMembersModal(props) {
         //setChangeIndex(changeIndex+1);
     }
     const handleSubmit = () => {
-            submit(tempChecked.map(m=>{return {competitionId:competitionId,memberId:m}}));
+            submit(tempChecked.map(m=>{return {competitionId:competitionId,refereeId:m}}));
             setFilter('');
             cancel();
     }
@@ -79,9 +79,9 @@ export default function AddMembersModal(props) {
                         </tr>
                     </thead>
                     <tbody>
-                        {members?.filter(f=>f.fullName?.toLowerCase()?.includes(filter?.toLowerCase())).map((m,i)=>{
+                        {members?.filter(f=>f.fullName?.toLowerCase()?.includes(filter?.toLowerCase()) || f.email?.toLowerCase()?.includes(filter?.toLowerCase())).map((m,i)=>{
                             return(<tr>
-                                <td><input type='checkbox' defaultChecked={tempChecked.includes(`${m.id}`)} id={m.id} onChange={handleCheck}/></td>
+                                <td><input type='checkbox' defaultChecked={tempChecked.includes(m.id)} id={m.id} onChange={handleCheck}/></td>
                                 <td>{m.email}</td>
                                 <td>{m.fullName}</td>
                             </tr>)

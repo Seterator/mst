@@ -69,13 +69,13 @@ function editProfile(i){
 function profileAdded(d){
 
     let formData = new FormData();
-    formData.append('file', d.avatar);
+    formData.append('file', d.avatar || null);
     formData.append('email', d.email);
     formData.append('login', d.login);
     formData.append('password', d.password);
-    formData.append('fullName', d.fullName);
-    formData.append('city', d.city);
-    formData.append('bio', d.bio);
+    formData.append('fullName', d.fullName || '');
+    formData.append('city', d.city || '');
+    formData.append('bio', d.bio || '');
     
     fetch(`User/Create`, {
         method: 'post',

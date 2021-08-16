@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using mst.Models;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace mst.Controllers {
     [ApiController]
@@ -125,11 +126,15 @@ namespace mst.Controllers {
         public async Task<IActionResult> AddReferee([FromBody]AvailableCompetition availableCompetition) {
             try {
                 var competition = _db.Competitions.Include(x => x.AvailableCompetitions).Where(x => x.Id == availableCompetition.CompetitionId).Single();
-                competition.AvailableCompetitions.Add(availableCompetition);
+                if (!competition.AvailableCompetitions.Any(a => a.CompetitionId == availableCompetition.CompetitionId && a.RefereeId == availableCompetition.RefereeId))
+                {
+                    competition.AvailableCompetitions.Add(availableCompetition);
+                }
+                
                 await _db.SaveChangesAsync();
                 return Ok();
             }
-            catch {
+            catch (Exception ex){
                 return BadRequest();
             }
         }
