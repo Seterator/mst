@@ -25,7 +25,7 @@ export default function AddCompetitionsShowModal(props) {
     useEffect(()=>{
         setTempChecked(checked.filter(f=>f.competitionId == competitionId).map(m=>m.showId));
         setToSubmit(showNominationsValue);
-        setNominationsData(nominations.filter(f=>f.competitionId == competitionId));
+        setNominationsData(nominations.filter(f=>f?.competitionId == competitionId));
     },[checked, showNominationsValue, nominations, competitionId])
 
     useEffect(()=>{
@@ -109,7 +109,7 @@ export default function AddCompetitionsShowModal(props) {
 
                 setTempChecked([...tempChecked, id]);
 
-                let newArr = nominationsData.map(m => {return {showId:id, nominationId:m.id,nominationTitle:m.name, nominationValue:'' }});
+                let newArr = nominationsData.map(m => {return {showId:id, nominationId:m?.id,nominationTitle:m?.name, nominationValue:'' }});
                 setToSubmit([...toSubmit,...newArr]);
             }           
         }

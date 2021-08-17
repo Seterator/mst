@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal'
 import Moment from 'moment'
 
@@ -10,6 +10,9 @@ export default function AddCompetitionModal(props) {
 
     const [buttonDisable, setButtonDisable] = useState(false)
 
+    useEffect(()=>{
+        props?.preValue&&setProfileData(props.preValue)
+    },[props])
     const handleChange = (e)=>{
         const newData = profileData;
         newData[e.target.getAttribute('id')] = e.target.value;

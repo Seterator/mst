@@ -31,6 +31,10 @@ export function ShowListView(){
     useEffect(()=>{
         showEditData&&showEditData.id&&OpenEditModal(true);
     },[showEditData]);
+
+    useEffect(()=>{
+        !isModalEditOpen&&setShowEditData({});
+    },[isModalEditOpen]);
     useEffect(()=>{
         filter && filter!=''
         ? setShowDataView({...showData,data:showData?.data?.filter(f => f.name.toLowerCase().includes(filter.toLowerCase()))})
@@ -48,9 +52,8 @@ export function ShowListView(){
 function deleteShow(i){
     if(window.confirm(`Удалить cпектакль`)){
 
-        fetch(`Show/Delete?id=${showEditData.id}`, {
-            method: 'delete',
-            headers: {'Content-Type':'application/json'}
+        fetch(`Show/Delete?id=${i.id}`, {
+            method: 'delete'
            }).then(res=>{
                if(!res?.ok){
                    return;

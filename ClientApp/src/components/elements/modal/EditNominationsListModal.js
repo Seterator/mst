@@ -53,9 +53,9 @@ export default function EditNominationsListModal(props) {
                         </tr>
                     </thead>
                     <tbody>
-                        {props?.nominations?.map((m,i)=>{
+                        {props?.nominations&& props?.nominations?.map((m,i)=>{
                             return(<tr>
-                                <td>{m.name}</td>
+                                <td>{m?.name}</td>
                                 <td><a onClick={(e)=>props.delete(i)}>Удалить</a><a onClick={(e)=>props.edit(m,i)}>Изменить</a></td>
                             </tr>)
                         })}

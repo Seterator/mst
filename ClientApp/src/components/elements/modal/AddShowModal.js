@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal'
 
 
@@ -9,6 +9,10 @@ export default function AddShowModal(props) {
 
     const [buttonDisable, setButtonDisable] = useState(false)
 
+    useEffect(()=>{
+        props?.preValue&&setShowData(props?.preValue)
+
+    },[props])
     const handleChange = (e)=>{
         const newData = showData;
         newData[e.target.getAttribute('id')] = e.target.value;
@@ -16,17 +20,30 @@ export default function AddShowModal(props) {
     }
     const handleLoadFile = (e)=>{
         const newData = showData;
-        
-        //const formData = new FormData();
-		//formData.append('File', e.target.files[0]);
 
         newData[e.target.getAttribute('id')] = e.target.files[0]
         setShowData(newData) ;
     }
+
+    const handleValidation = () =>{
+        return showData.name 
+        &&showData.description 
+        &&showData.shortDescription 
+        &&showData.webLink 
+        &&showData.videoLink 
+        && (showData.image  ||props?.preValue)
+        
+    }
     const submit = () => {
 
+        if(handleValidation()){
             props.submit(showData);
             props.cancel();
+        }
+        else{
+            alert('Необходимо заполнить все поля')
+        }
+            
     }
 
     const customStyles = {
@@ -51,7 +68,7 @@ export default function AddShowModal(props) {
                 shouldCloseOnOverlayClick={false}
             >
                 <div style={{display:'grid', padding:'20px', backgroundColor: '#2B111B'}}> 
-                <h2>Создание пользователя</h2>
+                <h2>Создание/изменение спектакля</h2>
 
                 <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="Название" id='name' defaultValue={props?.preValue?.name} onChange={handleChange} />
                 <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="Описание" id='description' defaultValue={props?.preValue?.description} onChange={handleChange} />

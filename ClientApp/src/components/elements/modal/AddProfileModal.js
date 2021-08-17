@@ -11,7 +11,7 @@ export default function AddProfileModal(props) {
 
     useEffect(()=>{
         props?.preValue&& setProfileData(props?.preValue);
-    },[]);
+    },[props]);
     const handleChange = (e)=>{
         if(profileData){
 
@@ -31,11 +31,11 @@ export default function AddProfileModal(props) {
     const handleValidation = () =>{
         return profileData.email 
         &&profileData.login 
-        &&profileData.password 
+        && (profileData.password ||props?.preValue)
         &&profileData.fullName 
         &&profileData.city 
         &&profileData.bio 
-        &&profileData.avatar 
+        && (profileData.avatar  ||props?.preValue)
         
     }
     const submit = () => {
@@ -75,7 +75,7 @@ export default function AddProfileModal(props) {
 
                 <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="Email" id='email' defaultValue={props?.preValue?.email} onChange={handleChange} />
                 <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="Логин" id='login' defaultValue={props?.preValue?.login} onChange={handleChange} />
-                <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="Пароль" id='password' defaultValue={props?.preValue?.password} onChange={handleChange} />
+                <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="Пароль" id='password' onChange={handleChange} />
                 <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="ФИО" id='fullName' defaultValue={props?.preValue?.fullName} onChange={handleChange} />
                 <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="Город" id='city' defaultValue={props?.preValue?.city} onChange={handleChange} />
                 <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="О себе" id='bio' defaultValue={props?.preValue?.bio} onChange={handleChange} />

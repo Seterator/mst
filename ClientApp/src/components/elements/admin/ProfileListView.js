@@ -24,6 +24,10 @@ export function ProfileListView(){
     useEffect(()=>{
         profileEditData&&profileEditData.id&&OpenEditModal(true);
     },[profileEditData]);
+
+    useEffect(()=>{
+        !isModalEditOpen&&setProfileEditData({});
+    },[isModalEditOpen]);
     useEffect(()=>{
         filter && filter!=''
         ? setProfileDataView({...profileData,data:profileData?.data?.filter(f => f.fullName.toLowerCase().includes(filter.toLowerCase()))})
@@ -99,10 +103,10 @@ function profileEdited(d){
     formData.append('file', d.avatar);
     formData.append('email', d.email);
     formData.append('login', d.login);
-    formData.append('password', d.password);
-    formData.append('fullName', d.fullName);
-    formData.append('city', d.city);
-    formData.append('bio', d.bio);
+    formData.append('password', d.password || '');
+    formData.append('fullName', d.fullName || '');
+    formData.append('city', d.city || '');
+    formData.append('bio', d.bio || '');
 
 
     fetch(`User/Edit`, {

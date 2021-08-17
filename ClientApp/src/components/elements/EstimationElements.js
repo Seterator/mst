@@ -164,7 +164,7 @@ export function EstimationBlock(showId, showNominations, score){
     </div>)
 }
 
-export function EstimationBasePart(id){
+export function EstimationBasePart(id, filter){
    
 const [data, setData] = useState([]);
     const [view, setView] = useState([]);
@@ -173,21 +173,56 @@ const [data, setData] = useState([]);
     const {user} = useContext(UserContext);
 
     useEffect(()=>{
-        
-        fetch('Show/GetAll').then(res=>res.json()).then(json => {
-            setData(json.filter(f=>f.id != id));
-            let estArr = [];
-            json.map(m=>{
+        const ff = async()=>{
 
-                m.estimations.map(e=>{
-                    estArr.push({showId:e.showId, nominationId:e.nominationId, score:e.score, refereeId:e.refereeId});
+            if(user?.id>0){
+    
+                let query = ['Show/GetAll', `User/AvailableCompetitions?refereeId=${user.id}`]
+                let results = await Promise.all( query.map(async q =>{
+    
+                    return await fetch(q).then(r=>r.ok&&r.json());
+                  
+                }))
+       
+    
+                let json = results[0];
+                let availableCompetitions = results[1];
+    
+                let arr =[];
+                json.map(f=>{
+                    f.showNominations.map(s=>{
+                        if(availableCompetitions.map(a=>a.competitionId).includes(s.nomination.competitionId)){
+                        arr.push(f.id) 
+                        }
+                    })
                 })
-            })
+      
+                let sourceData = json.filter(f=>arr.includes(f.id));
 
-            setEstimations(estArr);
-        });
+                if(id){
+                    sourceData = sourceData.filter(f=>f.id != id)
+                }
+    
+                setData(sourceData);
+    
+                let estArr = [];
+                sourceData.map(m=>{
+    
+                    m.estimations.map(e=>{
+                        estArr.push({showId:e.showId, nominationId:e.nominationId, score:e.score, refereeId:e.refereeId});
+                    })
+                })
+    
+                setEstimations(estArr);
+    
+            }
+        }
 
-    },[id]);
+        ff();
+
+    },[id, user]);
+
+
     useEffect(()=>{
         const v = (
             <div   style={{width:'100%', display:'table'}}>

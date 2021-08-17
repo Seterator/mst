@@ -16,7 +16,6 @@ export default function Table({ columns, data, setData }) {
                     return <tr>
                         {columns?.map((v1,i1)=>{
                             const propKey = v1?.key||v1;
-                            const propVal = v[propKey];
                             let val = v[propKey];
                             
                             return <td>{val}</td>

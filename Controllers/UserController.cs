@@ -62,7 +62,15 @@ namespace mst.Controllers
         public async Task<IActionResult> Edit([FromForm] ExtendedUser referee)
         {
             try {
-                var r = _db.Referees.Where<Referee>(x => x.Id == referee.Id).Single();
+                var r = _db.Referees.Include(i=>i.User).Where(x => x.Id == referee.Id).Single();
+                if(_db.Referees.Any(a=> (a.Login == referee.Login && r.Login != referee.Login) || (a.Email == referee.Email && r.Email != referee.Email)))
+                {
+                    return BadRequest("Пользователь с указанным Login или Email уже существует");
+                }
+
+                r.Login = referee.Login;
+                r.Email = referee.Email;
+                r.User.Password = referee.Password;
                 r.FullName = referee.FullName;
                 r.Bio = referee.Bio;
                 r.City = referee.City;
@@ -83,7 +91,7 @@ namespace mst.Controllers
             }
         }
 
-        [HttpPost("Post")]
+        [HttpPost("Delete")]
         public async Task<IActionResult> Delete([FromBody] int id)
         {
 

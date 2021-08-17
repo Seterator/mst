@@ -42,7 +42,7 @@ namespace mst.Controllers {
         }
 
         [HttpPost("Edit")]
-        public async Task<IActionResult> Edit([FromBody]ShowFromForm show) {
+        public async Task<IActionResult> Edit([FromForm] ShowFromForm show) {
             try {
                 var s = _db.Shows.Where(x => x.Id == show.Id).Single();
                 s.Name = show.Name;
@@ -66,10 +66,10 @@ namespace mst.Controllers {
             }
         }
 
-        [HttpPost("Delete")]
-        public async Task<IActionResult> Delete([FromQuery]int Id) {
+        [HttpDelete("Delete")]
+        public async Task<IActionResult> Delete([FromQuery]int id) {
             try {
-                var s = _db.Shows.Where(x => x.Id == Id).Single();
+                var s = _db.Shows.Where(x => x.Id == id).Single();
                 _db.Remove(s);
                 await _db.SaveChangesAsync();
                 return Ok();
