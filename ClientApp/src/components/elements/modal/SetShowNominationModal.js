@@ -6,19 +6,28 @@ Modal.setAppElement('#root')
 
 export default function SetShowNominationModal(props) {
     const [showNominationsData, setShowNominationsData] = useState([])
+    const [nominationsData, setNominationsData] = useState([])
 
     const [buttonDisable, setButtonDisable] = useState(false)
 
-    const {isOpen, showNominations, setShowNominations, cancel} = props;
+    const {isOpen, showNominations, setShowNominations, cancel, nominations} = props;
 
     useEffect(()=>{
         setShowNominationsData(showNominations);
+        setNominationsData(nominations);
 
     },[showNominations])
     const handleChange = (val,id)=>{
         const newData = showNominationsData;
+        let i = newData.indexOf(newData.filter(f=>f.id == id)[0]);
+        if(i>-1){
+            newData[newData.indexOf(newData.filter(f=>f.id == id)[0])].value = val;
+        }
+        else{
+            newData.push({id:id, value:val});
+        }
+
         
-        newData[newData.indexOf(newData.filter(f=>f.id == id)[0])].value = val;
 
         setShowNominationsData(newData) ;
     }
@@ -61,11 +70,13 @@ export default function SetShowNominationModal(props) {
             >
                 <div style={{display:'grid', padding:'20px', backgroundColor: '#2B111B'}}> 
                 <h2>Назначение номинаций</h2>
-                {showNominationsData?.map((v,i)=>{
+                {nominationsData?.map((v,i)=>{
+                    let values = showNominations.filter(f=>f.id == v.id).map(m=>m.value);
+                    let val = values.length>0 ? values[0] : '';
                     return(
                     <div>
                     <label>{v.name}</label>
-                    <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="Номинант" id={v.name} defaultValue={v.value} onChange={(e)=>handleChange(e.target.value,v.id)} />
+                    <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="Номинант" id={v.name} defaultValue={val} onChange={(e)=>handleChange(e.target.value,v.id)} />
                     </div>)
                 })}
 

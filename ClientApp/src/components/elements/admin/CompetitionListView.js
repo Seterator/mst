@@ -139,8 +139,6 @@ function CompetitionTable({ columns, data, setData }){
     const [shows, setShows] = useState([]);
     const [showsChecked, setShowsChecked] = useState([]);
     const [showNominationsValue, setShowNominationsValue] = useState([]);
-    
- 
 
     useEffect(()=>{
         fetch('Show/GetAll').then(r => r.json()).then(json =>{
@@ -151,7 +149,7 @@ function CompetitionTable({ columns, data, setData }){
             let arr =[];
             json.map(m=>{
                 m.availableCompetitions.map(a=>{
-                    arr.push({competitionId:m.id, refereeId:a.refereeId})
+                    arr.push({competitionId:a.competitionId, refereeId:a.refereeId})
                 })
             })
             setMembersChecked(arr);
@@ -185,7 +183,10 @@ function CompetitionTable({ columns, data, setData }){
         let valArr = [];
         nominations.map(m=>{
             m?.showNominations && m.showNominations.map(s=>{
-                checkedArr.push({competitionId:m.competitionId, showId:`${s.showId}`});
+                if(!checkedArr.some(y => y.competitionId == m.competitionId && y.showId == s.showId)){
+                    checkedArr.push({competitionId:m.competitionId, showId:s.showId});
+                }
+                
                 valArr.push({showId:s.showId,nominationId:m.id, nominationTitle:m.name,nominationValue:s.person })
             })
         });

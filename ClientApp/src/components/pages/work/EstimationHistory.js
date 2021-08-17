@@ -33,7 +33,7 @@ function HistoryElement(data, userId){
     let etsArr = [];
 
     let tt = data.showNominations?.map(m =>{
-        let tt1 = m.estimations?.filter(f=>f.refereeId == userId).map(e=>{
+        let tt1 = m.show.estimations?.filter(f=>f.refereeId == userId && f.nominationId == m.nominationId).map(e=>{
             etsArr.push(e);
         })
     });

@@ -14,7 +14,7 @@ export default function AddCompetitionsShowModal(props) {
     const [tempChecked, setTempChecked] = useState([])
 
     const [editShowData, setEditShowData] = useState({});
-    const [nominationsData, setNominationsData] = useState({});
+    const [nominationsData, setNominationsData] = useState([]);
 
 
     const [isModalShowNominationOpen, OpenShowNominationModal] = useState(false);
@@ -100,7 +100,7 @@ export default function AddCompetitionsShowModal(props) {
 
     function handleCheck(e){
         let val = e.target.checked;
-        let id = e.target.getAttribute('id');
+        let id = Number.parseInt(e.target.getAttribute('id'));
         if(val){
             if(tempChecked.indexOf(id)<0){
                 let el = document.getElementById(`show-nomination${id}`);
@@ -177,10 +177,10 @@ export default function AddCompetitionsShowModal(props) {
                     <tbody>
                         {shows?.filter(f=>f.name?.toLowerCase()?.includes(filter?.toLowerCase())).map((m,i)=>{
                             return(<tr>
-                                <td><input type='checkbox' defaultChecked={tempChecked.includes(`${m.id}`)} id={m.id} onChange={handleCheck}/></td>
+                                <td><input type='checkbox' defaultChecked={tempChecked.includes(m.id)} id={m.id} onChange={handleCheck}/></td>
                                 <td>{m.shortDescription}</td>
                                 <td>{m.name}</td>
-                                <td><a id={`show-nomination${m.id}`} className={tempChecked.includes(`${m.id}`)?'visibility-visible':"visibility-hidden"} onClick={handleEditNominations}>Номинации</a></td>
+                                <td><a id={`show-nomination${m.id}`} className={tempChecked.includes(m.id)?'visibility-visible':"visibility-hidden"} onClick={handleEditNominations}>Номинации</a></td>
                             </tr>)
                         })}
 
@@ -193,7 +193,7 @@ export default function AddCompetitionsShowModal(props) {
                 <button style={{margin:'10px 0', height:'55px'}} disabled={buttonDisable} onClick={handleSubmit}>Ок</button>
                 </div>
             </Modal>
-            {SetShowNominationModal({isOpen:isModalShowNominationOpen, showNominations:showNominationsModalData, setShowNominations:handleShowNominationsSubmit, cancel:()=>OpenShowNominationModal(false)})}
+            {SetShowNominationModal({isOpen:isModalShowNominationOpen, showNominations:showNominationsModalData, setShowNominations:handleShowNominationsSubmit, cancel:()=>OpenShowNominationModal(false), nominations:nominationsData})}
         </div>
     );
 

@@ -10,6 +10,7 @@ export function EstimationWork(){
     const {user} = useContext(UserContext);
 
     const[data, setData] = useState({});
+    
     const[nominations, setNominations] = useState([]);
     const[scored, setScored] = useState([]);
  
@@ -28,6 +29,7 @@ export function EstimationWork(){
 
             let json = results[0];
             let scored = results[1];
+            let nomin = results[2];
 
             setNominations(json.showNominations);
             setData(json)

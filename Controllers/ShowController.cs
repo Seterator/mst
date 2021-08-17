@@ -85,11 +85,18 @@ namespace mst.Controllers {
                 var show = _db.Shows
                     .Include(x => x.ShowNominations)
                     .ThenInclude(sn => sn.Nomination)
+                    .ThenInclude(i => i.Estimations)
                     .Where(c => c.Id == Id).Single();
                 
                 foreach(var showNomination in show.ShowNominations) {
                     showNomination.Nomination.ShowNominations = null;
                     showNomination.Show = null;
+
+                    foreach(var e in showNomination.Nomination.Estimations)
+                    {
+                        e.Nomination = null;
+                        e.Show = null;
+                    }
                 }
 
                 return Ok(show);
@@ -129,7 +136,25 @@ namespace mst.Controllers {
         [HttpPost("Estimate")]
         public async Task<IActionResult> Estimate([FromBody]Estimation estimation) {
             try {
-                _db.Referees.Where(x => x.Id == estimation.RefereeId).Single().Estimations.Add(estimation);
+                var estimations = _db.Referees.Include(i=>i.Estimations).Single(x => x.Id == estimation.RefereeId).Estimations;
+                var toDel = estimations.FirstOrDefault(a => a.NominationId == estimation.NominationId && a.Score == estimation.Score);
+                if (toDel != null)
+                {
+                    _db.Remove(toDel);
+                }
+
+
+                var curEstimate = estimations.FirstOrDefault(a => a.NominationId == estimation.NominationId && a.ShowId == estimation.ShowId);
+
+                if(curEstimate == null)
+                {
+                    estimations.Add(estimation);
+                }
+                else
+                {
+                    curEstimate.Score = estimation.Score;
+                    _db.Update(curEstimate);
+                }
                 await _db.SaveChangesAsync();
                 return Ok();
             }
@@ -151,12 +176,19 @@ namespace mst.Controllers {
             }
         }
 
-        [HttpPost("EditEstimation")]
+        [HttpPost("DeleteEstimation")]
         public async Task<IActionResult> EditEstimation([FromBody]Estimation estimation) {
             try {
-                var estimations =_db.Shows.Include(x => x.Estimations).Where(x => x.Id == estimation.ShowId).Single().Estimations;
-                var est = estimations.Where(x => x.RefereeId == estimation.RefereeId).Single();
-                est.Score = estimation.Score;
+                var curEstimate = _db.Referees.Include(x => x.Estimations)
+                    .Single(x => x.Id == estimation.RefereeId)
+                    .Estimations
+                    .FirstOrDefault(a => a.NominationId == estimation.NominationId && a.ShowId == estimation.ShowId);
+
+                if(curEstimate != null)
+                {
+                    _db.Remove(curEstimate);
+                }
+                
                 await _db.SaveChangesAsync();
                 return Ok();
             }
@@ -164,24 +196,6 @@ namespace mst.Controllers {
                 return BadRequest();
             }
         }
-
-        // [HttpPost("DeleteEstimation")]
-        // public async Task<IActionResult> DeleteEstimation([FromBody]Estimation estimation) {
-        //     try {
-        //         var estimations =_db.Shows.Include(x => x.Estimations).Where(x => x.Id == estimation.ShowId).Single();
-        //         _db.Remove(
-        //             _db.Shows
-        //                 .Include(x => x.Estimations)
-        //                 .Where(x => x.Id == estimation.ShowId)
-        //                 .Single().Estimations
-        //                 .Where(x => x.RefereeId == estimation.RefereeId));
-        //         await _db.SaveChangesAsync();
-        //         return Ok();
-        //     }
-        //     catch {
-        //         return BadRequest();
-        //     }
-        // }
 
     }
 }

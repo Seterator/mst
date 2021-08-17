@@ -49,12 +49,13 @@ color: '#FFFFFF'}} key={i}>{v.nomination.name} ({curScore})</div>)})}
         </a>)
 }
 
-export function EstimationBlock(showId, nominations, score){
+export function EstimationBlock(showId, showNominations, score){
 
     const [choosenNomination, chooseNomination] = useState(-1);
     const [choosenPlace, choosePlace] = useState(-1);
 
     const [scoredData, setScoredData] = useState([]);
+    const [scoredDataView, setScoredDataView] = useState([]);
 
     const {user} = useContext(UserContext);
 
@@ -66,6 +67,11 @@ export function EstimationBlock(showId, nominations, score){
     useEffect(()=>{
         setScoredData(score);
     },[score])
+
+    useEffect(()=>{     
+        setScoredDataView(scoredData);
+
+    },[scoredData])
 
     function nominationClick(nomId){
         choosenNomination == nomId 
@@ -88,63 +94,51 @@ export function EstimationBlock(showId, nominations, score){
         if(choosenPlace ==-1 || choosenNomination ==-1){
             return;
         }
-        fetch(`Show/Estimate`, {
-            method: 'post',
-            headers: {'Content-Type':'application/json'},
-            body:JSON.stringify({score:choosenPlace, nominationId:choosenNomination, showId:showId, refereeId:user.id })
-            
-           }).then(r => {
-            if(!r.ok){
-                
-                return;
-            }
         
+        let anotherShowScored = showNominations.filter(f=>f.nominationId == choosenNomination)[0].nomination.estimations
+                            .filter(f=>f.score == choosenPlace && f.nominationId == choosenNomination);
+        let toDelete = anotherShowScored.length > 0;
+
         let newData = scoredData;
-        let alreadyScored = newData.filter(f=>f.score == choosenPlace);
-        let index = alreadyScored.length>0 ? newData.indexOf(alreadyScored[0]) : -1;
 
-
-        
-        if(index>-1 && newData[index].nominationId !=choosenNomination && window.confirm(`Оценка ${choosenPlace} уже была поставлена. Заменить?`)){
-
-            newData.splice(index,1);
-            let anotherScore = newData.filter(f=>f.nominationId == choosenNomination);
-            let j = anotherScore.length>0 ? newData.indexOf(anotherScore[0]) : -1;
-            if(j == -1){
-                setScoredData([...newData, {nominationId:choosenNomination, score:choosenPlace}]);
-            } 
-            else{
-                newData[j].score =choosenPlace;
-                setScoredData(newData);
-            }
+        if(toDelete && window.confirm(`Оценка ${choosenPlace} уже была поставлена другому спектаклю. Заменить?`)||!toDelete){
             
+            fetch(`Show/Estimate`, {
+                method: 'post',
+                headers: {'Content-Type':'application/json'},
+                body:JSON.stringify({score:choosenPlace, nominationId:choosenNomination, showId:showId, refereeId:user.id })
+                
+               }).then(r => {
+                if(!r.ok){
+                    choosePlace(-1);
+                    chooseNomination(-1);
+                    return;
+                }
 
-        }
-        else{
-            let anotherScore = newData.filter(f=>f.nominationId == choosenNomination);
-            let j = anotherScore.length>0 ? newData.indexOf(anotherScore[0]) : -1;
-            if(j == -1){
-                setScoredData([...newData, {nominationId:choosenNomination, score:choosenPlace}]);
-            } 
-            else{
-                newData[j].score =choosenPlace;
-                setScoredData(newData);
-            }
-            
-        }
+                let anotherScore = newData.filter(f=>f.nominationId == choosenNomination);
+                let j = anotherScore.length>0 ? newData.indexOf(anotherScore[0]) : -1;
+                if(j == -1){
+                    setScoredData([...newData, {nominationId:choosenNomination, score:choosenPlace}]);
+                } 
+                else{
+                    newData[j].score =choosenPlace;
+                    setScoredData(newData);
+                }
 
-        choosePlace(-1);
-        chooseNomination(-1);
-    })
+                choosePlace(-1);
+                chooseNomination(-1);
+      
+            })
+        }
     }
 
     return (<div><div>
         <p className="show-nomination-main-title">Выбор номинации для оценивания:</p>
         {WarningMessage('Внезапно, непосредственные участники технического прогресса в равной степени предоставлены сами себе. Значимость этих проблем настолько очевидна, что сложившаяся структура организации представляет собой интересный эксперимент проверки новых принципов формирования материально-технической и кадровой базы.','show-warn')}
         <div className="show-nomination-container">
-        {nominations?.map((v,i)=>{
-        let scored = scoredData.map(m=>m.nominationId).includes(v.nominationId);
-        let score = scored && scoredData.filter(m=>m.nominationId == v.nominationId)[0].score;
+        {showNominations?.map((v,i)=>{
+        let scored = scoredDataView.map(m=>m.nominationId).includes(v.nominationId);
+        let score = scored && scoredDataView.filter(m=>m.nominationId == v.nominationId)[0].score;
         let classList = `${scored?'visible':'hidden'} ${scored?`score${score}`:''}`
         return(<div  className="show-nomination-panel"><div className="show-nomination" onClick={()=>nominationClick(v.nominationId)} style={{opacity:`${choosenNomination !== -1 && choosenNomination !== v.nominationId?'0.4':'1'}`, background:`${choosenNomination == v.nominationId?'radial-gradient(180.91% 1388.43% at 100% 7.27%, #770D37 0%, #211452 100%)':'#770D37'}`}} key={i}>
             <div className="show-nomination-title">{v.nomination.name}</div>
@@ -162,7 +156,7 @@ export function EstimationBlock(showId, nominations, score){
                 <button className="estimate-btn" onClick={()=>placeClick(1)} style={{background:'linear-gradient(138.95deg, #BBA151 -28.75%, #F4DE9D 60.24%, #E3C877 76.72%)', opacity:`${choosenPlace==2 || choosenPlace==3?'0.4':'1'}`}}>1</button>
                 <button className="estimate-btn" onClick={()=>placeClick(2)} style={{background:'linear-gradient(138.95deg, #DCDCDC -28.75%, #B2B0AA 60.24%, #6F6E6B 76.72%)', opacity:`${choosenPlace==1 || choosenPlace==3?'0.4':'1'}`}}>2</button>
                 <button className="estimate-btn" onClick={()=>placeClick(3)} style={{background:'linear-gradient(138.95deg, #FFFFFF -28.75%, #F3B378 45.77%, #DF8D2D 76.72%)', opacity:`${choosenPlace==2 || choosenPlace==1?'0.4':'1'}`}}>3</button>
-                <button onClick={()=>{}} style={{float:'right',width: '168px',marginTop: '20px', height: '55px', background:`${choosenPlace==1?'linear-gradient(138.95deg, #BBA151 -28.75%, #F4DE9D 60.24%, #E3C877 76.72%)':choosenPlace==2?'linear-gradient(138.95deg, #DCDCDC -28.75%, #B2B0AA 60.24%, #6F6E6B 76.72%)':choosenPlace==3?'linear-gradient(138.95deg, #FFFFFF -28.75%, #F3B378 45.77%, #DF8D2D 76.72%)':'#111111'}` , borderRadius: '5px', opacity:`${choosenPlace==-1?'0.4':'1'}`}}>Сохранить</button>
+                <button onClick={()=>saveClick()} style={{float:'right',width: '168px',marginTop: '20px', height: '55px', background:`${choosenPlace==1?'linear-gradient(138.95deg, #BBA151 -28.75%, #F4DE9D 60.24%, #E3C877 76.72%)':choosenPlace==2?'linear-gradient(138.95deg, #DCDCDC -28.75%, #B2B0AA 60.24%, #6F6E6B 76.72%)':choosenPlace==3?'linear-gradient(138.95deg, #FFFFFF -28.75%, #F3B378 45.77%, #DF8D2D 76.72%)':'#111111'}` , borderRadius: '5px', opacity:`${choosenPlace==-1?'0.4':'1'}`}}>Сохранить</button>
                 </div>
                 
                 </div>
