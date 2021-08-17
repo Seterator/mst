@@ -28,20 +28,25 @@ export default function AddProfileModal(props) {
         setProfileData(newData);
         }
     }
+    const handleValidation = () =>{
+        return profileData.email 
+        &&profileData.login 
+        &&profileData.password 
+        &&profileData.fullName 
+        &&profileData.city 
+        &&profileData.bio 
+        &&profileData.avatar 
+        
+    }
     const submit = () => {
-        setButtonDisable(true);
-        //Post('api/Main/InsertUser', { Title: inputTitle, Login: inputLogin, Pass: inputPass, Name: inputName, LastName: inputLastName, Email: inputEmail })
-        //    .then(res => {
-        //        if (res.ok)
-        //            props.cancel();
-        //        else
-        //            alert("error InsertUser");
-
-        //        setButtonDisable(false);
-        //    })
-            setButtonDisable(false)
+        if(handleValidation()){
             props.submit(profileData);
             props.cancel();
+        }
+        else{
+            alert('Необходимо заполнить все поля')
+        }
+ 
     }
 
     const customStyles = {

@@ -95,8 +95,10 @@ namespace mst.Controllers
         {
             try {
                 var noms = _db.Nominations
+                    .Include(sn => sn.Estimations)
+                    .ThenInclude(r=>r.Referee)
                                 .Include(x => x.ShowNominations)
-                                .Include(sn => sn.Estimations)
+                                
                                 .ThenInclude(sn => sn.Show)
                                 .ToList();
                 foreach(var nom in noms) {
@@ -113,6 +115,9 @@ namespace mst.Controllers
                     {
                         estimations.Show = null;
                         estimations.Nomination = null;
+                        estimations.Referee.AvailableCompetitions = null;
+                        estimations.Referee.Estimations = null;
+
                     }
                 }
                 return Ok(noms);
