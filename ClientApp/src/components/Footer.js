@@ -11,20 +11,23 @@ export function Footer(){
         <a className="logo logo-footer"><img src={require("../img/logo.svg")} alt=""/></a>
         <ul style={{marginRight: '281px'}}>
           <li>Навигация</li>
-          <li><a>О нас</a></li>
-          <li><a>Фестиваль 2021</a></li>
-          <li><a>Персоналии</a></li>
-          <li><a>Медиа</a></li>
-          <li><a>Новости</a></li>
+          <li><a href="https://musicalheart.ru/">Главная</a></li>
+          <li><a href="https://musicalheart.ru/o-proekte/">О проекте</a></li>
+          <li><a href="https://musicalheart.ru/prezident/">Персоналии</a></li>
+          <li><a href="https://musicalheart.ru/festival-2021/">Фестиваль 2021</a></li>
+          <li><a href="https://musicalheart.ru/category/novosti/">Новости</a></li>
         </ul>
+        {/* изменены пункты меню */}
         <ul style={{marginRight: '179px'}}>
           <li>Документы</li>
-          <li><a>Документы организации</a></li>
+          <li><a href="https://musicalheart.ru/o-proekte/dokumenty/">Документы организации</a></li>
+          {/* изменён пункт меню */}
         </ul>
         <div>
          <ul>
-          <li>Администрация</li>
-          <li><a>Авторизироваться</a></li>
+          <li>Авторизация жюри</li>
+          <li><a href="http://golos.musicalheart.ru/">Авторизироваться</a></li>
+          {/* изменён пункт меню */}
         </ul> 
         <ul>
           <li>Контакты</li>

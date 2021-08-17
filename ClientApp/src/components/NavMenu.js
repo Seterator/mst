@@ -28,14 +28,15 @@ function redirect(p){
               <div className="bottom-header-left-part">
               <ul className="navbar-nav flex-grow">
                 <NavItem className="bottom-navbar-item ">
-                  <Link className="bottom-navbar-item" to='/profileView'>Общее<img className="hover-img" src={require('../img/Polygon2.svg')} alt=""/></Link>
-                  
+                  <Link className="bottom-navbar-item" to='/profileView'>Профиль<img className="hover-img" src={require('../img/Polygon2.svg')} alt=""/></Link>
+                  {/* изменён текст пункта */}
                 </NavItem>
                 <NavItem className="bottom-navbar-item">
                   <Link className="bottom-navbar-item" to='/estimation'>Оценивание работ<img className="hover-img" src={require('../img/Polygon2.svg')} alt=""/></Link>
                 </NavItem>
                 <NavItem className="bottom-navbar-item">
-                  <Link className="bottom-navbar-item" onClick={()=>redirect('/history')}>Полный список оценивания<img className="hover-img" src={require('../img/Polygon2.svg')} alt=""/></Link>
+                  <Link className="bottom-navbar-item" onClick={()=>redirect('/history')}>Ваши оценки<img className="hover-img" src={require('../img/Polygon2.svg')} alt=""/></Link>
+                  {/* изменён текст пункта */}
                 </NavItem>
               </ul>
 

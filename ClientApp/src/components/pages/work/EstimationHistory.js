@@ -15,7 +15,8 @@ export default function EstimationHistory(){
     },[])
 
     return(<div className="container hist-container">
-        <h1 className="hist-title" >Полный список оценивания</h1>
+        <h1 className="hist-title" >Ваши оценки</h1>
+        {/* изменён текст тайтла */}
         {nomination.map(m=>HistoryElement(m,user.id))}
         <button className="hist-send" onClick={()=>{}}>Отправить</button>
         </div>)
