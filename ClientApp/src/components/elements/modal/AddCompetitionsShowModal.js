@@ -169,8 +169,8 @@ export default function AddCompetitionsShowModal(props) {
                     <thead>
                         <tr>
                         <th></th>
-                            <th>Email</th>
-                            <th>ФИО</th>
+                            <th>Короткое описание</th>
+                            <th>Название</th>
                             <th>Действия</th>
                         </tr>
                     </thead>
@@ -178,7 +178,7 @@ export default function AddCompetitionsShowModal(props) {
                         {shows?.filter(f=>f.name?.toLowerCase()?.includes(filter?.toLowerCase())).map((m,i)=>{
                             return(<tr>
                                 <td><input type='checkbox' defaultChecked={tempChecked.includes(`${m.id}`)} id={m.id} onChange={handleCheck}/></td>
-                                <td>{m.description}</td>
+                                <td>{m.shortDescription}</td>
                                 <td>{m.name}</td>
                                 <td><a id={`show-nomination${m.id}`} className={tempChecked.includes(`${m.id}`)?'visibility-visible':"visibility-hidden"} onClick={handleEditNominations}>Номинации</a></td>
                             </tr>)

@@ -46,6 +46,6 @@ export function WelcomePage(props){
     </div>
    
     </Container>
-    <Footer/>
+
     </div>)
 }

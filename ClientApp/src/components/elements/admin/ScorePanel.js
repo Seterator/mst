@@ -102,7 +102,7 @@ function ScoreNomination(nom, setEdited, setToDelete){
     }
 
     function getScoreSum(scores){
-        return scores.map(m=>m.score).reduce((a, b) => a + placeToScore(b), 0)
+        return scores && scores.map(m=>m.score).reduce((a, b) => a + placeToScore(b), 0)
     }
 
     return(<div>

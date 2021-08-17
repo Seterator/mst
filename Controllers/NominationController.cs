@@ -101,7 +101,11 @@ namespace mst.Controllers
                                 .ToList();
                 foreach(var nom in noms) {
                     foreach(var showNomination in nom.ShowNominations) {
-                    showNomination.Show.ShowNominations = null;
+                        if(showNomination.Show != null)
+                        {
+                            showNomination.Show.ShowNominations = null;
+                        }
+                    
                     showNomination.Nomination = null;
                         
                     }
@@ -122,18 +126,25 @@ namespace mst.Controllers
         public async Task<IActionResult> AddShow([FromBody]ShowNomination showNomination) {
             try {
                 if (
-                    _db.Shows.Where(x => x.Id == showNomination.ShowId).ToList().Count == 0 ||
-                    _db.Nominations.Where(x => x.Id == showNomination.NominationId).ToList().Count == 0
+                    !_db.Shows.Any(x => x.Id == showNomination.ShowId) ||
+                    !_db.Nominations.Any(x => x.Id == showNomination.NominationId)
                 ) {
                     throw new Exception();
                 }
+                var toRemove = _db.Shows
+                    .SelectMany(s => s.ShowNominations)
+                    .FirstOrDefault(w => w.ShowId == showNomination.ShowId && w.NominationId == showNomination.NominationId);
 
-                _db.Remove(showNomination);
+                if(toRemove != null)
+                {
+                    _db.Remove(toRemove);
+                }
+                
                 await _db.AddAsync(showNomination);
                 await _db.SaveChangesAsync();
                 return Ok();
             }
-            catch {
+            catch (Exception ex) {
                 return BadRequest();
             }
         }

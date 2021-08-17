@@ -17,7 +17,6 @@ export function ShowListView(){
            setShowData({data:json, columns:[
                {key:'id', value:'Id'},
                {key:'name', value:'Название'},
-               {key:'description', value:'Описание'},
                {key:'shortDescription', value:'Короткое описание'},
                {key:'webLink', value:'Ссылка'},
                {key:'videoLink', value:'Видео'}
