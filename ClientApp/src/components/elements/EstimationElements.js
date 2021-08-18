@@ -134,7 +134,7 @@ export function EstimationBlock(showId, showNominations, score, isBlocked){
 
     return (<div className={isBlocked&&'disabled'}><div>
         <p className="show-nomination-main-title">Выбор номинации для оценивания:</p>
-        {WarningMessage('Внезапно, непосредственные участники технического прогресса в равной степени предоставлены сами себе. Значимость этих проблем настолько очевидна, что сложившаяся структура организации представляет собой интересный эксперимент проверки новых принципов формирования материально-технической и кадровой базы.','show-warn')}
+        {WarningMessage('Для оценки выберете номинацию, затем - место, которого по Вашему мнению заслуживает спектакль в этой номинации и нажмите 'Сохранить'. Вы можете поставить не более 3 оценок в каждой номинации.','show-warn')}
         <div className="show-nomination-container">
         {showNominations?.map((v,i)=>{
         let scored = scoredDataView.map(m=>m.nominationId).includes(v.nominationId);
@@ -160,7 +160,7 @@ export function EstimationBlock(showId, showNominations, score, isBlocked){
                 </div>
                 
                 </div>
-                <p className="estimate-note">*Напоминаем, что данный раздел отвечает лишь за оценивание работы по конкретным номинациям, для того чтобы Ваши оценки были учтены Вам необходимо перейти в раздел История оценивания и подтвердить отправку результата на сервер.</p>
+                <p className="estimate-note">*Напоминаем, что данный раздел отвечает за оценивание работы по конкретным номинациям, и все проставленные оценки учитываются автоматически.</p>
     </div>)
 }
 
