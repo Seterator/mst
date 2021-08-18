@@ -3,7 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import {WarningMessage} from './MessageElements'
 import { UserContext } from '../../LoginMiddleware';
 
-export function VoteElement(data,estimations, userId, f){
+export function VoteElement(data,estimations, userId,blockedShows, f){
 
     return(
     <span style={{display:'block', width:'390px', margin:'15px 0', float:'left',
@@ -11,9 +11,9 @@ export function VoteElement(data,estimations, userId, f){
     <Link to={`/work/${data.id}`}  style={{display:'block'}}>
     <div height='247' width='390' style={{
         backgroundImage:`url(data:image/png;base64,${data.image})`
-        , width:'390px', height:'247px', position:'relative', opacity:'0.7'}}>
+        , width:'390px', height:'247px', position:'relative', opacity:'0.7',backgroundSize: 'cover'}}>
             <div style={{position:'absolute', bottom:'10px', left:'0', right:'0', height:'30px', textAlign:'center'}}>
-            <button className="vote-button" hidden={!data.options?.some(s => s == 'notVoting')}>Без голосования</button>
+            <button className="vote-button" hidden={blockedShows?.some(s => s.showId == data.id)}>Без голосования</button>
             <button className="vote-button" hidden={!data.options?.some(s => s == 'viewed')} >Просмотрено</button>
             <button className="vote-button" hidden={!data.options?.some(s => s == 'estimated')} >Оценено</button>
             </div>
@@ -49,7 +49,7 @@ color: '#FFFFFF'}} key={i}>{v.nomination.name} ({curScore})</div>)})}
         </a>)
 }
 
-export function EstimationBlock(showId, showNominations, score){
+export function EstimationBlock(showId, showNominations, score, isBlocked){
 
     const [choosenNomination, chooseNomination] = useState(-1);
     const [choosenPlace, choosePlace] = useState(-1);
@@ -132,7 +132,7 @@ export function EstimationBlock(showId, showNominations, score){
         }
     }
 
-    return (<div><div>
+    return (<div className={isBlocked&&'disabled'}><div>
         <p className="show-nomination-main-title">Выбор номинации для оценивания:</p>
         {WarningMessage('Внезапно, непосредственные участники технического прогресса в равной степени предоставлены сами себе. Значимость этих проблем настолько очевидна, что сложившаяся структура организации представляет собой интересный эксперимент проверки новых принципов формирования материально-технической и кадровой базы.','show-warn')}
         <div className="show-nomination-container">
@@ -170,6 +170,7 @@ const [data, setData] = useState([]);
     const [view, setView] = useState([]);
     const [index, setIndex] = useState(0);
     const [estimations, setEstimations] = useState([]);
+    const [blockedShows, setBlockedShows] = useState([]);
     const {user} = useContext(UserContext);
 
     useEffect(()=>{
@@ -188,6 +189,8 @@ const [data, setData] = useState([]);
                 let json = results[0];
                 let availableCompetitions = results[1];
     
+                let blocked = [];
+
                 let arr =[];
                 json.map(f=>{
                     f.showNominations.map(s=>{
@@ -195,8 +198,10 @@ const [data, setData] = useState([]);
                         arr.push(f.id) 
                         }
                     })
+                    f.blockedReferees.filter(f=>f.refereeId == user?.id).map(b=>blocked.push(b));
                 })
       
+                setBlockedShows(blocked);
                 let sourceData = json.filter(f=>arr.includes(f.id));
 
                 if(id){
@@ -228,13 +233,13 @@ const [data, setData] = useState([]);
             <div   style={{width:'100%', display:'table'}}>
                 <div style={{width:'33%', float:'left'}}>
     
-                {data && data?.map((v,i) => i%3==0&&VoteElement(v,estimations, user.id,() => dropDownClick(i)))}
+                {data && data?.map((v,i) => i%3==0&&VoteElement(v,estimations, user.id, blockedShows,() => dropDownClick(i)))}
                 </div>
                 <div style={{width:'33%', float:'left'}}>
-                {data && data?.map((v,i) => i%3==1&&VoteElement(v,estimations, user.id,() => dropDownClick(i)))}
+                {data && data?.map((v,i) => i%3==1&&VoteElement(v,estimations, user.id,blockedShows,() => dropDownClick(i)))}
                 </div>
                 <div style={{width:'33%', float:'left'}}>
-                {data && data?.map((v,i) => i%3==2&&VoteElement(v,estimations, user.id,() => dropDownClick(i)))}
+                {data && data?.map((v,i) => i%3==2&&VoteElement(v,estimations, user.id,blockedShows,() => dropDownClick(i)))}
                 </div>
                 
             

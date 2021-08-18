@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -83,6 +84,7 @@ namespace mst.Controllers {
         public IActionResult GetById([FromQuery]int Id) {
             try {
                 var show = _db.Shows
+                    .Include(x => x.BlockedReferees)
                     .Include(x => x.ShowNominations)
                     .ThenInclude(sn => sn.Nomination)
                     .ThenInclude(i => i.Estimations)
@@ -98,6 +100,11 @@ namespace mst.Controllers {
                         e.Show = null;
                     }
                 }
+                foreach(var b in show.BlockedReferees)
+                {
+                    b.Referee = null;
+                    b.Show = null;
+                }
 
                 return Ok(show);
             }
@@ -110,6 +117,7 @@ namespace mst.Controllers {
         public IActionResult GetAll() {
             try {
                 var shows = _db.Shows
+                    .Include(b=>b.BlockedReferees)
                                 .Include(sn => sn.Estimations)
                                 .Include(x => x.ShowNominations)
                                 .ThenInclude(sn => sn.Nomination)
@@ -125,6 +133,12 @@ namespace mst.Controllers {
                         estimation.Nomination = null;
                         estimation.Show = null;
                     }
+                    foreach (var bl in show.BlockedReferees)
+                    {
+                        bl.Referee = null;
+                        bl.Show = null;
+                    }
+
                 }
                 return Ok(shows);
             }
@@ -197,5 +211,27 @@ namespace mst.Controllers {
             }
         }
 
+        [HttpPost("BlockReferee")]
+        public async Task<IActionResult> BlockReferee([FromBody] IEnumerable<BlockedReferee> blockedReferees, [FromQuery]int showId)
+        {
+            try
+            {
+                var blocked = _db.Shows.Include(b => b.BlockedReferees).Single(s => s.Id == showId).BlockedReferees;
+
+                _db.RemoveRange(blocked);
+                _db.AddRange(blockedReferees);
+                await _db.SaveChangesAsync();
+
+                return Ok();
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+            
+
+        }
     }
-}
+   
+
+ }

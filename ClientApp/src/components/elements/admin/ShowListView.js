@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import Table from '../misc/Table';
 import AddShowModal from '../modal/AddShowModal'
+import BlockRefereeModal from '../modal/BlockRefereeModal'
 
 export function ShowListView(){
 
     const [showData, setShowData] = useState({})
     const [showEditData, setShowEditData] = useState({})
     const [showDataView, setShowDataView] = useState({})
+    const [members, setMembers] = useState([])
+    const [membersBlocked, setMembersBlocked] = useState([])
     const [isModalAddOpen, OpenAddModal] = useState(false);
     const [isModalEditOpen, OpenEditModal] = useState(false);
+    const [isModalBlockOpen, OpenBlockModal] = useState(false);
     const [changeIndex, setChangeIndex] = useState(1);
     const [filter, setFilter] = useState('');
 
@@ -23,18 +27,29 @@ export function ShowListView(){
            ],
        setdata:[
            { execute:(i)=>deleteShow(i),title:'Удалить'},
-           { execute:(i)=>editShow(i),title:'Изменить'}
+           { execute:(i)=>editShow(i),title:'Изменить'},
+           { execute:(i)=>BlockRefereeModalOpen(i),title:'Заблокированные пользователи'},
            ]});
+
+           let arr =[];
+           json.map(m=>{
+               let t = m.blockedReferees?.map(b=>arr.push(b));
+           })
+           setMembersBlocked(arr);
+
        });
+
+       fetch('User/GetAll').then(r => r.json()).then(json =>setMembers(json));
 
     },[])
     useEffect(()=>{
         showEditData&&showEditData.id&&OpenEditModal(true);
+        showEditData&&showEditData.blockId&&OpenBlockModal(true);
     },[showEditData]);
 
     useEffect(()=>{
-        !isModalEditOpen&&setShowEditData({});
-    },[isModalEditOpen]);
+        !isModalEditOpen&&!isModalBlockOpen&&setShowEditData({});
+    },[isModalEditOpen, isModalBlockOpen]);
     useEffect(()=>{
         filter && filter!=''
         ? setShowDataView({...showData,data:showData?.data?.filter(f => f.name.toLowerCase().includes(filter.toLowerCase()))})
@@ -43,8 +58,11 @@ export function ShowListView(){
 
 
     useEffect(()=>{
-        setShowDataView({...showData,setData:[{ execute:(i)=>deleteShow(i),title:'Удалить'},
-        { execute:(i)=>editShow(i),title:'Изменить'}]});
+        setShowDataView({...showData,setData:[
+            { execute:(i)=>deleteShow(i),title:'Удалить'},
+            { execute:(i)=>editShow(i),title:'Изменить'},
+            { execute:(i)=>BlockRefereeModalOpen(i),title:'Заблокированные пользователи'},
+            ]});
 
     },[showData,changeIndex]);
 
@@ -128,11 +146,34 @@ function showEdited(d){
     });
 }
   
+function BlockRefereeModalOpen(show){
+
+    setShowEditData({...showEditData, blockId:show.id});
+}
+
+function MembersBlockAction(members){
+    fetch(`Show/BlockReferee?showId=${showEditData.blockId}`,{
+        method:'post',
+        headers: {'Content-Type':'application/json'},
+        body:JSON.stringify(members)
+    }).then(r=>{
+        if(!r.ok) return;
+
+
+        let newArr = membersBlocked;
+        membersBlocked
+            .filter(f=>f.showId == showEditData.blockId)
+            .map(m=>newArr.splice(newArr.indexOf(m),1));
+        setMembersBlocked([...newArr, ...members]);
+
+    } )
+}
 
     return(<div>
         <div><input onChange={(e)=>setFilter(e.target.value)}></input><a onClick={()=>OpenAddModal(true)}>Добавить спектакль</a></div>
         {Table(showDataView)}
         <AddShowModal submit ={showAdded} cancel={() => { OpenAddModal(false) }} isOpen={isModalAddOpen} />
     <AddShowModal submit ={showEdited} cancel={() => { OpenEditModal(false) }} isOpen={isModalEditOpen} preValue ={showEditData}/>
+        <BlockRefereeModal members={members} checked={membersBlocked} isOpen={isModalBlockOpen} cancel={()=>OpenBlockModal(false)} showId={showEditData.blockId} submit={MembersBlockAction}/>
     </div>)
 }

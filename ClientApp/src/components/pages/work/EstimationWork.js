@@ -10,6 +10,7 @@ export function EstimationWork(){
     const {user} = useContext(UserContext);
 
     const[data, setData] = useState({});
+    const[isBlocked, setIsBlocked] = useState(false);
     
     const[nominations, setNominations] = useState([]);
     const[scored, setScored] = useState([]);
@@ -29,11 +30,11 @@ export function EstimationWork(){
 
             let json = results[0];
             let scored = results[1];
-            let nomin = results[2];
 
             setNominations(json.showNominations);
             setData(json)
             setScored(scored)
+            setIsBlocked(json.blockedReferees.filter(f=>f.refereeId == user?.id).length>0)
 
         }
     }
@@ -49,7 +50,7 @@ export function EstimationWork(){
             <a style={{margin:'40px 0 90px 0', display:'block'}} href={`${data.webLink}`}>Перейти на страницу работы</a>
             <div style={{height:'1px', width:'1045px', border:'1px solid white', marginLeft: '30px', marginTop:'45px'}}></div>
             </div>
-            {EstimationBlock(id,nominations,scored)}
+            {EstimationBlock(id,nominations,scored,isBlocked)}
             {EstimationBasePart(id)}
         </div>)
 }

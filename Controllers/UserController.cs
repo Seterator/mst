@@ -190,18 +190,6 @@ namespace mst.Controllers
             }
         }
 
-        [HttpPost("Block")]
-        public async Task<IActionResult> Block([FromBody]BlockedReferee blockedReferee) {
-            try {
-                _db.Referees.Where(x => x.Id == blockedReferee.RefereeId).Single().BlockedReferees.Add(blockedReferee);
-                await _db.SaveChangesAsync();
-                return Ok();
-            }
-            catch {
-                return BadRequest();
-            }
-        }
-
         [HttpGet("AvailableCompetitions")]
         public async Task<IActionResult> AvailableCompetitions([FromQuery]int refereeId)
         {

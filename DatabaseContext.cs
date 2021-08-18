@@ -72,12 +72,12 @@ namespace mst
                 .HasKey(q => new { q.RefereeId, q.ShowId });
 
             modelBuilder.Entity<BlockedReferee>()
-                .HasKey( x => new { x.CompetitionId, x.RefereeId });
+                .HasKey( x => new { x.ShowId, x.RefereeId });
 
             modelBuilder.Entity<BlockedReferee>()
-                .HasOne(e => e.Competition)
+                .HasOne(e => e.Show)
                 .WithMany(c => c.BlockedReferees)
-                .HasForeignKey(x => x.CompetitionId);
+                .HasForeignKey(x => x.ShowId);
             
             modelBuilder.Entity<BlockedReferee>()
                 .HasOne(e => e.Referee)

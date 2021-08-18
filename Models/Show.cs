@@ -14,5 +14,6 @@ namespace mst.Models {
 
         public List<ShowNomination> ShowNominations { get; set; } = new List<ShowNomination>();
         public List<Estimation> Estimations { get; set; } = new List<Estimation>();
+        public List<BlockedReferee> BlockedReferees { get; set; } = new List<BlockedReferee>();
     }
 }
