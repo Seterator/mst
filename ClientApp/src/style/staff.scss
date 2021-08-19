@@ -1,0 +1,376 @@
+@import '_fonts';
+@import '_variables';
+@import '_style';
+
+@import '_label';
+
+
+.profile-container{
+  display: flex;
+  min-height: 700px;
+  margin: 60px auto;
+
+
+.profile-left{
+  margin: 0 30px 0 0;
+  width: 30%;
+}
+
+.profile-right{
+  
+  width: 100%;
+  .profile-bio{
+    font-family: Optima Cyr;
+font-style: normal;
+font-weight: normal;
+font-size: 18px;
+line-height: 38px;
+letter-spacing: 0.05em;
+color: #FFFFFF;
+word-break: break-all;
+  }
+
+div.profile-title{
+
+  font-family: Optima;
+font-style: normal;
+font-weight: bold;
+font-size: 28px;
+line-height: 28px;
+letter-spacing: 0.05em;
+color: #FFFFFF;
+}
+
+
+.profile-mail{
+
+ 
+
+
+  display: inline-flex;
+
+  margin: 30px 0 40px;
+font-family: Optima Cyr;
+font-style: normal;
+font-weight: normal;
+font-size: 18px;
+line-height: 18px;
+letter-spacing: 0.05em;
+color: #FFFFFF;
+opacity: 0.25;
+
+  .dot{
+    width: 7px;
+    height: 7px;
+    border: 4px solid white;
+    border-radius: 10px;
+    margin:  6px 10px 8px;
+  }
+}
+}
+}
+
+.section-content {
+  margin-top: 6rem;
+  position: relative;
+  z-index: 1;
+
+  .container {
+    display: flex;
+  }
+
+  aside.navigation {
+    display: flex;
+    flex-direction: column;
+    width: 17.8125rem;
+    margin-right: $three;
+    padding-top: 6.75rem;
+
+    button.btn {
+      background: none;
+      text-align: left;
+      @include fontStyle (1.5rem, 2.125rem, .05em);
+      border-bottom: 1px solid rgba(#fff, .25);
+      padding-bottom: $three;
+      padding-left: 1.25rem;
+      padding-right: 1.25rem;
+
+      span {
+        transition: .1s;
+        opacity: .25;
+      }
+
+      &:not(:first-child) {
+        padding-top: $three;
+      }
+
+      &.active span {
+        opacity: 1;
+      }
+    }
+  }
+
+  .nav-content {
+    width: 100%;
+    display: block;
+
+    &.hidden {
+      display: none;
+    }
+
+    div.mail{
+        @include fontStyle (1.125rem, 1.75rem, .05em);
+        opacity: .25;
+        text-align: center;
+        margin-top: 0;
+        display: inline-flex;
+      .dot{
+        width: 7px;
+height: 7px;
+border: 4px solid white;
+border-radius: 10px;
+margin:  6px 10px 8px;
+      }
+    }
+
+    .nav-content-title {
+      @include fontStyle (2.625rem, 3rem, .05em, 700);
+      text-align: center;
+      margin-top: 0;
+      margin-bottom: 60px;
+      
+    }
+  }
+
+  p.paragraph {
+    @include fontStyle (1.125rem, 2.375rem, .01em);
+    margin-top: 0;
+    opacity: .5;
+
+    &:not(:last-child) {
+      margin-bottom: $six;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &.p-bold {
+      opacity: 1;
+    }
+  }
+
+  .twoCol {
+    display: flex;
+    align-items: flex-start;
+
+    .about {
+      text-align: center;
+      
+
+      img {
+        width: 17.8125rem;
+        margin-bottom: $three;
+      }
+
+      p.name {
+        @include fontStyle (1.125rem, 1.75rem, .05em);
+        font-weight: bold;
+        margin: 0 0 $two 0;
+      }
+
+      p.post {
+        @include fontStyle (1.125rem, 1.75rem, .05em);
+        margin: 0 0 $two 0;
+      }
+
+      a.mail {
+        @include fontStyle (1.125rem, 1.75rem, .05em);
+        opacity: .25;
+      }
+    }
+    .content{
+        input.profile{
+            margin: 0 30px 20px 30px;
+            background-color: #2B111B;
+            height: 55px;
+            width: 390px;
+            border: 2px solid #FFFFFF;
+            box-sizing: border-box;
+        }
+
+        textarea.profile{
+            margin: 0 30px 20px 30px;
+            background-color: #2B111B;
+            height: 250px;
+            width: 390px;
+            border: 2px solid #FFFFFF;
+            box-sizing: border-box;
+        }
+
+        button{
+            height: 55px;
+            width: 390px;
+            background: radial-gradient(180.91% 1388.43% at 100% 7.27%, #770D37 0%, #211452 100%);
+            margin: 10px 30px;
+        }
+    }
+  }
+
+  .filter {
+    background: #fff;
+    padding: 1rem;
+    display: flex;
+    align-items: center;
+    margin-bottom: $three;
+
+    button.tag {
+      background: none;
+      color: #111;
+      @include fontStyle (1rem, 1rem, 75%);
+      padding: 0;
+
+      &:not(:last-child):not(:first-child) {
+        margin-right: .625rem;
+      }
+
+      &:first-child {
+        padding: 1.75rem .375rem .375rem .375rem;
+        background: $gold;
+        margin-top: -1.3125rem;
+        margin-right: 2.375rem;
+      }
+    }
+  }
+
+  ul.bulleted-list {
+    @include fontStyle (1.125rem, 2.375rem, .01em);
+    padding-left: $three;
+
+    &:not(:last-child) {
+      margin: 0 0 $six 0;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .filter-result {
+    display: flex;
+    flex-flow: row wrap;
+
+    .academic {
+      width: calc((100% - 1.875rem * 2) / 3);
+
+      &:not(:nth-child(3)):not(:nth-child(4)):not(:nth-child(3n + 4)) {
+        margin-right: $three;
+      }
+
+      &:not(:nth-last-child(3)):not(:nth-last-child(2)):not(:last-child) {
+        margin-bottom: $six;
+      }
+
+      &Big {
+        width: 100%;
+      }
+    }
+
+    img {
+      width: 100%;
+      height: 21.875rem;
+      margin-bottom: $three;
+    }
+
+    p.name {
+      @include fontStyle (1.375rem, 2rem, .05em, 700);
+      margin: 0 0 $two 0;
+    }
+
+    p.desc {
+      @include fontStyle (1rem, 1.75rem, .05em);
+      margin: 0 0 $two 0;
+    }
+
+    a.more {
+      @include fontStyle (1.125rem, 1.75rem, .05em);
+      opacity: .25;
+      text-decoration: underline;
+    }
+  }
+
+  .expert .cards {
+    display: flex;
+    flex-flow: row wrap;
+
+    .card {
+      width: calc(100% / 3 - (1.875rem * 2) / 3);
+
+      img.portrait {
+        width: 100%;
+        margin-bottom: $three;
+      }
+
+      p.name {
+        @include fontStyle (1.125rem, 1.875rem, .05em, 700);
+        margin: 0 0 $two 0;
+      }
+
+      p.name,
+      p.post {
+        @include fontStyle (1.125rem, 1.875rem, .05em);
+        margin: 0 0 $two 0;
+      }
+
+      a.mail {
+        @include fontStyle (1.125rem, 1.875rem, .05em);
+        margin: 0;
+        opacity: .25;
+        text-decoration: underline;
+      }
+
+      &:not(:nth-child(3n)) {
+        margin-right: $three;
+      }
+
+      &:not(:nth-last-child(3)):not(:nth-last-child(2)):not(:last-child) {
+        margin-bottom: $four;
+      }
+    }
+  }
+}
+
+.profile-warn{
+  background-color: #575555;
+  width: 390px;
+  padding: 30px 40px 40px 40px;
+  display: block;
+
+  &.opacity{
+    opacity: 0.4;
+  }
+
+  &.margin-top{
+    margin-top:26px;
+  }
+
+  div{
+    margin: 0 0 20px;
+
+  }
+}
+
+.show-warn{
+  background-color: #575555;
+width: 1230px;
+padding: 30px 34px 30px 40px;
+display: flex;
+
+  
+
+  div{
+    margin: 0 27px 0 0;
+
+  }
+}
+

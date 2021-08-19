@@ -1,0 +1,173 @@
+@font-face {
+  font-family: "Optima-Bold";
+  src: url("./fonts/Optima-Bold.eot") format("embedded-opentype"),
+       url("./fonts/Optima-Bold.ttf") format("truetype"),
+       url("./fonts/Optima-Bold.woff") format("woff2"),
+       url("./fonts/Optima-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Optima";
+  src: url("./fonts/Optima.eot") format("embedded-opentype"),
+       url("./fonts/Optima.ttf") format("truetype"),
+       url("./fonts/Optima.woff") format("woff2"),
+       url("./fonts/Optima.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+/* Provide sufficient contrast against white background */
+a {
+  color: #0366d6;
+}
+
+code {
+  color: #E01A76;
+}
+
+.btn-primary {
+  color: #fff;
+  background-color: #1b6ec2;
+  border-color: #1861ac;
+}
+body{
+  background-color: #2B111B;
+}
+.footerHead{
+  font-family: Optima Cyr;
+font-style: normal;
+font-weight: normal;
+font-size: 24px;
+line-height: 24px;
+
+/* identical to box height, or 100% */
+letter-spacing: 0.05em;
+
+color: #FFFFFF;
+}
+
+.footerElement{
+  font-family: Optima Cyr;
+font-style: normal;
+font-weight: normal;
+font-size: 16px;
+line-height: 16px;
+
+}
+
+.footer{
+  position: relative;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  
+
+  background: radial-gradient(180.91% 1388.43% at 100% 7.27%, #2B111B 0%, #161222 100%);
+}
+.footer-el{
+
+  display: flex;
+}
+a.admin:hover{
+  text-decoration: underline;
+}
+a.admin{
+  display: table-row;
+}
+table {
+  border-collapse: collapse;
+  border: 1px solid black;
+  width: 70%;
+}
+
+table td{
+  border: 1px solid black;
+}
+table th{
+  width: 17%;
+  border: 1px solid black;
+}
+.admin-content{
+  margin: 20px 0 100px 20px;
+  width:1000px; 
+  height:400px; 
+  float:left;
+}
+
+.visibility-hidden{
+  display: none;
+}
+
+.visibility-visible{
+  display: block;
+}
+.search-input-image{
+  border: none;
+  background-image: url('./img/Search.svg');
+    background-repeat: no-repeat;
+    text-indent: 20px;
+    width: 285px;
+height: 82px;
+display: block;
+margin: 60px 0px 40px 0px;
+color: white;
+background-color: rgb(69, 67, 67);
+padding: 20px 40px;
+background-position: 30px;
+}
+
+.sn-image{
+  width: 1230px;
+  height: 350px;
+  margin-top: 90px;
+}
+
+.sn-title{
+  font-family: Optima;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 42px;
+  line-height: 48px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  margin: 60px 0 20px;
+}
+
+.sn-description{
+
+  font-family: Optima Cyr;
+font-style: normal;
+font-weight: normal;
+font-size: 18px;
+line-height: 38px;
+letter-spacing: 0.01em;
+color: #FFFFFF;
+}
+
+.sn-auth{
+  background: #FFFFFF;
+  border-radius: 5px;
+  width: 1230px;
+  height: 90px;
+  font-family: Optima;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 18px;
+  color: #111111;
+  padding: 37px 0 0 50px;
+  margin: 60px 0 120px;
+}
+.sn-auth img{
+  float: right;
+  margin-right: 54px;
+}
+
+
+a:hover{
+  text-decoration: none;
+      
+      color: inherit;
+}

@@ -1,0 +1,64 @@
+a.navbar-brand {
+  white-space: normal;
+  text-align: center;
+  word-break: break-all;
+}
+
+html {
+  font-size: .875rem;
+}
+
+@media (min-width: 48rem) {
+  html {
+    font-size: 1rem;
+  }
+}
+
+.box-shadow {
+  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+.notWelcome {
+  border-top: 1px solid #dee2e6 !important;
+  height: 6.125rem;
+  margin-top: 5.625rem;
+  width: 76.875rem;
+}
+
+.height-max {
+  height: 100%;
+}
+
+.bottom-navbar-item {
+  color: grey;
+  margin: 0 .3125rem;
+  display: block;
+}
+
+.bottom-navbar-item:hover {
+  color: white;
+  text-decoration: none;
+}
+
+.bottom-navbar-item:hover img.hover-img {
+  visibility: visible
+}
+
+img.hover-img {
+  display: block;
+  margin-top: .625rem;
+  visibility: hidden
+}
+
+.bottom-header {
+  display: inline-block;
+  width: 100%;
+}
+
+.bottom-header-left-part {
+  float: left;
+}
+
+.bottom-header-right-part {
+  float: right;
+}

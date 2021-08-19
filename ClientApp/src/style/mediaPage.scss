@@ -1,0 +1,253 @@
+@import '_fonts';
+@import '_variables';
+@import '_style';
+
+@import '_label';
+
+body {
+  //background: linear-gradient(90deg, rgba($blue, .25) 0%, rgba($red, .25) 100%);
+}
+
+.section-content {
+  margin-top: 6rem;
+  position: relative;
+  z-index: 1;
+
+  .container {
+    display: flex;
+  }
+
+  aside.navigation {
+    display: flex;
+    flex-direction: column;
+    width: 17.8125rem;
+    margin-right: $three;
+    padding-top: 6.75rem;
+
+    button.btn {
+      background: none;
+      text-align: left;
+      @include fontStyle (1.5rem, 2.125rem, .05em);
+      border-bottom: 1px solid rgba(#fff, .25);
+      padding-bottom: $three;
+      padding-left: 1.25rem;
+      padding-right: 1.25rem;
+
+      span {
+        transition: .1s;
+        opacity: .25;
+      }
+
+      &:not(:first-child) {
+        padding-top: $three;
+      }
+
+      &.active span {
+        opacity: 1;
+      }
+    }
+  }
+
+  .nav-content {
+    width: 57.1875rem;
+    display: block;
+
+    &.hidden {
+      display: none;
+    }
+
+    .nav-content-title {
+      @include fontStyle (2.625rem, 3rem, .05em, 700);
+      margin-bottom: $six;
+    }
+  }
+
+  .filter {
+    background: #fff;
+    padding: $three $four 0 $four;
+    margin-bottom: $three;
+
+    button {
+      background: none;
+      color: #111;
+      opacity: .25;
+      padding: 0;
+      @include fontStyle (1.125rem, 1.125rem, .05em);
+      margin-bottom: 1.875rem;
+      transition: .15s;
+
+      &:not(:last-child) {
+        margin-right: $four;
+      }
+
+      &.tag-active {
+        opacity: 1;
+      }
+    }
+  }
+
+  .photo .cards {
+    display: flex;
+    flex-flow: row wrap;
+  }
+
+  .photo .card {
+    width: calc(100% / 3 - (1.875rem * 2) / 3);
+
+    &:not(:nth-child(3n)) {
+      margin-right: 1.875rem;
+    }
+  }
+
+  .card {
+    margin-bottom: $four;
+
+    img {
+      width: 100%;
+    }
+  }
+
+  .vid-desc,
+  .img-desc {
+    margin: .625rem 0 0 0;
+    @include fontStyle (1rem, 1.625rem, .01em);
+  }
+
+  .puzzleGallery {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    &:not(:last-child) {
+      margin-bottom: $four;
+    }
+
+    .card {
+      &:not(:last-child) {
+        width: calc(100% / 3 - (1.875rem * 2) / 3);
+      }
+
+      &:last-child {
+        width: calc(100% - (100% / 3 - (1.875rem * 2) / 3) - 1.875rem);
+      }
+
+      .img-desc {
+        margin: .625rem 0 0 0;
+        @include fontStyle (1rem, 1.625rem, .01em);
+      }
+    }
+
+    .card:nth-child(4),
+    .card:nth-child(5) {
+      margin-top: calc(-50% + 2.5rem + 1.875rem);
+    }
+
+    .card:nth-child(5) {
+      margin-right: calc(100% / 3 - (1.875rem * 2) / 3 + 1.875rem);
+    }
+
+    .card:last-child {
+      margin-top: calc(-50% + 2.5rem + 1.875rem);
+      margin-left: auto;
+    }
+  }
+
+  .video .filter-result {
+    display: flex;
+    flex-flow: row wrap;
+
+    .card {
+      width: calc(100% / 2 - 1.875rem / 2);
+      position: relative;
+
+      &:nth-child(2n - 1) {
+        margin-right: $three;
+      }
+
+      &:not(:nth-last-child(2)):not(:last-child) {
+        margin-bottom: $four;
+      }
+
+      iframe {
+        width: 100%;
+        height: 14.75rem;
+      }
+
+      img.img-play {
+        position: absolute;
+        top: 5.625rem;
+        left: 12.5rem;
+        height: 2.625rem;
+        width: 3.4375rem;
+      }
+    }
+  }
+
+  h2,
+  h3 {
+    text-align: center;
+    margin-top: 0;
+  }
+
+  h2.content-title {
+    @include fontStyle (2rem, 2rem, .05em, 700);
+    text-align: left;
+
+    &:not(:last-child) {
+      margin-bottom: $four;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  h3.content-subtitle {
+    @include fontStyle (1.5rem, 1.5rem, .05em, 700);
+    opacity: .5;
+
+    &:not(:last-child) {
+      margin-bottom: $three;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .gallery {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    &:not(:last-child) {
+      margin-bottom: $six;
+    }
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  .gallery1 img {
+    width: 100%;
+  }
+
+  .gallery2 img {
+    &:first-child {
+      width: 30.9375rem;
+    }
+
+    &:last-child {
+      width: calc(100% - 30.9375rem - 1.875rem);
+    }
+
+    height: 21.875rem;
+  }
+
+  .gallery3 img {
+    width: calc(100% / 3 - 1.875rem * 2 / 3);
+    height: 21.875rem;
+  }
+}
