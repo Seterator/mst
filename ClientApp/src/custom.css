@@ -176,3 +176,7 @@ a:hover{
   pointer-events: none;
     opacity: 0.4;
 }
+
+div,p{
+  white-space: pre-wrap;
+}

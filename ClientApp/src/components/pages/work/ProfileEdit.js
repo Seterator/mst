@@ -28,7 +28,7 @@ export function ProfileEdit(){
         }
         
 
-    }, []);
+    }, [user]);
 
     const handleChange = (e)=>{
         const newData = data;
