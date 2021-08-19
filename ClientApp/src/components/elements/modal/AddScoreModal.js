@@ -57,7 +57,7 @@ export default function AddScoreModal(props){
                 contentLabel="Example Modal"
                 shouldCloseOnOverlayClick={false}
             >
-                <div style={{display:'grid', padding:'20px', backgroundColor: '#2B111B'}}> 
+                <div style={{display:'grid', padding:'20px', backgroundColor: '#2B111B', overflowX:'auto', maxHeight:'500px'}}> 
                 <h2>Создание конкурса</h2>
 
                 <input style={{margin:'10px 0', height:'55px'}} type="number" placeholder="Место" value={inputVal} onChange={handleChange} />

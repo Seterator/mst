@@ -302,21 +302,17 @@ function CompetitionTable({ columns, data, setData }){
         
   
     }
-    async function addCompetitionsShowSubmit(m){
+    function addCompetitionsShowSubmit(m){
 
 
-        let results = await Promise.all( m.showNominations.map(async a =>{
-
-            return await fetch('Nomination/AddShow',{
+         fetch(`Nomination/AddShow?competitionId=${editCompetitionData.id}`,{
                 method: 'post',
                 headers: {'Content-Type':'application/json'},
-                body:JSON.stringify({showId: a.showId,nominationId: a.nominationId,person: a.nominationValue})
+                body:JSON.stringify(m.showNominations.map(a=>{return {showId: a.showId,nominationId: a.nominationId,person: a.nominationValue}}))
                 
-               }).then(r=>r.ok);
-              
-            }))
+               }).then(r=>{
+                   if(!r.ok) return;
 
-        if(!results.some(s=>s == false)){
             let newArr = showsChecked;
             var curShows = newArr.filter(f=> f.competitionId == editCompetitionData.id);
             
@@ -336,7 +332,7 @@ function CompetitionTable({ columns, data, setData }){
                 newShowNomArr.splice(newShowNomArr.indexOf(v),1);
             })
             setShowNominationsValue([...newShowNomArr,...m.showNominations])  
-        }  
+        });
         
            
     }

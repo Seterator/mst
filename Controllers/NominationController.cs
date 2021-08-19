@@ -128,24 +128,17 @@ namespace mst.Controllers
         }
 
         [HttpPost("AddShow")]
-        public async Task<IActionResult> AddShow([FromBody]ShowNomination showNomination) {
+        public async Task<IActionResult> AddShow([FromBody]IEnumerable<ShowNomination> showNominations, [FromQuery]int competitionId) {
             try {
-                if (
-                    !_db.Shows.Any(x => x.Id == showNomination.ShowId) ||
-                    !_db.Nominations.Any(x => x.Id == showNomination.NominationId)
-                ) {
-                    throw new Exception();
-                }
-                var toRemove = _db.Shows
-                    .SelectMany(s => s.ShowNominations)
-                    .FirstOrDefault(w => w.ShowId == showNomination.ShowId && w.NominationId == showNomination.NominationId);
 
-                if(toRemove != null)
+                var toRemove = _db.Nominations.Where(n=>n.CompetitionId == competitionId).SelectMany(s=>s.ShowNominations);
+
+                if(toRemove.Any())
                 {
-                    _db.Remove(toRemove);
+                    _db.RemoveRange(toRemove);
                 }
                 
-                await _db.AddAsync(showNomination);
+                _db.AddRange(showNominations);
                 await _db.SaveChangesAsync();
                 return Ok();
             }

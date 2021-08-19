@@ -29,20 +29,9 @@ export default function SetShowNominationModal(props) {
 
         
 
-        setShowNominationsData(newData) ;
+        setShowNominationsData(newData.filter(f=>f.value !==''));
     }
     const handleSubmit = () => {
-        setButtonDisable(true);
-        //Post('api/Main/InsertUser', { Title: inputTitle, Login: inputLogin, Pass: inputPass, Name: inputName, LastName: inputLastName, Email: inputEmail })
-        //    .then(res => {
-        //        if (res.ok)
-        //            props.cancel();
-        //        else
-        //            alert("error InsertUser");
-
-        //        setButtonDisable(false);
-        //    })
-            setButtonDisable(false)
             setShowNominations(showNominationsData);
             cancel();
     }
@@ -68,7 +57,7 @@ export default function SetShowNominationModal(props) {
                 contentLabel="Example Modal"
                 shouldCloseOnOverlayClick={false}
             >
-                <div style={{display:'grid', padding:'20px', backgroundColor: '#2B111B'}}> 
+                <div style={{display:'grid', padding:'20px', backgroundColor: '#2B111B', overflowX:'auto', maxHeight:'500px'}}> 
                 <h2>Назначение номинаций</h2>
                 {nominationsData?.map((v,i)=>{
                     let values = showNominations.filter(f=>f.id == v.id).map(m=>m.value);

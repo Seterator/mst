@@ -2,6 +2,7 @@ import React, { useEffect, useState, useContext } from 'react';
 import { Link, useParams } from 'react-router-dom'
 import {WarningMessage} from './MessageElements'
 import { UserContext } from '../../LoginMiddleware';
+import { ModalConfirmContext } from '../Layout'; 
 
 export function VoteElement(data,estimations, userId,blockedShows, f){
 
@@ -13,7 +14,7 @@ export function VoteElement(data,estimations, userId,blockedShows, f){
         backgroundImage:`url(data:image/png;base64,${data.image})`
         , width:'390px', height:'247px', position:'relative', opacity:'0.7',backgroundSize: 'cover'}}>
             <div style={{position:'absolute', bottom:'10px', left:'0', right:'0', height:'30px', textAlign:'center'}}>
-            <button className="vote-button" hidden={blockedShows?.some(s => s.showId == data.id)}>Без голосования</button>
+            <button className="vote-button" hidden={!blockedShows?.some(s => s.showId == data.id)}>Без голосования</button>
             <button className="vote-button" hidden={!data.options?.some(s => s == 'viewed')} >Просмотрено</button>
             <button className="vote-button" hidden={!data.options?.some(s => s == 'estimated')} >Оценено</button>
             </div>
@@ -57,7 +58,9 @@ export function EstimationBlock(showId, showNominations, score, isBlocked){
     const [scoredData, setScoredData] = useState([]);
     const [scoredDataView, setScoredDataView] = useState([]);
 
+
     const {user} = useContext(UserContext);
+    const { setModalOpen, setConfirmModal } = useContext(ModalConfirmContext);
 
     useEffect(()=>{
         chooseNomination(-1);
@@ -72,6 +75,29 @@ export function EstimationBlock(showId, showNominations, score, isBlocked){
         setScoredDataView(scoredData);
 
     },[scoredData])
+
+
+    async function confirm(showTitle){
+        return new Promise((resolve,reject)=>{
+            setConfirmModal({
+                title: "Предупреждение!",
+                content: (<div><div className="modal-warn">Выбранное вами место в данной номинации
+                занимает уже работа:</div><div className="modal-text">{showTitle}</div></div>),
+                saveTitle: "Изменить на выбранную",
+                cancelTitle: "Не изменять",
+                save: () => {
+                    setModalOpen(false);
+                    resolve(true);
+                },
+                cancel:()=>{
+                    setModalOpen(false);
+                    resolve(false);
+                }
+            });
+        })
+        
+    }
+    
 
     function nominationClick(nomId){
         choosenNomination == nomId 
@@ -90,7 +116,7 @@ export function EstimationBlock(showId, showNominations, score, isBlocked){
         :choosePlace(placeId);
     }
 
-    function saveClick(){ //Оценка заблокирована
+    async function saveClick(){ 
         if(choosenPlace ==-1 || choosenNomination ==-1){
             return;
         }
@@ -101,7 +127,7 @@ export function EstimationBlock(showId, showNominations, score, isBlocked){
 
         let newData = scoredData;
 
-        if(toDelete && window.confirm(`Оценка ${choosenPlace} уже была поставлена другому спектаклю. Заменить?`)||!toDelete){
+        if(toDelete && await confirm(`anotherShowScored.showId ${anotherShowScored.id}`)||!toDelete){
             
             fetch(`Show/Estimate`, {
                 method: 'post',
@@ -134,9 +160,12 @@ export function EstimationBlock(showId, showNominations, score, isBlocked){
 
     return (<div className={isBlocked&&'disabled'}><div>
         <p className="show-nomination-main-title">Выбор номинации для оценивания:</p>
-        {WarningMessage('Для оценки выберете номинацию, затем - место, которого по Вашему мнению заслуживает спектакль в этой номинации и нажмите 'Сохранить'. Вы можете поставить не более 3 оценок в каждой номинации.','show-warn')}
+        {WarningMessage(`Для оценки выберете номинацию, затем - место, которого по Вашему мнению заслуживает спектакль в этой номинации и нажмите 'Сохранить'. Вы можете поставить не более 3 оценок в каждой номинации.`,'show-warn')}
         <div className="show-nomination-container">
         {showNominations?.map((v,i)=>{
+            if(v.person ===''){
+                return;
+            }
         let scored = scoredDataView.map(m=>m.nominationId).includes(v.nominationId);
         let score = scored && scoredDataView.filter(m=>m.nominationId == v.nominationId)[0].score;
         let classList = `${scored?'visible':'hidden'} ${scored?`score${score}`:''}`
@@ -178,7 +207,7 @@ const [data, setData] = useState([]);
 
             if(user?.id>0){
     
-                let query = ['Show/GetAll', `User/AvailableCompetitions?refereeId=${user.id}`]
+                let query = ['Show/GetAll?onlyShow=false', `User/AvailableCompetitions?refereeId=${user.id}`]
                 let results = await Promise.all( query.map(async q =>{
     
                     return await fetch(q).then(r=>r.ok&&r.json());
@@ -194,7 +223,7 @@ const [data, setData] = useState([]);
                 let arr =[];
                 json.map(f=>{
                     f.showNominations.map(s=>{
-                        if(availableCompetitions.map(a=>a.competitionId).includes(s.nomination.competitionId)){
+                        if(availableCompetitions.map(a=>a?.competitionId).includes(s.nomination?.competitionId)){
                         arr.push(f.id) 
                         }
                     })

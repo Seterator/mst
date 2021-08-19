@@ -114,33 +114,43 @@ namespace mst.Controllers {
         }
 
         [HttpGet("GetAll")]
-        public IActionResult GetAll() {
+        public IActionResult GetAll([FromQuery] bool onlyShow = true) {
             try {
-                var shows = _db.Shows
-                    .Include(b=>b.BlockedReferees)
-                                .Include(sn => sn.Estimations)
-                                .Include(x => x.ShowNominations)
-                                .ThenInclude(sn => sn.Nomination)
-                                .ToList();
-                foreach(var show in shows) {
-                    foreach(var showNomination in show.ShowNominations) {
-                    showNomination.Nomination.ShowNominations = null;
-                        showNomination.Show = null;
-
-                    }
-                    foreach (var estimation in show.Estimations)
-                    {
-                        estimation.Nomination = null;
-                        estimation.Show = null;
-                    }
-                    foreach (var bl in show.BlockedReferees)
-                    {
-                        bl.Referee = null;
-                        bl.Show = null;
-                    }
-
+                if (onlyShow)
+                {
+                    return Ok(_db.Shows);
                 }
-                return Ok(shows);
+                else
+                {
+                    var shows = _db.Shows
+                        
+                                    .Include(x => x.ShowNominations)
+                                    .ThenInclude(n=>n.Nomination)
+                                    .Include(b => b.BlockedReferees)
+                                    .Include(sn => sn.Estimations)
+                                    .ToList();
+                    foreach (var show in shows)
+                    {
+                        foreach (var showNomination in show.ShowNominations)
+                        {
+                            showNomination.Show = null;
+                            showNomination.Nomination.ShowNominations = null;
+
+                        }
+                        foreach (var estimation in show.Estimations)
+                        {
+                            estimation.Nomination = null;
+                            estimation.Show = null;
+                        }
+                        foreach (var bl in show.BlockedReferees)
+                        {
+                            bl.Referee = null;
+                            bl.Show = null;
+                        }
+
+                    }
+                    return Ok(shows);
+                }
             }
             catch {
                 return BadRequest();
@@ -228,8 +238,26 @@ namespace mst.Controllers {
             {
                 return BadRequest(ex.Message);
             }
-            
 
+        }
+
+        public async Task<IActionResult> ShowRefereeWatched([FromBody] ShowReferee showReferee)
+        {
+            try
+            {
+                if (!_db.ShowReferees.Any(a => a.ShowId == showReferee.ShowId && a.RefereeId == showReferee.RefereeId))
+                {
+
+                    await _db.AddAsync(showReferee);
+                    await _db.SaveChangesAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+            return Ok();
         }
     }
    

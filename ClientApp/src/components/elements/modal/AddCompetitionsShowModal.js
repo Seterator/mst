@@ -23,8 +23,9 @@ export default function AddCompetitionsShowModal(props) {
     const [toSubmit, setToSubmit] = useState([]);
 
     useEffect(()=>{
+        let nomIds = nominations.filter(f=>f?.competitionId == competitionId).map(m=>m.id);
         setTempChecked(checked.filter(f=>f.competitionId == competitionId).map(m=>m.showId));
-        setToSubmit(showNominationsValue);
+        setToSubmit(showNominationsValue.filter(f=>nomIds.includes(f.nominationId)));
         setNominationsData(nominations.filter(f=>f?.competitionId == competitionId));
     },[checked, showNominationsValue, nominations, competitionId])
 
@@ -55,17 +56,6 @@ export default function AddCompetitionsShowModal(props) {
     },[editShowData])
 
     const handleSubmit = () => {
-        setButtonDisable(true);
-        //Post('api/Main/InsertUser', { Title: inputTitle, Login: inputLogin, Pass: inputPass, Name: inputName, LastName: inputLastName, Email: inputEmail })
-        //    .then(res => {
-        //        if (res.ok)
-        //            props.cancel();
-        //        else
-        //            alert("error InsertUser");
-
-        //        setButtonDisable(false);
-        //    })
-            setButtonDisable(false)
             submit({checked:tempChecked, showNominations:toSubmit});
             setTempChecked([]);
             setToSubmit([]);
@@ -161,7 +151,7 @@ export default function AddCompetitionsShowModal(props) {
                 contentLabel="Example Modal"
                 shouldCloseOnOverlayClick={false}
             >
-                <div style={{display:'grid', padding:'20px', backgroundColor: '#2B111B'}}> 
+                <div style={{display:'grid', padding:'20px', backgroundColor: '#2B111B', overflowX:'auto', maxHeight:'500px'}}> 
                 <h2>Добавление спектаклей</h2>
 
                 <input style={{margin:'10px 0', height:'55px'}} type="text" placeholder="Название" value={filter} onChange={(e)=>setFilter(e.target.value)} />

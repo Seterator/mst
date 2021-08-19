@@ -6,7 +6,7 @@ Modal.setAppElement('#root')
 
 export default function ConfirmModal(props) {
 
-    const {isOpen, text, setResult } = props;
+    const {isOpen, cancel, save, title, content, cancelTitle, saveTitle } = props;
 
     const customStyles = {
         content: {
@@ -24,17 +24,20 @@ export default function ConfirmModal(props) {
     return (
         <div>
             <Modal
+            className="modal-area"
                 isOpen={isOpen}
-                style={customStyles}
+                //style={customStyles}
                 contentLabel="Example Modal"
                 shouldCloseOnOverlayClick={false}
             >
-                <div style={{display:'grid', padding:'20px', backgroundColor: '#2B111B'}}> 
-                <h2>{text?.title}</h2>
-                <div>{text?.message}</div>
+                <div className="modal-container"> 
+                <div className="modal-title">{title}</div>
+                {content}
 
-                <button style={{margin:'10px 0', height:'55px'}} disabled={buttonDisable} onClick={()=>setResult(false)}>{text?.cancel}</button>
-                <button style={{margin:'10px 0', height:'55px'}} disabled={buttonDisable} onClick={()=>setResult(true)}>{text?.ok}</button>
+                <div className="modal-btn-container">
+                <button className="modal-cancel-btn" onClick={cancel}>{cancelTitle}</button>
+                <button className="modal-ok-btn" onClick={save}>{saveTitle}</button>
+                </div>
                 </div>
             </Modal>
         </div>

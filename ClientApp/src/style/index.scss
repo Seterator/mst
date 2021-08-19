@@ -710,3 +710,74 @@ padding: 8px 17px;
 text-align: left;
 margin-bottom: 15px;
 }
+
+.modal-area{
+  width: 810px;
+height: 407px;
+  position: absolute;
+inset: 50% auto auto 50%;
+border: 5px solid white;
+background: white;
+border-radius: 4px;
+outline: currentcolor none medium;
+padding: 50px;
+margin-right: -50%;
+transform: translate(-50%, -50%);
+
+  .modal-container{
+    display: grid;
+padding: 20px;
+background-color: white;
+overflow-x: auto;
+max-height: 500px;
+    .modal-title{
+  
+      font-family: Optima;
+font-style: normal;
+font-weight: bold;
+font-size: 28px;
+line-height: 28px;
+color: #111;
+    }
+    .modal-warn{
+      width: 482px;
+      margin: 30px 0 20px;
+      font-family: Optima Cyr;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 24px;
+      line-height: 34px;
+      color: #111111;
+      opacity: 0.5;
+    }
+    .modal-text{
+      font-family: Optima Cyr;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 28px;
+      line-height: 38px;
+      color: #111111;
+    }
+    .modal-btn-container{
+      margin-top: 30px;
+      .modal-cancel-btn{
+        margin-right: 30px;
+        width: 185px;
+        height: 55px;
+        background: radial-gradient(180.91% 1388.43% at 100% 7.27%, #770D37 0%, #211452 100%);
+        float: left;
+      }
+      .modal-ok-btn{
+       
+        height: 55px;
+        width: 285px;
+        height: 55px;
+        left: 810px;
+        top: 639px;
+        background: rgba(0, 0, 0, 0.25);
+        color: #111;
+        float: left;
+    }
+      }
+    }
+}

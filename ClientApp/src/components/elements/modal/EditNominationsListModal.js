@@ -42,7 +42,7 @@ export default function EditNominationsListModal(props) {
                 contentLabel="Example Modal"
                 shouldCloseOnOverlayClick={false}
             >
-                <div style={{display:'grid', padding:'20px', backgroundColor: '#2B111B'}}> 
+                <div style={{display:'grid', padding:'20px', backgroundColor: '#2B111B', overflowX:'auto', maxHeight:'500px'}}> 
                 <h2>Номинации</h2>
 
                 <table>

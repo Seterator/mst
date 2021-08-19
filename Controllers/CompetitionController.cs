@@ -83,23 +83,16 @@ namespace mst.Controllers {
                 var comps = _db.Competitions
                     .Include(x => x.Nominations)
                     .ThenInclude(q => q.ShowNominations)
-                    .ThenInclude(s => s.Show)
-                    .ThenInclude(e => e.Estimations)
-                    .ThenInclude(r => r.Referee)
                     .ToList();
-                foreach (var c in comps) {
-                    foreach (var nomination in c.Nominations) {
+
+                foreach (var c in comps)
+                {
+                    foreach (var nomination in c.Nominations)
+                    {
                         nomination.Competition = null;
                         foreach (var sn in nomination.ShowNominations)
                         {
                             sn.Nomination = null;
-                            sn.Show.ShowNominations = null;
-
-                            foreach (var est in sn.Show.Estimations) {
-                                est.Nomination = null;
-                                est.Show = null;
-                                est.Referee.Estimations = null;
-                            }
                         }
                     }
                 }
