@@ -126,8 +126,8 @@ namespace mst.Controllers {
                         
                                     .Include(x => x.ShowNominations)
                                     .ThenInclude(n=>n.Nomination)
-                                    .Include(b => b.BlockedReferees)
-                                    .Include(sn => sn.Estimations)
+                                    .Include(b => b.BlockedReferees).AsSplitQuery()
+                                    .Include(sn => sn.Estimations).AsSplitQuery()
                                     .ToList();
                     foreach (var show in shows)
                     {
