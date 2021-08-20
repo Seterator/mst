@@ -5,6 +5,7 @@ export default function EstimationHistory(){
 
     const {user} = useContext(UserContext);
     const [nomination, setNomination] = useState([]);
+    const [shows, setShows] = useState([]);
 
 
     useEffect(()=>{
@@ -12,12 +13,16 @@ export default function EstimationHistory(){
         fetch('Nomination/GetAll').then(r=>r.ok&&r.json())
         .then(json=>json&&setNomination(json))
 
+        fetch('Show/GetAll').then(r=>r.ok&&r.json())
+        .then(json=>json&&setShows(json))
+
+
     },[])
 
     return(<div className="container hist-container">
         <h1 className="hist-title" >Ваши оценки</h1>
         {/* изменён текст тайтла */}
-        {nomination.map(m=>HistoryElement(m,user.id))}
+        {nomination.map(m=>HistoryElement(m,user.id,shows))}
         <button className="hist-send" onClick={()=>{}}>Отправить</button>
         </div>)
 }
@@ -26,17 +31,14 @@ function getPerson(data, showId, nominationId){
     return arr.length>0&&arr[0].person;
 }
 function getShowName(data, showId){
-    let arr = data?.filter(f=> f.showId == showId);
-    return arr.length>0&&arr[0].show.name;
+    return data.filter(f=>f.id == showId).length>0&&data.filter(f=>f.id == showId)[0].name;
 }
-function HistoryElement(data, userId){
+function HistoryElement(data, userId,shows){
     let etsArr = [];
 
-    let tt = data.showNominations?.map(m =>{
-        let tt1 = m.show.estimations?.filter(f=>f.refereeId == userId && f.nominationId == m.nominationId).map(e=>{
+    let tt = data.estimations?.filter(f=>f.refereeId == userId && f.nominationId == data.id).map(e=>{
             etsArr.push(e);
-        })
-    });
+        });
 
     if( etsArr.length == 0){
         return (<div></div>)
@@ -51,7 +53,7 @@ function HistoryElement(data, userId){
             return(<div className="hist-nom-panel">
                     <div className={`hist-nom-score score${m?.score}` }>{m?.score}</div>
                     <div className="hist-show-panel">
-                        <div className="hist-show-name">{getShowName(data.showNominations, m.showId)}</div>
+                        <div className="hist-show-name">{getShowName(shows, m.showId)}</div>
                         <div className="hist-show-memb">{getPerson(data.showNominations, m.showId, m.nominationId)}</div>
                     </div>
                 </div>)
