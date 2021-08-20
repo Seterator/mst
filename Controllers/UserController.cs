@@ -134,7 +134,20 @@ namespace mst.Controllers
         [HttpGet("GetAll")]
         public IActionResult GetAll()
         {
-            var referees = _db.Referees.Include(x => x.AvailableCompetitions);
+            var referees = _db.Referees.Include(x => x.AvailableCompetitions)
+                .Select(s=>new 
+                { 
+                    s.AvailableCompetitions, 
+                    s.Bio, 
+                    s.BlockedReferees, 
+                    s.City, 
+                    s.Email, 
+                    s.Estimations, 
+                    s.FullName, 
+                    s.Id,
+                    s.Login, 
+                    s.User
+                });
             foreach(var r in referees)
             {
                 foreach (var a in r.AvailableCompetitions)
