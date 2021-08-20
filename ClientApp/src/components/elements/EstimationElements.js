@@ -4,14 +4,16 @@ import {WarningMessage} from './MessageElements'
 import { UserContext } from '../../LoginMiddleware';
 import { ModalConfirmContext } from '../Layout'; 
 
-export function VoteElement(data,estimations, userId,blockedShows, f){
+export function VoteElement(data,estimations, userId,blockedShows,images, f){
 
+    let arr = images.filter(f=>f.showId == data.id);
+    let img = arr.length>0 && arr[0].image;
     return(
     <span style={{display:'block', width:'390px', margin:'15px 0', float:'left',
     borderImage: 'linear-gradient(to left, #770D37, #211452) 0 0 100% 0', paddingBottom:'20px'}}>
     <Link to={`/work/${data.id}`}  style={{display:'block'}}>
     <div height='247' width='390' style={{
-        backgroundImage:`url(data:image/png;base64,${data.image})`
+        backgroundImage:`url(data:image/png;base64,${img})`
         , width:'390px', height:'247px', position:'relative', opacity:'0.7',backgroundSize: 'cover'}}>
             <div style={{position:'absolute', bottom:'10px', left:'0', right:'0', height:'30px', textAlign:'center'}}>
             <button className="vote-button" hidden={!blockedShows?.some(s => s.showId == data.id)}>Без голосования</button>
@@ -23,21 +25,21 @@ export function VoteElement(data,estimations, userId,blockedShows, f){
             
             </Link>
              <p style={{fontSize: "24px", lineHeight: '34px'}}>{data.name}</p>
-            <p style={{fontSize: "16px", lineHeight: '26px'}}>{data.description}</p>
+            <p style={{fontSize: "16px", lineHeight: '26px'}}>{data.shortDescription}</p>
             <button style={{opacity:'0.5', background:'none'}} onClick={f}>Посмотреть список номинаций</button>
-            {DropDownNomination(data.showNominations, data.dropDownVisible,estimations,userId)}
+            {DropDownNomination(data.showNominations.map(n=>n.nomination), data.dropDownVisible,estimations,userId, data.id)}
             </span> 
             )
 }
 
-function DropDownNomination(data, visible,estimations, userId){
+function DropDownNomination(nominations, visible,estimations, userId, showId){
 
     let d = visible ? 'block' : 'none';
     return(<a style={{display:`${d}`}}>
-        {data?.map((v,i) => { 
-            let estimation = estimations.filter(e=>e.nominationId == v.nominationId && e.showId == v.showId && e.refereeId == userId);
-            let curScore = estimation.length>0 && estimation[0].score;
-            if(!curScore) return '';
+        {nominations?.map((v,i) => { 
+            let estimation = estimations.filter(e=>e.nominationId == v.id && e.showId == showId && e.refereeId == userId);
+            let curScore = (estimation.length>0 && estimation[0].score) || 0;
+            
             return (<div style={{fontFamily: 'Optima Cyr',
 fontStyle: 'normal',
 fontWeight: 'normal',
@@ -46,7 +48,7 @@ lineHeight: '22px',
 margin:'5px 0',
 letterSpacing: '0.05em',
 
-color: '#FFFFFF'}} key={i}>{v.nomination.name} ({curScore})</div>)})}
+color: '#FFFFFF'}} key={i}>{v.name} ({curScore})</div>)})}
         </a>)
 }
 
@@ -77,12 +79,16 @@ export function EstimationBlock(showId, showNominations, score, isBlocked){
     },[scoredData])
 
 
-    async function confirm(showTitle){
+    async function confirm(showId){
+        
+        let res = await fetch(`Show/GetById?id=${showId}`);
+        let json = await res.json();
+
         return new Promise((resolve,reject)=>{
             setConfirmModal({
                 title: "Предупреждение!",
                 content: (<div><div className="modal-warn">Выбранное вами место в данной номинации
-                занимает уже работа:</div><div className="modal-text">{showTitle}</div></div>),
+                занимает уже работа:</div><div className="modal-text">{json?.name}</div></div>),
                 saveTitle: "Изменить на выбранную",
                 cancelTitle: "Не изменять",
                 save: () => {
@@ -127,7 +133,7 @@ export function EstimationBlock(showId, showNominations, score, isBlocked){
 
         let newData = scoredData;
 
-        if(toDelete && await confirm(`anotherShowScored.showId ${anotherShowScored.id}`)||!toDelete){
+        if(toDelete && await confirm(anotherShowScored[0].showId)||!toDelete){
             
             fetch(`Show/Estimate`, {
                 method: 'post',
@@ -197,9 +203,11 @@ export function EstimationBasePart(id, filter){
    
 const [data, setData] = useState([]);
     const [view, setView] = useState([]);
-    const [index, setIndex] = useState(0);
+    const [index,setIndex] = useState(0);
     const [estimations, setEstimations] = useState([]);
     const [blockedShows, setBlockedShows] = useState([]);
+
+    const [images, setImages] = useState([])
     const {user} = useContext(UserContext);
 
     useEffect(()=>{
@@ -237,6 +245,7 @@ const [data, setData] = useState([]);
                     sourceData = sourceData.filter(f=>f.id != id)
                 }
     
+                
                 setData(sourceData);
     
                 let estArr = [];
@@ -248,6 +257,14 @@ const [data, setData] = useState([]);
                 })
     
                 setEstimations(estArr);
+                let arrImg =[];
+                let results1 = await Promise.all(sourceData.map(async m =>{
+                    let res = await fetch(`Show/GetImage?showId=${m.id}`);
+                    let json = await res.json();
+                    arrImg.push({showId:m.id, image:json});
+                    
+                }))
+                setImages(arrImg);
     
             }
         }
@@ -262,20 +279,20 @@ const [data, setData] = useState([]);
             <div   style={{width:'100%', display:'table'}}>
                 <div style={{width:'33%', float:'left'}}>
     
-                {data && data?.map((v,i) => i%3==0&&VoteElement(v,estimations, user.id, blockedShows,() => dropDownClick(i)))}
+                {data && data?.map((v,i) => i%3==0&&VoteElement(v,estimations, user.id, blockedShows, images,() => dropDownClick(i)))}
                 </div>
                 <div style={{width:'33%', float:'left'}}>
-                {data && data?.map((v,i) => i%3==1&&VoteElement(v,estimations, user.id,blockedShows,() => dropDownClick(i)))}
+                {data && data?.map((v,i) => i%3==1&&VoteElement(v,estimations, user.id,blockedShows, images,() => dropDownClick(i)))}
                 </div>
                 <div style={{width:'33%', float:'left'}}>
-                {data && data?.map((v,i) => i%3==2&&VoteElement(v,estimations, user.id,blockedShows,() => dropDownClick(i)))}
+                {data && data?.map((v,i) => i%3==2&&VoteElement(v,estimations, user.id,blockedShows, images,() => dropDownClick(i)))}
                 </div>
                 
             
             
             </div>);
         setView(v);
-    },[data, index]);
+    },[data, index,images]);
 
     const dropDownClick = (i) =>{
         data[i].dropDownVisible = !data[i].dropDownVisible;

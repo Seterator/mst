@@ -84,11 +84,24 @@ namespace mst.Controllers {
         public IActionResult GetById([FromQuery]int Id) {
             try {
                 var show = _db.Shows
-                    .Include(x => x.BlockedReferees)
+                    .Where(c => c.Id == Id).AsSplitQuery()
+                    .Include(x => x.BlockedReferees).AsSplitQuery()
                     .Include(x => x.ShowNominations)
                     .ThenInclude(sn => sn.Nomination)
-                    .ThenInclude(i => i.Estimations)
-                    .Where(c => c.Id == Id).Single();
+                    .ThenInclude(i => i.Estimations).AsSplitQuery()
+                    .Select(s =>
+                    new {
+                        s.BlockedReferees,
+                        s.Description,
+                        s.Estimations,
+                        s.Id,
+                        s.Name,
+                        s.ShortDescription,
+                        s.ShowNominations,
+                        s.VideoLink,
+                        s.WebLink
+                    }).Single();
+                    
                 
                 foreach(var showNomination in show.ShowNominations) {
                     showNomination.Nomination.ShowNominations = null;
@@ -108,9 +121,16 @@ namespace mst.Controllers {
 
                 return Ok(show);
             }
-            catch {
+            catch (Exception ex){
                 return BadRequest();
             }
+        }
+
+        [HttpGet("GetImage")]
+        public IActionResult GetShowImage([FromQuery] int showId)
+        {
+            var res = _db.Shows.Single(s => s.Id == showId).Image;
+            return Ok(res);
         }
 
         [HttpGet("GetAll")]
@@ -118,16 +138,36 @@ namespace mst.Controllers {
             try {
                 if (onlyShow)
                 {
-                    return Ok(_db.Shows);
+                    return Ok(_db.Shows.Select(s=> 
+                    new { 
+                        s.BlockedReferees,
+                        s.Description, 
+                        s.Estimations, 
+                        s.Id, 
+                        s.Name,
+                        s.ShortDescription, 
+                        s.ShowNominations,
+                        s.VideoLink, 
+                        s.WebLink}).ToList());
                 }
                 else
                 {
                     var shows = _db.Shows
-                        
                                     .Include(x => x.ShowNominations)
-                                    .ThenInclude(n=>n.Nomination)
+                                    .ThenInclude(n=>n.Nomination).AsSplitQuery()
                                     .Include(b => b.BlockedReferees).AsSplitQuery()
                                     .Include(sn => sn.Estimations).AsSplitQuery()
+                                    .Select(s => new {
+                                        s.BlockedReferees,
+                                        s.Description,
+                                        s.Estimations,
+                                        s.Id,
+                                        s.Name,
+                                        s.ShortDescription,
+                                        s.ShowNominations,
+                                        s.VideoLink,
+                                        s.WebLink
+                                    })
                                     .ToList();
                     foreach (var show in shows)
                     {

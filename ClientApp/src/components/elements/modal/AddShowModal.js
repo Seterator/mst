@@ -21,6 +21,10 @@ export default function AddShowModal(props) {
     const handleLoadFile = (e)=>{
         const newData = showData;
 
+        if(e.target.files[0].size > 1000000){
+            alert("Выберете фото размером менее 1Мб");
+            return;
+        }
         newData[e.target.getAttribute('id')] = e.target.files[0]
         setShowData(newData) ;
     }
