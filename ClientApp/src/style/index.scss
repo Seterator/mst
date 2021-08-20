@@ -275,509 +275,464 @@
   }
 }
 
-.welcome{
+.welcome {
   text-align: center;
-  h1{
+
+  h1 {
     font-family: 'Optima', sans-serif;
-font-style: normal;
-font-weight: bold;
-font-size: 42px;
-line-height: 48px;
-text-align: center;
-letter-spacing: 0.05em;
-text-transform: uppercase;
-color: #FFFFFF;
-margin: 90px 0 40px 0;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 2.625rem;
+    line-height: 3rem;
+    text-align: center;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    margin: 5.625rem 0 2.5rem 0;
   }
-  h2{
+
+  h2 {
     font-family: 'Optima';
-font-style: normal;
-font-weight: bold;
-font-size: 28px;
-line-height: 48px;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 1.75rem;
+    line-height: 3rem;
 
-/* or 171% */
-text-align: center;
-letter-spacing: 0.05em;
-text-transform: uppercase;
+    /* or 171% */
+    text-align: center;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
 
-color: #FFFFFF;
-margin-bottom: 60px;
+    color: #FFFFFF;
+    margin-bottom: 3.75rem;
   }
-  .welcome-content{
+
+  .welcome-content {
     font-family: 'Optima Cyr';
-font-style: normal;
-font-weight: normal;
-font-size: 18px;
-line-height: 38px;
-text-align: left;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 1.125rem;
+    line-height: 2.375rem;
+    text-align: left;
 
-/* or 211% */
-letter-spacing: 0.05em;
+    /* or 211% */
+    letter-spacing: 0.05em;
 
-color: #FFFFFF;
-width: 1227px;
-height: 798px;
+    color: #FFFFFF;
+    width: 100%;
   }
-  button{
-    margin: 90px 0 120px 0;
-    width: 223px;
-height: 55px;
-background: radial-gradient(180.91% 1388.43% at 100% 7.27%, #770D37 0%, #211452 100%);
-font-family: Optima Cyr;
-font-style: normal;
-font-weight: normal;
-font-size: 18px;
-line-height: 18px;
 
-/* identical to box height, or 100% */
-text-align: center;
-letter-spacing: 0.01em;
+  button {
+    margin: 5.625rem 0 7.5rem 0;
+    width: 13.9375rem;
+    height: 3.4375rem;
+    background: radial-gradient(180.91% 1388.43% at 100% 7.27%, #770D37 0%, #211452 100%);
+    font-family: Optima Cyr;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 1.125rem;
+    line-height: 1.125rem;
 
-color: #FFFFFF;
+    /* identical to box height, or 100% */
+    text-align: center;
+    letter-spacing: 0.01em;
+
+    color: #FFFFFF;
   }
 }
 
-.border-bottom-opacity{
-  border-bottom:1px solid rgba(#fff, .5);
+.border-bottom-opacity {
+  border-bottom: 1px solid rgba(#fff, .5);
 }
 
-.main-menu-header{
-  margin-bottom: 90px;
+.main-menu-header {
+  margin-bottom: 5.625rem;
 }
 
-.vote-button{
-  margin: 0px 5px;
-height: 30px;
-width: 110px;
-background: rgba(250, 250, 250, 0.25) none repeat scroll 0% 0%;
-color: white;
-font-size: 10px;
-font-weight: bold;
+.vote-button {
+  margin: 0 .3125rem;
+  height: 1.875rem;
+  width: 6.875rem;
+  background: rgba(250, 250, 250, 0.25) none repeat scroll 0% 0%;
+  color: white;
+  font-size: .625rem;
+  font-weight: bold;
 
 }
 
-.show-nomination-container{
+.show-nomination-container {
 
-  width: 1230px;
-display: table;
-background-color: white;
-padding: 45px 55px 45px 80px;
-margin: 30px 0px 10px;
+  width: 205rem;
+  display: table;
+  background-color: white;
+  padding: 2.8125rem 3.4375rem 2.8125rem 5rem;
+  margin: 1.875rem 0 .625rem;
 
-.show-nomination-panel{
+  .show-nomination-panel {
 
-  display: flex;
-margin: 15px 20px;
-width: 505px;
-float: left;
-
-  .show-nomination{
-
+    display: flex;
+    margin: .9375rem 1.25rem;
+    width: 31.5625rem;
     float: left;
-width: 475px;
-opacity: 1;
-height: 55px;
-background-color: rgb(119, 13, 55);
-border-radius: 5px;
-padding: 12px 0 10px 20px;
 
-    .show-nomination-title{
-      
+    .show-nomination {
 
-font-family: Optima;
-font-style: normal;
-font-weight: bold;
-font-size: 14px;
-line-height: 14px;
-letter-spacing: 0.05em;
+      float: left;
+      width: 29.6875rem;
+      opacity: 1;
+      height: 3.4375rem;
+      background-color: rgb(119, 13, 55);
+      border-radius: .3125rem;
+      padding: .75rem 0 .625rem 1.25rem;
 
+      .show-nomination-title {
+
+
+        font-family: Optima;
+        font-style: normal;
+        font-weight: bold;
+        font-size: .875rem;
+        line-height: .875rem;
+        letter-spacing: 0.05em;
+
+      }
+
+
+      .show-nomination-name {
+
+        font-family: Optima Cyr;
+        font-style: normal;
+        font-weight: normal;
+        font-size: .75rem;
+        line-height: .75rem;
+        letter-spacing: 0.05em;
+        color: #FFFFFF;
+        opacity: 0.5;
+        border-radius: .3125rem;
+        margin-top: .4375rem;
+
+      }
     }
 
+    .show-nomination-score {
+      width: 1.875rem;
+      height: 2.8125rem;
+      display: block;
+      float: left;
 
-    .show-nomination-name{
+      border-radius: .3125rem;
+      text-align: center;
+      font-family: Optima;
+      font-style: normal;
+      font-weight: bold;
+      font-size: 1rem;
+      line-height: 1rem;
+      letter-spacing: 0.05em;
+      color: #333333;
+      padding-top: .875rem;
+    }
 
-      font-family: Optima Cyr;
-font-style: normal;
-font-weight: normal;
-font-size: 12px;
-line-height: 12px;
-letter-spacing: 0.05em;
-color: #FFFFFF;
-opacity: 0.5;
-border-radius: 5px;
-margin-top: 7px;
+    .visible {
+      visibility: visible;
+    }
 
+    .hidden {
+      visibility: hidden;
+    }
+
+    .score1 {
+      background: linear-gradient(138.95deg, #BBA151 -28.75%, #F4DE9D 60.24%, #E3C877 76.72%);
+    }
+
+    .score2 {
+      background: linear-gradient(138.95deg, #DCDCDC -28.75%, #B2B0AA 60.24%, #6F6E6B 76.72%);
+    }
+
+    .score3 {
+      background: linear-gradient(138.95deg, #FFFFFF -28.75%, #F3B378 45.77%, #DF8D2D 76.72%);
     }
   }
-  .show-nomination-score{
-    width: 30px;
-height: 45px;
-display: block;
-float: left;
-
-border-radius: 5px;
-text-align: center;
-font-family: Optima;
-font-style: normal;
-font-weight: bold;
-font-size: 16px;
-line-height: 16px;
-letter-spacing: 0.05em;
-color: #333333;
-padding-top: 14px;
-  }
-  .visible{
-    visibility: visible;
-  }
-
-  .hidden{
-    visibility: hidden;
-  }
-  .score1{
-    background: linear-gradient(138.95deg, #BBA151 -28.75%, #F4DE9D 60.24%, #E3C877 76.72%);
-  }
-  .score2{
-    background: linear-gradient(138.95deg, #DCDCDC -28.75%, #B2B0AA 60.24%, #6F6E6B 76.72%);
-  }
-  .score3{
-    background: linear-gradient(138.95deg, #FFFFFF -28.75%, #F3B378 45.77%, #DF8D2D 76.72%);
-  }
-}
 
 }
 
-.show-nomination-main-title{
-  font-family: Optima Cyr;
-font-style: normal;
-font-weight: normal;
-font-size: 24px;
-line-height: 34px;
-color: rgb(255, 255, 255);
-margin-bottom: 30px;
-}
-
-.estimate-btn-container{
-  width:1230px; 
-  height:200px; 
-  background-color:grey; 
-  padding:50px 105px 40px 105px;
-  margin: 30px 0;
-
-  .estimate-btn{
-    width: 70px;
-    height: 55px;
-    margin: 20px 10px;
-    color: black;
-  }
-  
-}
-
-.estimate-note{
-  opacity: 0.25;
-font-family: Optima Cyr;
-font-style: normal;
-font-weight: normal;
-font-size: 16px;
-line-height: 26px;
-width: 1230px;
-}
-
-.container {
-  max-width: 1230px;
-}
-
-.nomination-title{
-  margin: 40px 0px 16px;
+.show-nomination-main-title {
   font-family: Optima Cyr;
   font-style: normal;
   font-weight: normal;
-  font-size: 28px;
-  line-height: 38px;
+  font-size: 1.5rem;
+  line-height: 2.125rem;
+  color: rgb(255, 255, 255);
+  margin-bottom: 1.875rem;
+}
+
+.estimate-btn-container {
+  width: 76.875rem;
+  height: 12.5rem;
+  background-color: grey;
+  padding: 3.125rem 6.5625rem 1.5rem 6.5625rem;
+  margin: 1.875rem 0;
+
+  .estimate-btn {
+    width: 4.375rem;
+    height: 3.4375rem;
+    margin: 1.25rem .625rem;
+    color: black;
+  }
+
+}
+
+.estimate-note {
+  opacity: 0.25;
+  font-family: Optima Cyr;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1rem;
+  line-height: 1.625rem;
+  width: 76.875rem;
+}
+
+.container {
+  max-width: 76.875rem;
+}
+
+.nomination-title {
+  margin: 1.5rem 0 1rem;
+  font-family: Optima Cyr;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1.75rem;
+  line-height: 2.375rem;
   color: #FFFFFF;
 }
 
-.nomination-description{
+.nomination-description {
   font-family: Optima Cyr;
-font-style: normal;
-font-weight: normal;
-font-size: 16px;
-line-height: 26px;
-color: #FFFFFF;
-opacity: 0.25;
-  
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1rem;
+  line-height: 1.625rem;
+  color: #FFFFFF;
+  opacity: 0.25;
+
 }
 
-.file-message{
+.file-message {
   font-family: Optima Cyr;
-font-style: normal;
-font-weight: normal;
-font-size: 16px;
-line-height: 26px;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 1rem;
+  line-height: 1.625rem;
 
-/* or 162% */
-text-align: center;
-letter-spacing: 0.01em;
+  /* or 162% */
+  text-align: center;
+  letter-spacing: 0.01em;
 
-color: #FFFFFF;
+  color: #FFFFFF;
 
-opacity: 0.25;
-width: 282px;
-display: inline-block;
-margin: 30px 0;
+  opacity: 0.25;
+  width: 17.625rem;
+  display: inline-block;
+  margin: 1.875rem 0;
 }
 
-.hist-container{
-  .hist-title{
-    margin: 60px 0 46px;
-font-family: Optima;
-font-style: normal;
-font-weight: bold;
-font-size: 42px;
-line-height: 48px;
-text-align: center;
-letter-spacing: 0.05em;
-text-transform: uppercase;
-color: #FFFFFF;
+.hist-container {
+  .hist-title {
+    margin: 3.75rem 0 2.875rem;
+    font-family: Optima;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 2.625rem;
+    line-height: 3rem;
+    text-align: center;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #FFFFFF;
 
   }
-  .hist-nom-container{
 
-    margin: 30px 0;
-border-bottom: 2px solid white;
-width: 1230px;
-height: 300px;
-    .hist-nom-title{
+  .hist-nom-container {
+
+    margin: 1.875rem 0;
+    border-bottom: .125rem solid white;
+    width: 76.875rem;
+    height: 18.75rem;
+
+    .hist-nom-title {
       font-family: Optima Cyr;
-font-style: normal;
-font-weight: normal;
-font-size: 24px;
-line-height: 24px;
-letter-spacing: 0.01em;
-color: #FFFFFF;
+      font-style: normal;
+      font-weight: normal;
+      font-size: 1.5rem;
+      line-height: 1.5rem;
+      letter-spacing: 0.01em;
+      color: #FFFFFF;
 
     }
-    .hist-show-container{
 
-      padding: 25px 41px;
+    .hist-show-container {
+
+      padding: 1.5625rem 2.5625rem;
       display: grid;
-    .hist-nom-panel{
-      display: inline-flex;
-      margin: 15px 0;
-      .score1{
-        background: linear-gradient(138.95deg, #BBA151 -28.75%, #F4DE9D 60.24%, #E3C877 76.72%);
-      }
-      .score2{
-        background: linear-gradient(138.95deg, #DCDCDC -28.75%, #B2B0AA 60.24%, #6F6E6B 76.72%);
-      }
-      .score3{
-        background: linear-gradient(138.95deg, #FFFFFF -28.75%, #F3B378 45.77%, #DF8D2D 76.72%);
-      }
-      .hist-nom-score{
 
-        
-        height: 45px;
-width: 29px;
-text-align: center;
-padding-top: 13px;
-margin-right: 20px;
-padding-left: 2px;
-font-family: Optima;
-font-style: normal;
-font-weight: bold;
-font-size: 16px;
-line-height: 16px;
-letter-spacing: 0.05em;
-color: #333333;
+      .hist-nom-panel {
+        display: inline-flex;
+        margin: .9375rem 0;
 
-border-radius: 5px;
+        .score1 {
+          background: linear-gradient(138.95deg, #BBA151 -28.75%, #F4DE9D 60.24%, #E3C877 76.72%);
+        }
 
-      }
-      .hist-show-panel{
-        .hist-show-name{
+        .score2 {
+          background: linear-gradient(138.95deg, #DCDCDC -28.75%, #B2B0AA 60.24%, #6F6E6B 76.72%);
+        }
+
+        .score3 {
+          background: linear-gradient(138.95deg, #FFFFFF -28.75%, #F3B378 45.77%, #DF8D2D 76.72%);
+        }
+
+        .hist-nom-score {
+
+
+          height: 2.8125rem;
+          width: 1.8125rem;
+          text-align: center;
+          padding-top: .8125rem;
+          margin-right: 1.25rem;
+          padding-left: .125rem;
           font-family: Optima;
-font-style: normal;
-font-weight: bold;
-font-size: 14px;
-line-height: 14px;
-letter-spacing: 0.05em;
-text-decoration-line: underline;
-color: #FFFFFF;
-margin: 5px 0 15px;
+          font-style: normal;
+          font-weight: bold;
+          font-size: 1rem;
+          line-height: 1rem;
+          letter-spacing: 0.05em;
+          color: #333333;
+
+          border-radius: .3125rem;
 
         }
-        .hist-show-memb{
-          font-family: Optima Cyr;
-font-style: normal;
-font-weight: normal;
-font-size: 12px;
-line-height: 12px;
-letter-spacing: 0.05em;
-color: #FFFFFF;
-opacity: 0.5;
 
+        .hist-show-panel {
+          .hist-show-name {
+            font-family: Optima;
+            font-style: normal;
+            font-weight: bold;
+            font-size: .875rem;
+            line-height: .875rem;
+            letter-spacing: 0.05em;
+            text-decoration-line: underline;
+            color: #FFFFFF;
+            margin: .3125rem 0 .9375rem;
+
+          }
+
+          .hist-show-memb {
+            font-family: Optima Cyr;
+            font-style: normal;
+            font-weight: normal;
+            font-size: .75rem;
+            line-height: .75rem;
+            letter-spacing: 0.05em;
+            color: #FFFFFF;
+            opacity: 0.5;
+
+          }
         }
       }
     }
+
+
   }
-  
-  
-  }
-  .hist-send{
+
+  .hist-send {
     background: radial-gradient(180.91% 1388.43% at 100% 7.27%, #770D37 0%, #211452 100%);
-    margin: 90px 0 120px;
-    width: 1230px;
-height: 55px;
+    margin: 5.625rem 0 7.5rem;
+    width: 76.875rem;
+    height: 3.4375rem;
   }
 }
 
-table.borderless{
+table.borderless {
   border: none;
   width: 100%;
-  td:last-child{
+
+  td:last-child {
     border: none;
     font-family: Optima Cyr;
-font-style: normal;
-font-weight: normal;
-font-size: 14px;
-line-height: 18px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: .875rem;
+    line-height: 1.125rem;
 
-/* identical to box height, or 129% */
+    /* identical to box height, or 129% */
 
-color: #FFFFFF;
+    color: #FFFFFF;
 
   }
-  td{
+
+  td {
     border: none;
     font-family: Optima Cyr;
-font-style: normal;
-font-weight: normal;
-font-size: 14px;
-line-height: 18px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: .875rem;
+    line-height: 1.125rem;
 
-/* identical to box height, or 129% */
-letter-spacing: 0.05em;
+    /* identical to box height, or 129% */
+    letter-spacing: 0.05em;
 
-color: #333333;
-    
+    color: #333333;
+
   }
-  th{
+
+  th {
     border: none;
     font-family: Optima Cyr;
-font-style: normal;
-font-weight: normal;
-font-size: 14px;
-line-height: 18px;
+    font-style: normal;
+    font-weight: normal;
+    font-size: .875rem;
+    line-height: 1.125rem;
 
-/* identical to box height, or 129% */
+    /* identical to box height, or 129% */
 
-color: #FFFFFF;
+    color: #FFFFFF;
 
   }
-  tr{
-    &.score-show-row{
+
+  tr {
+    &.score-show-row {
       background: white;
-font-family: Optima Cyr;
-font-style: normal;
-font-weight: normal;
-font-size: 14px;
-line-height: 18px;
-letter-spacing: 0.05em;
-color: #333;
-padding: 8px 17px;
+      font-family: Optima Cyr;
+      font-style: normal;
+      font-weight: normal;
+      font-size: .875rem;
+      line-height: 1.125rem;
+      letter-spacing: 0.05em;
+      color: #333;
+      padding: .5rem 1.0625rem;
     }
-    &.spacer{
-      height: 35px;
+
+    &.spacer {
+      height: 2.1875rem;
     }
-    &.score-row{
-      
-      height: 34px;
+
+    &.score-row {
+
+      height: 2.125rem;
     }
+
     border: none;
   }
 }
 
-div.score-show-row{
+div.score-show-row {
   background: white;
-font-family: Optima Cyr;
-font-style: normal;
-font-weight: normal;
-font-size: 14px;
-line-height: 18px;
-letter-spacing: 0.05em;
-color: #333;
-padding: 8px 17px;
-text-align: left;
-margin-bottom: 15px;
-}
-
-.modal-area{
-  width: 810px;
-height: 407px;
-  position: absolute;
-inset: 50% auto auto 50%;
-border: 5px solid white;
-background: white;
-border-radius: 4px;
-outline: currentcolor none medium;
-padding: 50px;
-margin-right: -50%;
-transform: translate(-50%, -50%);
-
-  .modal-container{
-    display: grid;
-padding: 20px;
-background-color: white;
-overflow-x: auto;
-max-height: 500px;
-    .modal-title{
-  
-      font-family: Optima;
-font-style: normal;
-font-weight: bold;
-font-size: 28px;
-line-height: 28px;
-color: #111;
-    }
-    .modal-warn{
-      width: 482px;
-      margin: 30px 0 20px;
-      font-family: Optima Cyr;
-      font-style: normal;
-      font-weight: normal;
-      font-size: 24px;
-      line-height: 34px;
-      color: #111111;
-      opacity: 0.5;
-    }
-    .modal-text{
-      font-family: Optima Cyr;
-      font-style: normal;
-      font-weight: normal;
-      font-size: 28px;
-      line-height: 38px;
-      color: #111111;
-    }
-    .modal-btn-container{
-      margin-top: 30px;
-      .modal-cancel-btn{
-        margin-right: 30px;
-        width: 185px;
-        height: 55px;
-        background: radial-gradient(180.91% 1388.43% at 100% 7.27%, #770D37 0%, #211452 100%);
-        float: left;
-      }
-      .modal-ok-btn{
-       
-        height: 55px;
-        width: 285px;
-        height: 55px;
-        left: 810px;
-        top: 639px;
-        background: rgba(0, 0, 0, 0.25);
-        color: #111;
-        float: left;
-    }
-      }
-    }
+  font-family: Optima Cyr;
+  font-style: normal;
+  font-weight: normal;
+  font-size: .875rem;
+  line-height: 1.125rem;
+  letter-spacing: 0.05em;
+  color: #333;
+  padding: .5rem 1.0625rem;
+  text-align: left;
+  margin-bottom: .9375rem;
 }
