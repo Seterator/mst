@@ -93,36 +93,31 @@ namespace mst.Controllers
         [HttpGet("GetAll")]
         public IActionResult GetAll()
         {
-            try {
+            try
+            {
                 var noms = _db.Nominations
-                    .Include(sn => sn.Estimations)
-                    .ThenInclude(r=>r.Referee)
-                                .Include(x => x.ShowNominations)
-                                
-                                .ThenInclude(sn => sn.Show)
+                    .Include(sn => sn.Estimations).AsSplitQuery()
+                                .Include(x => x.ShowNominations).AsSplitQuery()
                                 .ToList();
-                foreach(var nom in noms) {
-                    foreach(var showNomination in nom.ShowNominations) {
-                        if(showNomination.Show != null)
-                        {
-                            showNomination.Show.ShowNominations = null;
-                        }
-                    
-                    showNomination.Nomination = null;
-                        
+                foreach (var nom in noms)
+                {
+                    foreach (var showNomination in nom.ShowNominations)
+                    {
+
+
+                        showNomination.Nomination = null;
+
                     }
                     foreach (var estimations in nom.Estimations)
                     {
-                        estimations.Show = null;
-                        estimations.Nomination = null;
-                        estimations.Referee.AvailableCompetitions = null;
-                        estimations.Referee.Estimations = null;
 
+                        estimations.Nomination = null;
                     }
                 }
                 return Ok(noms);
             }
-            catch {
+            catch
+            {
                 return BadRequest();
             }
         }
