@@ -29,9 +29,11 @@ export function ProfileView(){
         
             <div className="container profile-container">
                 <div className="profile-left">
-                    <div className="about">
-                        <img height="350px" width="285px" src={dataView.avatar} alt=""/>
-                    </div>
+                <div className="about"  style={{
+        backgroundImage:`url(${dataView.avatar})`
+        , width:'285px', height:'350px',backgroundSize: 'auto 100%',
+        backgroundRepeat: 'no-repeat',
+        backgroundPosition: 'center'}}></div>
                 </div>
                 <div className="profile-right">
                     <div style={{textAlign:'left'}}>
