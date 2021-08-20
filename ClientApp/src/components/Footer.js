@@ -6,10 +6,10 @@ import '../style/_style.scss'
 export function Footer(){
 
     return(<div className="footer">
-    <div style={{width:'100%', padding:'60px 345px', display:'grid'}}>
+    <div style={{width:'100%', padding:'3.75rem 21.5625rem', display:'grid'}}>
       <div className="wrapper">
         <a className="logo logo-footer"><img src={require("../img/logo.svg")} alt=""/></a>
-        <ul style={{marginRight: '281px'}}>
+        <ul style={{marginRight: '17.5625rem'}}>
           <li>Навигация</li>
           <li><a href="https://musicalheart.ru/">Главная</a></li>
           <li><a href="https://musicalheart.ru/o-proekte/">О проекте</a></li>
@@ -18,7 +18,7 @@ export function Footer(){
           <li><a href="https://musicalheart.ru/category/novosti/">Новости</a></li>
         </ul>
         {/* изменены пункты меню */}
-        <ul style={{marginRight: '179px'}}>
+        <ul style={{marginRight: '11.1875rem'}}>
           <li>Документы</li>
           <li><a href="https://musicalheart.ru/o-proekte/dokumenty/">Документы организации</a></li>
           {/* изменён пункт меню */}
@@ -44,7 +44,7 @@ export function Footer(){
         </div>
       </div>
       
-      <div className="row"  style={{marginTop: '120px'}}>
+      <div className="row"  style={{marginTop: '7.5rem'}}>
         <p className="copyright">©2021 Все права защищены</p>
         <p className="title">АНО «Музыкальное Сердце Театра»</p>
       </div>

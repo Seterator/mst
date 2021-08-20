@@ -5,11 +5,12 @@ a.navbar-brand {
 }
 
 html {
-  font-size: 14px;
+  font-size: .875rem;
 }
-@media (min-width: 768px) {
+
+@media (min-width: 48rem) {
   html {
-    font-size: 16px;
+    font-size: 1rem;
   }
 }
 
@@ -17,48 +18,47 @@ html {
   box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
 
-.notWelcome{
+.notWelcome {
   border-top: 1px solid #dee2e6 !important;
-  height: 98px;
-  margin-top: 90px;
-  width: 1230px;
+  height: 6.125rem;
+  margin-top: 5.625rem;
+  width: 76.875rem;
 }
 
-.height-max{
+.height-max {
   height: 100%;
 }
 
-.bottom-navbar-item{
+.bottom-navbar-item {
   color: grey;
-  margin: 0 5px;
+  margin: 0 .3125rem;
   display: block;
 }
 
-.bottom-navbar-item:hover{
-  color:white;
+.bottom-navbar-item:hover {
+  color: white;
   text-decoration: none;
 }
 
-.bottom-navbar-item:hover img.hover-img{
-  visibility:visible
+.bottom-navbar-item:hover img.hover-img {
+  visibility: visible
+}
 
-    }
-    
-    img.hover-img{
-      display: block;
-      margin-top: 10px;
-      visibility: hidden
-    }
+img.hover-img {
+  display: block;
+  margin-top: .625rem;
+  visibility: hidden
+}
 
-.bottom-header{
+.bottom-header {
   display: inline-block;
   width: 100%;
 }
 
-.bottom-header-left-part{
+.bottom-header-left-part {
   float: left;
 }
 
-.bottom-header-right-part{
+.bottom-header-right-part {
   float: right;
 }
