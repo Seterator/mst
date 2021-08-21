@@ -64,7 +64,8 @@ export default function AddCompetitionsShowModal(props) {
 
     function handleEditNominations(e){
         let id = e.target.getAttribute('id');
-        setEditShowData({id:id.slice(-1)});
+        id = id.split('show-nomination')[1];
+        setEditShowData({id:id});
     }
 
     function handleShowNominationsSubmit(v){

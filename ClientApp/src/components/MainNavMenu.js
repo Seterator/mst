@@ -22,7 +22,7 @@ const [collapsed, setCollapsed] = useState(true);
           <a href="https://musicalheart.ru/category/novosti/" className="nav-item">Новости</a>
           {/* изменены пункты меню */}
 
-        <a href="https://musicalheart.ru/o-proekte/kontakty/" className="nav-item btn btn-primary"><span>Контакты</span></a> 
+        <a href="https://musicalheart.ru/o-proekte/kontakty/" className="nav-item btn btn-primary" style={{border: 'none'}}><span>Контакты</span></a> 
         {/* изменены текст и ссылка кнопки. надеюсь, валидно... */}
         </nav>
       </header>
