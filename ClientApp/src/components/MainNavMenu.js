@@ -11,18 +11,22 @@ const [collapsed, setCollapsed] = useState(true);
     setCollapsed(!collapsed)
   }
 
+  function newPage (url) {
+    window.open(url,"_blank");
+  }
+
     return (
         <header className="header">
         <a className="logo-header"><img src={require("../img/logo.svg")} alt=""/></a>
         <nav className="nav-header">
-          <a href="http://musicalheart.ru" className="nav-item">Главная</a>
-          <a href="https://musicalheart.ru/o-proekte/" className="nav-item">О проекте</a>
-          <a href="https://musicalheart.ru/prezident/" className="nav-item">Персоналии</a>
-          <a href="https://musicalheart.ru/festival-2021/" className="nav-item">Фестиваль 2021</a>
-          <a href="https://musicalheart.ru/category/novosti/" className="nav-item">Новости</a>
+          <a onClick={()=>newPage("http://musicalheart.ru")} className="nav-item">Главная</a>
+          <a onClick={()=>newPage("https://musicalheart.ru/o-proekte/")} className="nav-item">О проекте</a>
+          <a onClick={()=>newPage("https://musicalheart.ru/prezident/")} className="nav-item">Персоналии</a>
+          <a onClick={()=>newPage("https://musicalheart.ru/festival-2021/")} className="nav-item">Фестиваль 2021</a>
+          <a onClick={()=>newPage("https://musicalheart.ru/category/novosti/")} className="nav-item">Новости</a>
           {/* изменены пункты меню */}
 
-        <a href="https://musicalheart.ru/o-proekte/kontakty/" className="nav-item btn btn-primary" style={{border: 'none'}}><span>Контакты</span></a> 
+        <a onClick={()=>newPage("https://musicalheart.ru/o-proekte/kontakty/")} className="nav-item btn btn-primary" style={{border: 'none'}}><span>Контакты</span></a> 
         {/* изменены текст и ссылка кнопки. надеюсь, валидно... */}
         </nav>
       </header>
