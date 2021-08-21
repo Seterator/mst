@@ -230,7 +230,21 @@ namespace mst.Controllers {
         [HttpGet("GetEstimations")]
         public IActionResult GetEstimations([FromQuery]int refereeId, [FromQuery]int showId) {
             try {
-                var show = _db.Shows.Include(x => x.Estimations).Where(x => x.Id == showId).Single();
+                var show = _db.Shows
+                    .Include(x => x.Estimations).AsSplitQuery()
+                    .Where(x => x.Id == showId)
+                    .Select(s => new {
+                        s.BlockedReferees,
+                        s.Description,
+                        s.Estimations,
+                        s.Id,
+                        s.Name,
+                        s.ShortDescription,
+                        s.ShowNominations,
+                        s.VideoLink,
+                        s.WebLink
+                    })
+                    .Single();
                 var estimations = show.Estimations.Where(x => x.RefereeId == refereeId).ToList();
                 
                 return Ok(estimations.Select(s=> new {s.ShowId, s.NominationId, s.RefereeId, s.Score }));

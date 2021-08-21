@@ -30,28 +30,22 @@ export default function AddCompetitionsShowModal(props) {
     },[checked, showNominationsValue, nominations, competitionId])
 
     useEffect(()=>{
-        if(showNominationsModalData?.length >0){
-        let newArr = showNominationsModalData.map(m=>{return {showId:editShowData.id, nominationId:m.id, nominationTitle:m.name,nominationValue:m.value }});
-
-        let submitTemp = toSubmit;
-        var curShowsNom = submitTemp?.filter(f=> f.showId == editShowData.id);
-        
-
-        curShowsNom.forEach(v => {
-            submitTemp.splice(submitTemp.indexOf(v),1);
-        })
-
-        setToSubmit([...submitTemp,...newArr]);
+        if(!isModalShowNominationOpen){
+         setShowNominationsModalData([]);
         }
 
-    },[showNominationsModalData]);
+    },[isModalShowNominationOpen]);
+
+    useEffect(()=>{
+
+        showNominationsModalData?.length >0 && OpenShowNominationModal(true);
+    },[showNominationsModalData])
 
     useEffect(()=>{
         
         if(editShowData && editShowData.id && !isModalShowNominationOpen){
             setShowNominationsModalData(toSubmit.filter(f=>f?.showId == editShowData.id)
             .map(m => {return{name:m?.nominationTitle, value:m?.nominationValue, id:m?.nominationId}}));
-            OpenShowNominationModal(true);
         }
     },[editShowData])
 
