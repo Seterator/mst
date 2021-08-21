@@ -47,7 +47,7 @@ export function EstimationWork(){
         <p className="nomination-title">{data.name}</p>
             <p className="nomination-description">{data.description}</p>
             <div style={{display:'inline-flex'}}>
-            <a style={{margin:'40px 0 90px 0', display:'block'}} href={`${data.webLink}`}>Перейти на страницу работы</a>
+            <a style={{margin:'40px 0 90px 0', display:'block'}} onClick={()=>window.open(`${data.webLink}`,"_blank")}>Перейти на страницу работы</a>
             <div style={{height:'1px', width:'1045px', border:'1px solid white', marginLeft: '30px', marginTop:'45px'}}></div>
             </div>
             {EstimationBlock(id,nominations,scored,isBlocked)}
