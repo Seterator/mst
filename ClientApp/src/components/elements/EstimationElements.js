@@ -6,13 +6,15 @@ import { ModalConfirmContext } from '../Layout';
 
 export function VoteElement(data,estimations, userId,blockedShows,images, f){
 
+    function newPage(url){
+        window.open(url);
+    }
     let arr = images.filter(f=>f.showId == data.id);
     let img = arr.length>0 && arr[0].image;
     return(
     <span style={{display:'block', width:'390px', margin:'15px 0', float:'left',
     borderImage: 'linear-gradient(to left, #770D37, #211452) 0 0 100% 0', paddingBottom:'20px'}}>
-    <Link to={`/work/${data.id}`}  style={{display:'block'}}>
-    <div height='247' width='390' style={{
+    <div onClick={()=>newPage(`/work/${data.id}`)} height='247' width='390' style={{
         backgroundImage:`url(data:image/png;base64,${img})`
         , width:'390px', height:'247px', position:'relative', opacity:'0.7',backgroundSize: 'cover'}}>
             <div style={{position:'absolute', bottom:'10px', left:'0', right:'0', height:'30px', textAlign:'center'}}>
@@ -22,8 +24,6 @@ export function VoteElement(data,estimations, userId,blockedShows,images, f){
             </div>
         
     </div>
-            
-            </Link>
              <p style={{fontSize: "24px", lineHeight: '34px'}}>{data.name}</p>
             <p style={{fontSize: "16px", lineHeight: '26px'}}>{data.shortDescription}</p>
             <button style={{opacity:'0.5', background:'none'}} onClick={f}>Посмотреть список номинаций</button>
