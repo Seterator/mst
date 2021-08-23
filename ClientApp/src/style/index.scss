@@ -763,7 +763,8 @@ color: #111;
         margin-right: 30px;
         width: 185px;
         height: 55px;
-        background: radial-gradient(180.91% 1388.43% at 100% 7.27%, #770D37 0%, #211452 100%);
+        background: rgba(0, 0, 0, 0.25);
+      color: #111;
         float: left;
       }
       .modal-ok-btn{
@@ -777,6 +778,14 @@ color: #111;
         color: #111;
         float: left;
     }
+    .modal-cancel-btn:hover{
+      background: radial-gradient(180.91% 1388.43% at 100% 7.27%, #770D37 0%, #211452 100%);
+      color: white;
+    }
+    .modal-ok-btn:hover{
+      background: radial-gradient(180.91% 1388.43% at 100% 7.27%, #770D37 0%, #211452 100%);
+      color: white;
+  }
       }
     }
 }

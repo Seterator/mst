@@ -35,7 +35,7 @@ export default function Layout(props) {
         </div>
         <Footer/>
       </div>
-      <ConfirmModal cancel={confirmModal && confirmModal.cancel} isOpen={confirmModalIsOpen} save={confirmModal && confirmModal.save} title={confirmModal && confirmModal.title} content={confirmModal && confirmModal.content} cancelTitle={confirmModal && confirmModal.cancelTitle} saveTitle={confirmModal && confirmModal.saveTitle} />
+      <ConfirmModal style={confirmModal && confirmModal.style} cancel={confirmModal && confirmModal.cancel} isOpen={confirmModalIsOpen} save={confirmModal && confirmModal.save} title={confirmModal && confirmModal.title} content={confirmModal && confirmModal.content} cancelTitle={confirmModal && confirmModal.cancelTitle} saveTitle={confirmModal && confirmModal.saveTitle} />
       </ModalConfirmContext.Provider >
     )
   

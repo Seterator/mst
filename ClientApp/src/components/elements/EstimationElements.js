@@ -281,10 +281,10 @@ const [data, setData] = useState([]);
     
                 {data && data?.map((v,i) => i%3==0&&VoteElement(v,estimations, user.id, blockedShows, images,() => dropDownClick(i)))}
                 </div>
-                <div style={{width:'33%', float:'left'}}>
+                <div style={{width:'33%', float:'left', paddingLeft:'15px'}}>
                 {data && data?.map((v,i) => i%3==1&&VoteElement(v,estimations, user.id,blockedShows, images,() => dropDownClick(i)))}
                 </div>
-                <div style={{width:'33%', float:'left'}}>
+                <div style={{width:'33%', float:'left', paddingLeft:'30px'}}>
                 {data && data?.map((v,i) => i%3==2&&VoteElement(v,estimations, user.id,blockedShows, images,() => dropDownClick(i)))}
                 </div>
                 

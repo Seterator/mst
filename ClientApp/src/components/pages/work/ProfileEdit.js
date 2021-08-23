@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { WarningMessage } from '../../elements/MessageElements'
-import {UserContext } from '../../../LoginMiddleware'
+import {UserContext } from '../../../LoginMiddleware';
+import {ModalConfirmContext} from '../../Layout'
 
 import '../../../style/_label.scss'
 import '../../../style/staff.scss'
@@ -11,6 +12,7 @@ export function ProfileEdit(){
     const [avatarView, setAvatarView] = useState({});
     const [password, setPassword] = useState({});
     const {user} = useContext(UserContext);
+    const { setModalOpen, setConfirmModal } = useContext(ModalConfirmContext);
 
     useEffect(()=>{
 
@@ -29,6 +31,22 @@ export function ProfileEdit(){
         
 
     }, [user]);
+
+    function confirm(content){
+        
+
+            setConfirmModal({
+                title: "Предупреждение!",
+                content: (<div className="modal-warn" style={{width:'auto'}}>{content}</div>),
+                saveTitle: "Ок",
+                save: () => {
+                    setModalOpen(false);
+                },
+                style:{title:{}, area:{content:{width:'auto', height:'auto'}}}
+            });
+       
+        
+    }
 
     const handleChange = (e)=>{
         const newData = data;
@@ -98,12 +116,12 @@ export function ProfileEdit(){
     const ChangePass = () =>{
 
         if(password.new != password.confirm){
-            alert('пароли не совпадают');
+            confirm('пароли не совпадают');
             return;
         }
         const oldPass = localStorage.getItem('passwordMst');
         if(oldPass !== password.old){
-            alert('Старый пароль не верный');
+            confirm('Старый пароль не верный');
             return;
         }
 
