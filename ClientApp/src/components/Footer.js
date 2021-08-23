@@ -21,17 +21,15 @@ export function Footer(){
           <li><a onClick={()=>newPage("https://musicalheart.ru/festival-2021/")}>Фестиваль 2021</a></li>
           <li><a onClick={()=>newPage("https://musicalheart.ru/category/novosti/")}>Новости</a></li>
         </ul>
-        {/* изменены пункты меню */}
         <ul style={{marginRight: '179px'}}>
           <li>Документы</li>
           <li><a onClick={()=>newPage("https://musicalheart.ru/o-proekte/dokumenty/")}>Документы организации</a></li>
-          {/* изменён пункт меню */}
+          <li><a onClick={()=>newPage("https://musicalheart.ru/uncategorized/kratkaya-instrukcziya-po-golosovaniyu/")}>Порядок голосования</a></li>
         </ul>
         <div>
          <ul>
           <li>Авторизация жюри</li>
           <li><a onClick={()=>newPage("http://golos.musicalheart.ru/")}>Авторизироваться</a></li>
-          {/* изменён пункт меню */}
         </ul> 
         <ul>
           <li>Контакты</li>
