@@ -128,7 +128,7 @@ export function EstimationBlock(showId, showNominations, score, isBlocked){
         }
         
         let anotherShowScored = showNominations.filter(f=>f.nominationId == choosenNomination)[0].nomination.estimations
-                            .filter(f=>f.score == choosenPlace && f.nominationId == choosenNomination);
+                            .filter(f=>f.score == choosenPlace && f.nominationId == choosenNomination && f.refereeId == user.id);
         let toDelete = anotherShowScored.length > 0;
 
         let newData = scoredData;
