@@ -339,7 +339,7 @@ function CompetitionTable({ columns, data, setData }){
 
 
     return(<div>
-        <table>
+        <table className="admin-table">
             <thead>
                 <tr>
                     {columns?.map((v,i)=><th key={`${v?.key}${i}`}>{v?.value||v}</th>)}

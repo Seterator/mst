@@ -75,18 +75,25 @@ a.admin:hover{
 a.admin{
   display: table-row;
 }
-table {
+table.admin-table {
   border-collapse: collapse;
   border: 1px solid black;
-  width: 70%;
+  width: 100%;
 }
 
-table td{
+table.admin-table td{
   border: 1px solid black;
+  word-break:break-word;
 }
-table th{
-  width: 17%;
+table.admin-table th{
+  
   border: 1px solid black;
+  word-break: break-word;
+}
+table.admin-table th:first-child{
+  width: 5%;
+  border: 1px solid black;
+  word-break: break-word;
 }
 .admin-content{
   margin: 20px 0 100px 20px;
@@ -179,4 +186,30 @@ a:hover{
 
 div,p{
   white-space: pre-wrap;
+}
+
+video {
+  width: 100%;
+  height: auto;
+  max-height: 100%;
+}
+
+.iframe-container {
+  position: relative;
+  padding-bottom: 56.25%; /* задаёт высоту контейнера для 16:9 (если 4:3 — поставьте 75%) */
+  height: 0;
+  overflow: hidden;
+}
+.iframe-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-width: 0;
+  outline-width: 0;
+}
+.iframe-container iframe img.kk{
+  width: 1230xp;
+  height: 690px;
 }
