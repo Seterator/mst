@@ -4,6 +4,8 @@ import AddScoreModal from '../modal/AddScoreModal'
 export default function ScorePanel(){
 
     const [data,setData] = useState([]);
+    const [dataShow,setDataShow] = useState([]);
+    const [dataUser,setDataUser] = useState([]);
     const [isOpen,setIsOpen] = useState(false);
 
     const [dataView,setDataView] = useState([]);
@@ -14,12 +16,25 @@ export default function ScorePanel(){
 
     useEffect(()=>{
 
-        fetch('Nomination/GetAll').then(res => res.ok&&res.json())
-        .then(json =>{
-            json&&setData(json);
-        })
+        const ff = async () =>{
+
         
+        let query = [`Nomination/GetAll`, `Show/GetAll`, 'User/GetAll']
+            let results = await Promise.all( query.map(async q =>{
+
+                return await fetch(q).then(r=>r.ok&&r.json());
+              
+            }))
+
+            let users = results[2];
+            users.push({id:-2, fullName:'Добавленная администратором'})
+            setData(results[0]);
+            setDataShow(results[1]);
+            setDataUser(users)
+
         setEditedShow({});
+        }
+        ff();
         
     },[]);
 
@@ -42,33 +57,32 @@ export default function ScorePanel(){
 
     
     function addScore(d){
-        let newArr = dataView;
-        let editedNom = newArr.filter(f=>f.nominationId == d.editedShow.nominationId)[0];
-        let editedShow = editedNom.show.filter(f=>f.id == d.editedShow.showId)[0]
-        editedShow.score.push({fullName:"Добавленная администратором", refereeId:-2,value:d.score});
+        let newArr = dataShow;
 
-        setData(newArr)
+        let editedShow = newArr.filter(f=>f.id == d.editedShow.showId)[0]
+        editedShow.estimations.push({showId:d.editedShow.showId, refereeId:-2,nominationId:d.editedShow.nominationId, score:d.score});
+
+        setDataShow(newArr)
     }
 
     function setToDelete(d){
-        let newArr = dataView;
-        let editedNom = newArr.filter(f=>f.nominationId == d.nominationId)[0];
-        let editedShow = editedNom.show.filter(f=>f.id == d.showId)[0]
-        let index = editedShow.score.indexOf(editedShow.score.filter(f=>f.refereeId == d.refereeId)[0]);
+        let newArr = dataShow;
+        let editedShow = newArr.filter(f=>f.id == d.showId)[0];
+        let index = editedShow.estimations.indexOf(editedShow.estimations.filter(f=>f.refereeId == d.refereeId && f.nominationId == d.nominationId)[0]);
 
-        editedShow.score.splice(index,1);
+        editedShow.estimations.splice(index,1);
 
-        setData(newArr);
+        setDataShow(newArr);
         setChange(change+1)
     }
 
     return(<div>
-        {dataView.map(m=>ScoreNomination(m, setEditedShow, setToDelete))}
+        {dataView.map(m=>ScoreNomination(m, setEditedShow, setToDelete, dataShow, dataUser))}
         {AddScoreModal({isOpen: isOpen, cancel:()=>setIsOpen(false), submit:addScore, editedShow:editedShow})}
     </div>)
 } 
 
-function ScoreNomination(nom, setEdited, setToDelete){
+function ScoreNomination(nom, setEdited, setToDelete, dataShow, dataUser){
 
     
 
@@ -120,7 +134,7 @@ function ScoreNomination(nom, setEdited, setToDelete){
                 </thead>
                 <tbody>
                 {nom.showNominations?.map((sn,i)=>{
-                    let m = sn?.show;
+                    let m = dataShow.length > 0 && dataShow.filter(f=>f.id == sn?.showId)[0];
 
                     const content = (<tr><td colSpan="4">
                         <table className="borderless" style={{width:'100%'}} >
@@ -140,14 +154,15 @@ function ScoreNomination(nom, setEdited, setToDelete){
                                     <td>{m?.name}</td>
                                     <td></td>
                                     <td></td>
-                                    <td>{getScoreSum(m?.estimations)}</td>
+                                    <td>{getScoreSum(m?.estimations.filter(f=>f.nominationId == nom?.id))}</td>
                                     <td></td>
                                     <td><a onClick={()=>addScore(nom?.id,m?.id)}>Добавить оценку</a></td>
                                 </tr>
-                                {m?.estimations?.map((s,i) => {
+                                {m?.estimations?.filter(f=>f.nominationId == nom?.id).map((s,i) => {
+                                    let ref =dataUser.length > 0 && dataUser.filter(f=>f.id == s?.refereeId)[0];
                                     return(<tr className="score-row">
                                         <td></td>
-                                        <td>{s?.refereeId?.fullName}</td>
+                                        <td>{ref?.fullName}</td>
                                         <td><div>{s?.score}</div></td>
                                         <td></td>
                                         <td><a style={{color:'black'}} onClick={()=>deleteScore(nom?.id,m?.id,s?.refereeId)}>X</a></td>
