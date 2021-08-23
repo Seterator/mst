@@ -27,6 +27,7 @@ export function EstimationWork(){
             }))
    
 
+            window.scrollTo(0,100);
 
             let json = results[0];
             let scored = results[1];
