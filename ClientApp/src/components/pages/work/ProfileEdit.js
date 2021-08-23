@@ -133,11 +133,11 @@ export function ProfileEdit(){
            }).then(res => {
                if(res.ok){
                    setPassword({});
-                alert('Пароль успешно изменен');
+                   confirm('Пароль успешно изменен');
 
                }
                else{
-                alert('Ошибка изменения пароля');
+                confirm('Ошибка изменения пароля');
                }
             })
     }
