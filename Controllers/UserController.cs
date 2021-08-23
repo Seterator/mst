@@ -63,14 +63,19 @@ namespace mst.Controllers
         {
             try {
                 var r = _db.Referees.Include(i=>i.User).Where(x => x.Id == referee.Id).Single();
-                if(_db.Referees.Any(a=> (a.Login == referee.Login && r.Login != referee.Login) || (a.Email == referee.Email && r.Email != referee.Email)))
+                if(_db.Referees.Any(a=> (a.Login == referee.Login && r.Login != referee.Login && referee.Login != null) || (a.Email == referee.Email && r.Email != referee.Email && referee.Email != null)))
                 {
                     return BadRequest("Пользователь с указанным Login или Email уже существует");
                 }
-
-                r.Login = referee.Login;
+                if(referee.Login != null)
+                {
+                    r.Login = referee.Login;
+                }
+                if (referee.Password != null)
+                {
+                    r.User.Password = referee.Password;
+                }
                 r.Email = referee.Email;
-                r.User.Password = referee.Password;
                 r.FullName = referee.FullName;
                 r.Bio = referee.Bio;
                 r.City = referee.City;
