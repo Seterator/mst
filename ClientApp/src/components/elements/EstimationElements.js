@@ -166,7 +166,7 @@ export function EstimationBlock(showId, showNominations, score, isBlocked){
 
     return (<div className={isBlocked&&'disabled'}><div>
         <p className="show-nomination-main-title">Выбор номинации для оценивания:</p>
-        {WarningMessage(`Для оценки выберете номинацию, затем - место, которого по Вашему мнению заслуживает спектакль в этой номинации и нажмите 'Сохранить'. Вы можете поставить не более 3 оценок в каждой номинации.`,'show-warn')}
+        {WarningMessage(`Для оценки выберете номинацию, затем - место, которое по Вашему мнению заслуживает спектакль в этой номинации и нажмите 'Сохранить'. Вы можете поставить не более 3 оценок в каждой номинации.`,'show-warn')}
         <div className="show-nomination-container">
         {showNominations?.map((v,i)=>{
             if(v.person ===''){
