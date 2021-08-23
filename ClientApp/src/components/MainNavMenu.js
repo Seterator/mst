@@ -19,7 +19,6 @@ const [collapsed, setCollapsed] = useState(true);
         <header className="header">
         <a className="logo-header"><img src={require("../img/logo.svg")} alt=""/></a>
         <nav className="nav-header">
-//           <a onClick={()=>newPage("https://musicalheart.ru/uncategorized/kratkaya-instrukcziya-po-golosovaniyu/")} className="nav-item">Порядок голосования</a>
           <a onClick={()=>newPage("http://musicalheart.ru")} className="nav-item">Главная</a>
           <a onClick={()=>newPage("https://musicalheart.ru/o-proekte/")} className="nav-item">О проекте</a>
           <a onClick={()=>newPage("https://musicalheart.ru/prezident/")} className="nav-item">Персоналии</a>
