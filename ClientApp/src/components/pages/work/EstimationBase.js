@@ -19,8 +19,7 @@ export function EstimationBase(){
         <input className="search-input-image" placeholder="Поиск" onChange={(e)=>setFilter(e.target.value)} />
         {EstimationBasePart()}
         <div style={{display:'inline-block'}}>
-        {WarningMessage('На данный момент доступен только просмотр работ без возможности оценивания. Совсем скоро Вы сможете оценить доступные работы по шкале от первого до третьего места.', 'show-warn')}
-        {/* изменён текст предупреждения */}
+        {WarningMessage('Функция окончательного завершения голосования будет доступна с 20 сентября 2021. В данный момент кнопка «Подтвердить и отправить» неактивна.', 'show-warn')}
         <button style={{width:'1230px', height:'55px', margin:'10px 0'}}>Подтвердить и отправить</button>
         </div>
 
