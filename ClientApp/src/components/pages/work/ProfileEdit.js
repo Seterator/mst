@@ -32,11 +32,11 @@ export function ProfileEdit(){
 
     }, [user]);
 
-    function confirm(content){
+    function confirm(content, title){
         
 
             setConfirmModal({
-                title: "Предупреждение!",
+                title: title||"Предупреждение!",
                 content: (<div className="modal-warn" style={{width:'auto'}}>{content}</div>),
                 saveTitle: "Ок",
                 save: () => {
@@ -85,7 +85,7 @@ export function ProfileEdit(){
         setPassword({...password,confirm:e.target.value});
     } 
 
-    const AskModeration = () =>{
+    const AskModeration = async () =>{
         let formData = new FormData();
     formData.append('id', user.id);
     formData.append('file', data.avatar);
@@ -95,28 +95,22 @@ export function ProfileEdit(){
     formData.append('bio', data.bio);
 
 
-    fetch(`User/Edit`, {
+    var r = await fetch(`User/Edit`, {
         method: 'post',
         body:formData
         
-       }).then(r => {
-        if(!r.ok){
-            return;
-        }
-        return r.json();
-        })
-        .then(res=>{
-            if(res){
-                setData(res);
-                setAvatarView(`data:image/png;base64,${res.avatar}`);
-            } 
-        });
+       });
+
+       if(r.ok){
+        confirm('Данные успешно изменены', 'Информация');
+    } 
+
     } 
 
     const ChangePass = () =>{
 
         if(password.new != password.confirm){
-            confirm('пароли не совпадают');
+            confirm('Пароли не совпадают');
             return;
         }
         const oldPass = localStorage.getItem('passwordMst');
