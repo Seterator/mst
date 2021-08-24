@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState,useContext } from 'react';
 import AddScoreModal from '../modal/AddScoreModal'
+import { ModalConfirmContext } from '../../Layout';
 
 export default function ScorePanel(){
 
@@ -12,6 +13,8 @@ export default function ScorePanel(){
     const [change,setChange] = useState(1);
 
     const [editedShow, setEditedShow] = useState({});
+
+    const { setModalOpen, setConfirmModal } = useContext(ModalConfirmContext);
 
 
     useEffect(()=>{
@@ -65,15 +68,58 @@ export default function ScorePanel(){
         setDataShow(newArr)
     }
 
-    function setToDelete(d){
+    async function confirmDelete(){
+        
+        return new Promise((resolve,reject)=>{
+        setConfirmModal({
+            title: "Предупреждение!",
+            content: (<div className="modal-warn" style={{width:'auto'}}>Вы действительно хотите удалить оценку?</div>),
+            saveTitle: "Удалить",
+            cancelTitle: "Отмена",
+            save: () => {
+                setModalOpen(false);
+                resolve(true);
+            },
+            cancel:()=>{
+                setModalOpen(false);
+                resolve(false);
+            },
+            style:{title:{}, area:{content:{width:'auto', height:'auto'}}}
+        });
+        })
+    }
+
+    async function setToDelete(d){
         let newArr = dataShow;
         let editedShow = newArr.filter(f=>f.id == d.showId)[0];
-        let index = editedShow.estimations.indexOf(editedShow.estimations.filter(f=>f.refereeId == d.refereeId && f.nominationId == d.nominationId)[0]);
+        let est = editedShow.estimations.filter(f=>f.refereeId == d.refereeId && f.nominationId == d.nominationId)[0]
+        let index = editedShow.estimations.indexOf(est);
+        if(index !==-1 && await confirmDelete()){
 
-        editedShow.estimations.splice(index,1);
+           
+            fetch(`Show/DeleteEstimation`, {
+                method: 'post',
+                headers: {'Content-Type':'application/json'},
+                body:JSON.stringify(est)
+                
+               }).then(r => {
+                if(!r.ok){
+                    alert('Произошла ошибка');
 
-        setDataShow(newArr);
-        setChange(change+1)
+                }
+                else{
+                    editedShow.estimations.splice(index,1);
+
+                    setDataShow(newArr);
+                    setChange(change+1)
+                    
+                }
+ 
+
+            });
+ 
+        }
+        
     }
 
     return(<div>

@@ -42,7 +42,7 @@ export function EstimationWork(){
     },[id,user]);
     return (<div className="container" style={{maxWidth: '1230px'}}>
         <p style={{margin:'40px 0'}}>Оценка работ {'>'} {data.name}</p>
-        <iframe src={getYouTubeUrl(data.videoLink)} height='690' width='1230' webkitallowfullscreen mozallowfullscreen allowfullscreen/>
+        <iframe src={getYouTubeUrl(data.videoLink)} height='690' width='1230' allow='autoplay; fullscreen' webkitallowfullscreen mozallowfullscreen allowfullscreen/>
         <p className="nomination-title">{data.name}</p>
             <p className="nomination-description">{data.description}</p>
             <div style={{display:'inline-flex'}}>
