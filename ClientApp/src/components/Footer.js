@@ -24,7 +24,7 @@ export function Footer(){
         <ul style={{marginRight: '179px'}}>
           <li>Документы</li>
           <li><a onClick={()=>newPage("https://musicalheart.ru/o-proekte/dokumenty/")}>Документы организации</a></li>
-          <li><a onClick={()=>newPage("https://musicalheart.ru/uncategorized/kratkaya-instrukcziya-po-golosovaniyu/")}>Порядок голосования</a></li>
+          <li><a onClick={()=>newPage("https://musicalheart.ru/uncategorized/kratkaya-instrukcziya-po-golosovaniyu/")}>Инструкция</a></li>
         </ul>
         <div>
          <ul>
