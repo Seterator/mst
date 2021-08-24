@@ -40,7 +40,7 @@ function redirect(p){
                   <Link className="bottom-navbar-item" onClick={()=>redirect('/history')}>Ваши оценки<img className="hover-img" src={require('../img/Polygon2.svg')} alt=""/></Link>
                 </NavItem>
                 <NavItem className="bottom-navbar-item ">
-                  <Link className="bottom-navbar-item" onClick={()=>newPage("https://musicalheart.ru/uncategorized/kratkaya-instrukcziya-po-golosovaniyu/")}>Порядок голосования<img className="hover-img" src={require('../img/Polygon2.svg')} alt=""/></Link>
+                  <Link className="bottom-navbar-item" onClick={()=>newPage("https://musicalheart.ru/uncategorized/kratkaya-instrukcziya-po-golosovaniyu/")}>Инструкция<img className="hover-img" src={require('../img/Polygon2.svg')} alt=""/></Link>
                 </NavItem>
                                                                                                                                      
                                                                                                                                      
