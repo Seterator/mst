@@ -153,27 +153,23 @@ export function ProfileEdit(){
                             width:'390px', height:'465px', backgroundSize: 'auto 100%',
                             backgroundRepeat: 'no-repeat', backgroundPosition: 'center'}}></div>
                             <div className="file-message">Вы можте загрузить изображения профиля в формате .png или .jpeg</div>
-                            {/* изменён текст подсказки */}
                             <input type="file" id="avatar" onChange={handleLoadFile} placeholder="Обновить фото"></input>
                         </div>
                         <div className="content" style={{display:'grid'}}>
                             <input onChange={handleChange} className="profile" id="email" placeholder="Электронная почта" defaultValue={data?.email}/>
                             <input onChange={handleChange} className="profile" id="fullName" placeholder="Ваше ФИО" defaultValue={data?.fullName}/>
-                            {/*  изменён текст подсказки */}
                             <input onChange={handleChange} className="profile" id="city" placeholder="Город" defaultValue={data?.city}/>
                             <textarea  onChange={handleChange} className="profile" id="bio" placeholder="О себе" defaultValue={data?.bio}/>    
                             <button onClick={()=>AskModeration()}>Сохранить изменения</button>
-                            {/* изменён текст кнопки */}
                             <h3 style={{opacity:'0.25',textAlign: 'center'}}>Изменение пароля</h3>
                             <input onChange={handleChangeOldPass} value={password?.old} className="profile" placeholder="Старый пароль"/>
                             <hr/>
                             <input type='password' onChange={handleChangeNewPass} value={password?.new} className="profile" placeholder="Новый пароль"/>
                             <input type='password' onChange={handleChangeConfirmPass} value={password?.confirm} className="profile" placeholder="Подтверждение"/>
                             <button onClick={()=>ChangePass()}>Изменить пароль</button>
-                            {/* изменён текст кнопки */}
                         </div>
                         <div className="content">
-                            {WarningMessage('На данной странице вы сможете изменить данные профиля. Заполните адрес электронной почты, полное имя, город и краткую информацию о себе. Вы также можете изменять фото профиля. Вы всегда можете задать вопрос по личному кабинету через службу поддержки на сайте, по почте manager@musicalheart.ru или по номеру 84951158530.', 'profile-warn')}
+                            {WarningMessage('На данной странице вы сможете изменить данные профиля. Заполните адрес электронной почты, полное имя, город и краткую информацию о себе. Вы также можете изменять фото профиля. Вы всегда можете задать вопрос по личному кабинету по почте manager@musicalheart.ru или по номеру 84951158530.', 'profile-warn')}
                             {/*второе предупреждение не нужно, это пример анимации элемента {WarningMessage('В рамках спецификации современных стандартов, действия представителей оппозиции являются только методом политического участия и представлены в исключительно положительном свете. Безусловно, постоянный количественный рост и сфера нашей активности в значительной степени обусловливает важность позиций, занимаемых участниками в отношении поставленных задач. Не следует, однако, забывать, что сплочённость команды профессионалов влечет за собой процесс внедрения и модернизации вывода текущих активов.', 'profile-warn opacity margin-top')} */}
                         </div>
                     </div>
