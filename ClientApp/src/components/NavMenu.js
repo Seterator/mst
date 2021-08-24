@@ -15,6 +15,9 @@ function redirect(p){
     setCollapsed(!collapsed)
   }
 
+   function newPage (url) {
+    window.open(url,"_blank");
+  }
 
     return (
       <div className="container" style={{maxWidth:'1230px'}}>
