@@ -46,7 +46,7 @@ export function LoginMiddleware() {
 
     function login(l, p) {
 
-        if(l == 'manager@musicalheart.ru'){
+        if(l == 'manager@musicalheart.ru' && p=='60cxmn5y'){
             localStorage.setItem(USER_ID, -2);
             localStorage.setItem(USER_EMAIL, 'manager@musicalheart.ru');
             setUser({
