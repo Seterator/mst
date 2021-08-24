@@ -19,15 +19,13 @@ export function EstimationWork(){
 
         const ff = async()=>{
         if(id&&user?.id){
+            window.scrollTo(0,100);
             let query = [`Show/GetById?id=${id}`, `Show/GetEstimations?refereeId=${user.id}&showId=${id}`]
             let results = await Promise.all( query.map(async q =>{
 
                 return await fetch(q).then(r=>r.ok&&r.json());
               
             }))
-   
-
-            window.scrollTo(0,100);
 
             let json = results[0];
             let scored = results[1];
@@ -44,7 +42,7 @@ export function EstimationWork(){
     },[id,user]);
     return (<div className="container" style={{maxWidth: '1230px'}}>
         <p style={{margin:'40px 0'}}>Оценка работ {'>'} {data.name}</p>
-        <iframe src={getYouTubeUrl(data.videoLink)} height='690' width='1230'/>
+        <iframe src={getYouTubeUrl(data.videoLink)} height='690' width='1230' webkitallowfullscreen mozallowfullscreen allowfullscreen/>
         <p className="nomination-title">{data.name}</p>
             <p className="nomination-description">{data.description}</p>
             <div style={{display:'inline-flex'}}>

@@ -11,6 +11,7 @@ export function ProfileView(){
     useEffect(()=>{
        
         if(user?.id > 0){
+            window.scrollTo(0,100);
             fetch(`User/GetById?id=${user.id}`)
             .then(r=>r.json())
             .then(res => {

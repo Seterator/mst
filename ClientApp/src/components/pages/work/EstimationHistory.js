@@ -1,5 +1,7 @@
 import React, { Component, useEffect, useState, useContext} from 'react';
+import { Link } from 'react-router-dom'
 import { UserContext } from '../../../LoginMiddleware';
+import { WarningMessage } from '../../elements/MessageElements';
 
 export default function EstimationHistory(){
 
@@ -23,6 +25,7 @@ export default function EstimationHistory(){
         <h1 className="hist-title" >Ваши оценки</h1>
         {/* изменён текст тайтла */}
         {nomination.map(m=>HistoryElement(m,user.id,shows))}
+        {WarningMessage(`Функция окончательного завершения голосования будет доступна с 20 сентября 2021. В данный момент кнопка «Подтвердить и отправить» неактивна.`,'show-warn')}
         <button className="hist-send" onClick={()=>{}}>Отправить</button>
         </div>)
 }
@@ -53,13 +56,14 @@ function HistoryElement(data, userId,shows){
             return(<div className="hist-nom-panel">
                     <div className={`hist-nom-score score${m?.score}` }>{m?.score}</div>
                     <div className="hist-show-panel">
-                        <div className="hist-show-name">{getShowName(shows, m.showId)}</div>
+                        <div className="hist-show-name"><Link to={`work/${m.showId}`}>{getShowName(shows, m.showId)}</Link></div>
                         <div className="hist-show-memb">{getPerson(data.showNominations, m.showId, m.nominationId)}</div>
                     </div>
                 </div>)
 
         })}
         </div>
+        
         
     </div>)
 

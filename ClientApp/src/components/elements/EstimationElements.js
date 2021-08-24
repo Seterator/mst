@@ -56,10 +56,10 @@ export function EstimationBlock(showId, showNominations, score, isBlocked){
 
     const [choosenNomination, chooseNomination] = useState(-1);
     const [choosenPlace, choosePlace] = useState(-1);
+    const [disableButton, setDisableButton] = useState(false);
 
     const [scoredData, setScoredData] = useState([]);
     const [scoredDataView, setScoredDataView] = useState([]);
-
 
     const {user} = useContext(UserContext);
     const { setModalOpen, setConfirmModal } = useContext(ModalConfirmContext);
@@ -78,6 +78,7 @@ export function EstimationBlock(showId, showNominations, score, isBlocked){
 
     },[scoredData])
 
+    
 
     async function confirm(showId){
         
@@ -103,6 +104,29 @@ export function EstimationBlock(showId, showNominations, score, isBlocked){
         })
         
     }
+
+    async function confirmDelete(){
+        
+        return new Promise((resolve,reject)=>{
+        setConfirmModal({
+            title: "Предупреждение!",
+            content: (<div className="modal-warn" style={{width:'auto'}}>Вы действительно хотите удалить оценку?</div>),
+            saveTitle: "Удалить",
+            cancelTitle: "Отмена",
+            save: () => {
+                setModalOpen(false);
+                resolve(true);
+            },
+            cancel:()=>{
+                setModalOpen(false);
+                resolve(false);
+            },
+            style:{title:{}, area:{content:{width:'auto', height:'auto'}}}
+        });
+    })
+   
+    
+}
     
 
     function nominationClick(nomId){
@@ -122,6 +146,42 @@ export function EstimationBlock(showId, showNominations, score, isBlocked){
         :choosePlace(placeId);
     }
 
+
+    async function deleteClick(){
+        if(choosenNomination ==-1){
+            return;
+        }
+       
+        let newData = scoredData;
+        let score = newData.filter(f=>f.nominationId == choosenNomination && f.showId == showId);
+        let j = score.length>0 ? newData.indexOf(score[0]) : -1;
+        if(j !==-1 && await confirmDelete()){
+
+            setDisableButton(true);
+            fetch(`Show/DeleteEstimation`, {
+                method: 'post',
+                headers: {'Content-Type':'application/json'},
+                body:JSON.stringify(score[0])
+                
+               }).then(r => {
+                if(!r.ok){
+                    alert('Произошла ошибка');
+
+                }
+                else{
+                    scoredData.splice(j,1);
+                    
+                }
+                setDisableButton(false);
+                    choosePlace(-1);
+                    chooseNomination(-1);
+
+            });
+ 
+        }
+
+    }
+
     async function saveClick(){ 
         if(choosenPlace ==-1 || choosenNomination ==-1){
             return;
@@ -134,7 +194,8 @@ export function EstimationBlock(showId, showNominations, score, isBlocked){
         let newData = scoredData;
 
         if(toDelete && await confirm(anotherShowScored[0].showId)||!toDelete){
-            
+
+            setDisableButton(true);
             fetch(`Show/Estimate`, {
                 method: 'post',
                 headers: {'Content-Type':'application/json'},
@@ -142,15 +203,15 @@ export function EstimationBlock(showId, showNominations, score, isBlocked){
                 
                }).then(r => {
                 if(!r.ok){
-                    choosePlace(-1);
-                    chooseNomination(-1);
-                    return;
+                    
+                    alert('Произошла ошибка, перезагрузите страницу');
+                    setDisableButton(false);
                 }
-
-                let anotherScore = newData.filter(f=>f.nominationId == choosenNomination);
+                else{
+                    let anotherScore = newData.filter(f=>f.nominationId == choosenNomination);
                 let j = anotherScore.length>0 ? newData.indexOf(anotherScore[0]) : -1;
                 if(j == -1){
-                    setScoredData([...newData, {nominationId:choosenNomination, score:choosenPlace}]);
+                    setScoredData([...newData, {nominationId:choosenNomination, score:choosenPlace, showId:showId,refereeId:user.id }]);
                 } 
                 else{
                     newData[j].score =choosenPlace;
@@ -159,7 +220,11 @@ export function EstimationBlock(showId, showNominations, score, isBlocked){
 
                 choosePlace(-1);
                 chooseNomination(-1);
-      
+            
+                setDisableButton(false);
+                }
+
+
             })
         }
     }
@@ -191,7 +256,11 @@ export function EstimationBlock(showId, showNominations, score, isBlocked){
                 <button className="estimate-btn" onClick={()=>placeClick(1)} style={{background:'linear-gradient(138.95deg, #BBA151 -28.75%, #F4DE9D 60.24%, #E3C877 76.72%)', opacity:`${choosenPlace==2 || choosenPlace==3?'0.4':'1'}`}}>1</button>
                 <button className="estimate-btn" onClick={()=>placeClick(2)} style={{background:'linear-gradient(138.95deg, #DCDCDC -28.75%, #B2B0AA 60.24%, #6F6E6B 76.72%)', opacity:`${choosenPlace==1 || choosenPlace==3?'0.4':'1'}`}}>2</button>
                 <button className="estimate-btn" onClick={()=>placeClick(3)} style={{background:'linear-gradient(138.95deg, #FFFFFF -28.75%, #F3B378 45.77%, #DF8D2D 76.72%)', opacity:`${choosenPlace==2 || choosenPlace==1?'0.4':'1'}`}}>3</button>
-                <button onClick={()=>saveClick()} style={{float:'right',width: '168px',marginTop: '20px', height: '55px', background:`${choosenPlace==1?'linear-gradient(138.95deg, #BBA151 -28.75%, #F4DE9D 60.24%, #E3C877 76.72%)':choosenPlace==2?'linear-gradient(138.95deg, #DCDCDC -28.75%, #B2B0AA 60.24%, #6F6E6B 76.72%)':choosenPlace==3?'linear-gradient(138.95deg, #FFFFFF -28.75%, #F3B378 45.77%, #DF8D2D 76.72%)':'#111111'}` , borderRadius: '5px', opacity:`${choosenPlace==-1?'0.4':'1'}`}}>Сохранить</button>
+                <div style={{float:'right'}}>
+                <button disabled={disableButton} onClick={()=>deleteClick()} style={{width: '168px',marginTop: '20px', height: '55px', background:`${choosenNomination!=-1?'rgb(119, 13, 55) none repeat scroll 0% 0%':'#111111'}` , borderRadius: '5px', opacity:`${choosenNomination==-1?'0.4':'1'}`}}>Удалить оценку</button>
+                <button disabled={disableButton} onClick={()=>saveClick()} style={{width: '168px',margin: '0 20px 0 40px', height: '55px', background:`${choosenPlace==1?'linear-gradient(138.95deg, #BBA151 -28.75%, #F4DE9D 60.24%, #E3C877 76.72%)':choosenPlace==2?'linear-gradient(138.95deg, #DCDCDC -28.75%, #B2B0AA 60.24%, #6F6E6B 76.72%)':choosenPlace==3?'linear-gradient(138.95deg, #FFFFFF -28.75%, #F3B378 45.77%, #DF8D2D 76.72%)':'#111111'}` , borderRadius: '5px', opacity:`${choosenPlace==-1?'0.4':'1'}`}}>Сохранить</button>
+
+                </div>
                 </div>
                 
                 </div>
