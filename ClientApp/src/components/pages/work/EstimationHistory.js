@@ -25,7 +25,7 @@ export default function EstimationHistory(){
         <h1 className="hist-title" >Ваши оценки</h1>
         {/* изменён текст тайтла */}
         {nomination.map(m=>HistoryElement(m,user.id,shows))}
-        {WarningMessage(`Функция окончательного завершения голосования будет доступна с 20 сентября 2021. В данный момент кнопка «Подтвердить и отправить» неактивна.`,'show-warn')}
+        {WarningMessage(`Функция окончательного завершения голосования будет доступна с 20 сентября 2021. В данный момент кнопка «Отправить» неактивна.`,'show-warn')}
         <button className="hist-send" onClick={()=>{}}>Отправить</button>
         </div>)
 }
