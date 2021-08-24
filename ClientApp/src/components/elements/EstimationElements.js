@@ -88,7 +88,7 @@ export function EstimationBlock(showId, showNominations, score, isBlocked){
             setConfirmModal({
                 title: "Предупреждение!",
                 content: (<div><div className="modal-warn">Выбранное вами место в данной номинации
-                занимает уже работа:</div><div className="modal-text">{json?.name}</div></div>),
+                уже занимает работа:</div><div className="modal-text">{json?.name}</div></div>),
                 saveTitle: "Изменить на выбранную",
                 cancelTitle: "Не изменять",
                 save: () => {
