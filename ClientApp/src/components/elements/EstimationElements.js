@@ -36,11 +36,11 @@ function DropDownNomination(nominations, visible,estimations, userId, showId){
 
     let d = visible ? 'block' : 'none';
     return(<a style={{display:`${d}`}}>
-        {nominations?.map((v,i) => { 
+        {nominations?.sort((a,b)=>a.id-b.id).map((v,i) => { 
             let estimation = estimations.filter(e=>e.nominationId == v.id && e.showId == showId && e.refereeId == userId);
             let curScore = (estimation.length>0 && estimation[0].score) || 0;
             
-            return (<div style={{fontFamily: 'Optima Cyr',
+            return (<div id={v.id} style={{fontFamily: 'Optima Cyr',
 fontStyle: 'normal',
 fontWeight: 'normal',
 fontSize: '14px',
