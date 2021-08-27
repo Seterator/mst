@@ -198,10 +198,12 @@ namespace mst.Controllers {
         }
 
         [HttpPost("Estimate")]
-        public async Task<IActionResult> Estimate([FromBody]Estimation estimation) {
+        public async Task<IActionResult> Estimate([FromBody]Estimation estimation, [FromQuery]bool admin = false) {
             try {
                 var estimations = _db.Referees.Include(i=>i.Estimations).Single(x => x.Id == estimation.RefereeId).Estimations;
-                var toDel = estimations.FirstOrDefault(a => a.NominationId == estimation.NominationId && a.Score == estimation.Score);
+                var toDel = admin 
+                    ? estimations.FirstOrDefault(a => a.NominationId == estimation.NominationId && a.Score == estimation.Score && a.ShowId == estimation.ShowId) 
+                    : estimations.FirstOrDefault(a => a.NominationId == estimation.NominationId && a.Score == estimation.Score);
                 if (toDel != null)
                 {
                     _db.Remove(toDel);

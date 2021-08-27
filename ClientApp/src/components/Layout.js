@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Container } from 'reactstrap';
 import { Footer } from './Footer';
 import { NavMenu } from './NavMenu';
 import ConfirmModal from './elements/modal/ConfirmModal';

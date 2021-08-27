@@ -129,7 +129,7 @@ namespace mst.Controllers
         public IActionResult GetByEmail([FromQuery] string email)
         {
             var referee = _db.Referees
-                .Where(referee => referee.Email == email);
+                .Single(referee => referee.Email == email);
             if (referee == null) {
                 return BadRequest("Пользователь не найден");
             } 
@@ -161,7 +161,7 @@ namespace mst.Controllers
                     a.Competition = null;
                 }
             }
-            return Ok(referees);
+            return Ok(referees.Where(w=>w.Login!= "manager@musicalheart.ru"));
         }
 
         [HttpGet("Login")]

@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { Footer } from './components/Footer';
+import { useParams } from 'react-router-dom'
 
 export default function LoginSN(){
+    //const {id} = useParams();
 
-    useEffect(()=>{
-        let clList = document.getElementById("notWelcome").classList;
-        if(!clList.contains("visibility-hidden")){
-            clList.toggle("visibility-hidden")
-        }
-    },[])
+    // useEffect(()=>{
+    //     let clList = document.getElementById("notWelcome")?.classList;
+    //     if(clList && !clList.contains("visibility-hidden")){
+    //         clList.toggle("visibility-hidden")
+    //     }
+    // },[])
 
 
     return(<div><div className="container">

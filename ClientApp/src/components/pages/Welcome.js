@@ -1,21 +1,9 @@
-import React, { Component, useState, useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
-import {
-  Collapse,
-  Container,
-  Navbar,
-  NavbarBrand,
-  NavbarToggler,
-  NavItem,
-  NavLink,
-} from "reactstrap";
-import { UserContext } from "../../LoginMiddleware";
-
-import { Footer } from "../Footer";
+import {Container} from "reactstrap";
 
 export function WelcomePage(props) {
   const h = useHistory();
-  const { user } = useContext(UserContext);
 
   useEffect(() => {
     let clList = document.getElementById("notWelcome").classList;
@@ -31,12 +19,6 @@ export function WelcomePage(props) {
       clList.remove("visibility-hidden");
     }
 
-    if (user.email == "manager@musicalheart.ru") {
-      let clList = document.getElementById("admin-panel").classList;
-      if (clList.contains("visibility-hidden")) {
-        clList.remove("visibility-hidden");
-      }
-    }
   }
   return (
     <div>

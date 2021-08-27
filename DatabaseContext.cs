@@ -14,7 +14,7 @@ namespace mst
 
         public DatabaseContext(DbContextOptions<DatabaseContext> options) : base(options) {
             //Database.EnsureDeleted();
-            Database.EnsureCreated();
+            Database.EnsureCreated(); 
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -95,7 +95,10 @@ namespace mst
             modelBuilder.Entity<AvailableCompetition>()
                 .HasOne(x => x.Referee)
                 .WithMany(x => x.AvailableCompetitions)
-                .HasForeignKey(x => x.RefereeId);
+                .HasForeignKey(x => x.RefereeId);//60cxmn5y
+
+            modelBuilder.Entity<Referee>().HasData(new Referee { Id = 5, Email = "manager@musicalheart.ru", FullName = "Администратор", Login = "manager@musicalheart.ru" });
+            modelBuilder.Entity<User>().HasData(new User { Id = 5, RefereeId = 5, Login = "manager@musicalheart.ru", Password = "60cxmn5y" });
         }
     }
 }

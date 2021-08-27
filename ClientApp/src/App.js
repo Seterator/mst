@@ -16,7 +16,7 @@ import './../src/style/index.scss'
 
 export default function App(props) {
 
-  const NotFoundRedirect = () => <Redirect to='/' />
+  
     return (
       <Layout {...props}>
         <Route exact path='/' component={WelcomePage} />
@@ -26,7 +26,7 @@ export default function App(props) {
         <Route path='/profileView' component={ProfileView} />
         <Route path='/profileEdit' component={ProfileEdit} />
         <Route path='/history' component={EstimationHistory} />
-        <Route path='/sn' component={LoginSN} />
+        
         
       </Layout>
     );

@@ -8,6 +8,7 @@ export default function ScorePanel(){
     const [dataShow,setDataShow] = useState([]);
     const [dataUser,setDataUser] = useState([]);
     const [isOpen,setIsOpen] = useState(false);
+    const [adminUser,setAdminUser] = useState({});
 
     const [dataView,setDataView] = useState([]);
     const [change,setChange] = useState(1);
@@ -21,8 +22,7 @@ export default function ScorePanel(){
 
         const ff = async () =>{
 
-        
-        let query = [`Nomination/GetAll`, `Show/GetAll`, 'User/GetAll']
+        let query = [`Nomination/GetAll`, `Show/GetAll`, 'User/GetAll',"User/GetByEmail?email=manager@musicalheart.ru"]
             let results = await Promise.all( query.map(async q =>{
 
                 return await fetch(q).then(r=>r.ok&&r.json());
@@ -30,10 +30,11 @@ export default function ScorePanel(){
             }))
 
             let users = results[2];
-            users.push({id:-2, fullName:'Добавленная администратором'})
+            users.push({...results[3], fullName:'Добавлено администратором'})
             setData(results[0]);
             setDataShow(results[1]);
             setDataUser(users)
+            setAdminUser(results[3])
 
         setEditedShow({});
         }
@@ -60,12 +61,33 @@ export default function ScorePanel(){
 
     
     function addScore(d){
+
         let newArr = dataShow;
 
         let editedShow = newArr.filter(f=>f.id == d.editedShow.showId)[0]
-        editedShow.estimations.push({showId:d.editedShow.showId, refereeId:-2,nominationId:d.editedShow.nominationId, score:d.score});
-
-        setDataShow(newArr)
+        editedShow.estimations.push();
+        fetch(`Show/Estimate?admin=true`, {
+            method: 'post',
+            headers: {'Content-Type':'application/json'},
+            body:JSON.stringify({showId:d.editedShow.showId, refereeId:adminUser.id,nominationId:d.editedShow.nominationId, score:d.score})
+            
+           }).then(r => {
+            if(!r.ok){
+                alert('Произошла ошибка, перезагрузите страницу');
+            }
+            else{
+                let anotherScore = editedShow.estimations.filter(f=>f.nominationId == d.editedShow.nominationId && f.refereeId == adminUser.id);
+                let j = anotherScore.length>0 ? editedShow.estimations.indexOf(anotherScore[0]) : -1;
+                if(j == -1){
+                    editedShow.estimations.push({showId:d.editedShow.showId, refereeId:adminUser.id,nominationId:d.editedShow.nominationId, score:d.score});
+                } 
+                else{
+                    editedShow.estimations[j].score = d.score; 
+                }
+                setDataShow(newArr);
+                setChange(change+1)
+            }
+        });
     }
 
     async function confirmDelete(){

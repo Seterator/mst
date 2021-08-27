@@ -3,6 +3,8 @@ import { useHistory } from 'react-router-dom'
 import App from './App'
 import { MainNavMenu } from './components/MainNavMenu';
 import {Login} from './Login'
+import { Route, Redirect } from 'react-router';
+import LoginSN from './LoginSN';
 
 import './style/_style.scss'
 
@@ -88,6 +90,7 @@ export function LoginMiddleware() {
         setLogin(false);
         h.push('/');
     }
+    const MainWay = () => { return isLogin ?<App logout={logout}/>: <Login login={login} />}
 
 
     return (
@@ -98,7 +101,8 @@ export function LoginMiddleware() {
             <MainNavMenu />
             <div>
 
-            { isLogin ?<App logout={logout}/>: <Login login={login} />}
+            <Route path='/sn' component={LoginSN} />
+            <Route  component={MainWay} />
             </div>
             
             </div>
