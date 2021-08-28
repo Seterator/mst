@@ -51,8 +51,8 @@ namespace mst
                 })
                 .AddFacebook(options =>
                 {
-                    options.AppId = Configuration["Facebook:ClientId"];
-                    options.AppSecret = Configuration["Facebook:ClientSecret"];
+                    options.AppId = Configuration["Facebook:AppId"];
+                    options.AppSecret = Configuration["Facebook:AppSecret"];
                 })
                 .AddVkontakte(options =>
                 {
