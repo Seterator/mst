@@ -91,7 +91,9 @@ namespace mst
                     pattern: "{controller}/{action=Index}/{id?}");
             });
 
-            app.MapWhen(c => c.Request.Path.Value != null && !c.Request.Path.Value.StartsWith("/Show/VoteOAuth"), builder =>
+            app.MapWhen(c => c.Request.Path.Value != null &&
+                             !c.Request.Path.Value.StartsWith("/Show/VoteOAuth") &&
+                             !c.Request.Path.Value.StartsWith("/signin-"), builder =>
             {
                 builder.UseSpa(spa =>
                 {
