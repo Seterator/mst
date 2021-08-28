@@ -67,6 +67,19 @@ namespace mst.Controllers {
                 if (string.IsNullOrEmpty(email))
                     return Redirect($"/sn?status={status}");
 
+                status = "success";
+
+                /*
+                 * АЛГОРИТМ
+                 * 1 - проверить, если ли такой EMAIL в системе
+                 * 2 - если нет, зарегистрировать пользователя
+                 * 3 - получить идентификатор данного пользователя
+                 * 4 - использовать иденнтификатор для голосования
+                 */
+
+                /*
+                ТУТ ПЛОХО, ТЕСТ НЕ ПРОЙДЕН!!!
+
                 if(_db.Referees.Any(a=>a.Email == email))
                 {
                     return Redirect($"/sn?status={status}");
@@ -110,7 +123,7 @@ namespace mst.Controllers {
                     
                     await _db.SaveChangesAsync();
                     status = "success";
-                }
+                }*/
 
             }
             finally
