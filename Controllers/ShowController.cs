@@ -59,7 +59,7 @@ namespace mst.Controllers {
 
             try
             {
-                var identity = (ClaimsIdentity)User.Identity;
+                var identity = (ClaimsIdentity) User.Identity;
 
                 var email = (from claim in identity?.Claims where claim.Type.EndsWith("emailaddress") select claim.Value)
                     .FirstOrDefault();
