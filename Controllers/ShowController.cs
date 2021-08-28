@@ -24,7 +24,7 @@ namespace mst.Controllers {
         #region Voting
 
         [HttpGet("VoteOAuth")]
-        public async Task<IActionResult> VoteOAuth([FromQuery] string provider, [FromQuery] string showId)
+        public async Task<IActionResult> VoteOAuth([FromQuery] string provider, [FromQuery] int showId)
         {
             try
             {
@@ -50,7 +50,7 @@ namespace mst.Controllers {
         }
 
         [HttpGet("VoteOAuthHandler")]
-        public async Task<IActionResult> VoteOAuthHandler()
+        public async Task<IActionResult> VoteOAuthHandler([FromQuery] int showId)
         {
             var status = "failed";
 
@@ -67,11 +67,40 @@ namespace mst.Controllers {
                 if (string.IsNullOrEmpty(email))
                     return Redirect($"/sn?status={status}");
 
-                /*
-                 * По email реализовать регистрацию пользователя(если его нет), получить его
-                 * идентификатор и использовать для голосования.
-                 * По результатам меняем переменную status и все
-                 */
+                if(_db.Referees.Any(a=>a.Email == email))
+                {
+                    return Redirect($"/sn?status={status}");
+                }
+
+                var nominations = _db.Competitions
+                    .Include(n => n.Nominations)
+                    .FirstOrDefault(f => f.EndDate < DateTime.Now && f.BeginDate > DateTime.Now)?
+                    .Nominations;
+                if (nominations == null || !nominations.Any() )
+                {
+                    return Redirect($"/sn?status={status}");
+                }
+
+                var curNom = nominations.FirstOrDefault(f => f.Name.Contains("Зрительское голосование"));
+                if(curNom == null)
+                {
+                    return Redirect($"/sn?status={status}");
+                }
+
+                var referee = new Referee { Email = email, User = new User { Login = email } };
+                await _db.Referees.AddAsync(referee);
+
+                await _db.SaveChangesAsync();
+
+                var estimations = _db.Referees.Include(i => i.Estimations).Single(x => x.Id == referee.Id).Estimations;
+                if(estimations.Any(a=>a.NominationId == curNom.Id && a.ShowId == showId))
+                {
+                    return Redirect($"/sn?status=exist");
+                }
+
+                estimations.Add(new Estimation { RefereeId = referee.Id, NominationId = curNom.Id, ShowId = showId, Score = 3 });
+                await _db.SaveChangesAsync();
+
                 status = "success";
 
             }

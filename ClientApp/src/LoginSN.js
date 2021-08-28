@@ -1,24 +1,71 @@
 import React, { useEffect, useState } from 'react';
 import { Footer } from './components/Footer';
-import { useParams } from 'react-router-dom'
+import { useParams, useLocation } from 'react-router-dom'
+import axios from 'axios'
 
 export default function LoginSN(){
-    //const {id} = useParams();
+    const search = useLocation().search;
+    const showId = new URLSearchParams(search).get('showId');
+    const status = new URLSearchParams(search).get('status');
+    const [showData, setShowData] = useState({});
+    const [showImage, setShowImage] = useState({});
 
-    // useEffect(()=>{
-    //     let clList = document.getElementById("notWelcome")?.classList;
-    //     if(clList && !clList.contains("visibility-hidden")){
-    //         clList.toggle("visibility-hidden")
-    //     }
-    // },[])
+    useEffect(()=>{
+        const ff = async () =>{
+                let sd = await fetch(`Show/GetById?id=${showId}`).then(r=>r.ok&&r.json())
+                setShowData(sd);
 
+                let si = await fetch(`Show/GetImage?showId=${showId}`).then(r=>r.ok&&r.json())
+                setShowImage({image:si});
+            }
+            
+        if(showId){
+            ff();
+        }
+    },[])
+
+    function getStatusMessage(st){
+
+        if(st == 'success'){
+            return 'Спасибо, Ваш голос учтен!'
+        }
+        else if(st == 'exists'){
+            return 'Вы уже голосовали за данную работу!'
+        }
+    }
+
+     function authSnHandle(provider){
+
+        axios.get(`Show/VoteOAuth?provider=${provider}&showId=${showId}`).then((resp) => {
+            let allPersons = resp;
+
+          }).catch(c=>{
+              let rr = c;
+          });
+        // fetch(`Show/VoteOAuth?provider=${provider}&showId=${showId}`).then(r=>{
+        //     let t = r; 
+        // }).catch(c=>{
+        //         alert(JSON.stringify(c)) ;
+        // });
+        // .then(r=>{
+        //     let t = r;
+        //     return r.json();
+        // }).then(j=>{
+        //     let oo = j;
+        // }).catch(c=>{
+        //     alert(JSON.stringify(c)) ;
+        // });
+
+    }
 
     return(<div><div className="container">
-        <div className="sn-image" style={{background:'linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 44.61%, rgba(0, 0, 0, 0.5) 100%), url(https://avatars.mds.yandex.net/get-zen_doc/2417275/pub_5ebe5ebb40116e44e411567a_5ebe5f0691f40d603f00424f/scale_1200)'}}></div>
+        <div className="sn-image" style={{backgroundImage:`url(data:image/png;base64,${showImage.image})`}}></div>
        
-        <h1 className="sn-title">Название пьесы</h1>
-        <div className="sn-description">Описание пьесы</div>
-        <div className="sn-auth">Авторизироваться<img src={require('./img/ok.svg')}/><img src={require('./img/fb.svg')}/><img style={{marginTop:'5px'}} src={require('./img/vk2.svg')}/></div>
+        <h1 className="sn-title">{showData.name}</h1>
+        
+        <div className="sn-description">{showData.description}</div>
+        {status?<div className="sn-status">{getStatusMessage(status)}</div>:<div className="sn-auth">Авторизироваться<img onClick={()=>authSnHandle('Google')} src={require('./img/ok.svg')}/><img onClick={()=>authSnHandle('fb')} src={require('./img/fb.svg')}/><img onClick={()=>authSnHandle('Vkontakte')} style={{marginTop:'5px'}} src={require('./img/vk2.svg')}/></div>}
+        
     
     </div>
     <Footer/>
