@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Mst.Extensions;
 using mst.Models;
 using mst.ViewModels;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace mst.Controllers {
     [ApiController]
@@ -16,6 +20,65 @@ namespace mst.Controllers {
         public ShowController(DatabaseContext db) {
             _db = db;
         }
+
+        #region Voting
+
+        [HttpGet("VoteOAuth")]
+        public async Task<IActionResult> VoteOAuth([FromQuery] string provider, [FromQuery] string showId)
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(provider))
+                {
+                    return BadRequest();
+                }
+
+                if (!await HttpContext.IsProviderSupportedAsync(provider))
+                {
+                    return BadRequest();
+                }
+
+                return Challenge(new AuthenticationProperties
+                {
+                    RedirectUri = $"/Show/VoteOAuthHandler?showId={showId}"
+                }, provider);
+            }
+            catch
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpGet("VoteOAuthHandler")]
+        public async Task<IActionResult> VoteOAuthHandler()
+        {
+            var status = "failed";
+
+            if (User.Identity is {IsAuthenticated: false})
+                return Redirect($"/sn?status={status}");
+
+            try
+            {
+                var identity = (ClaimsIdentity)User.Identity;
+
+                var email = (from claim in identity?.Claims where claim.Type.EndsWith("emailaddress") select claim.Value)
+                    .FirstOrDefault();
+
+                if (string.IsNullOrEmpty(email))
+                    return Redirect($"/sn?status={status}");
+
+                // TODO: Voting
+                status = "success";
+            }
+            finally
+            {
+                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            }
+
+            return Redirect($"/sn?status={status}");
+        }
+
+        #endregion
 
         [HttpPost("Create")]
         public async Task<IActionResult> Create([FromForm]ShowFromForm show) {
