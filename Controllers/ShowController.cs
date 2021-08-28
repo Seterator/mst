@@ -76,32 +76,41 @@ namespace mst.Controllers {
                     .Include(n => n.Nominations)
                     .FirstOrDefault(f => f.EndDate < DateTime.Now && f.BeginDate > DateTime.Now)?
                     .Nominations;
+
                 if (nominations == null || !nominations.Any() )
                 {
                     return Redirect($"/sn?status={status}");
                 }
 
                 var curNom = nominations.FirstOrDefault(f => f.Name.Contains("Зрительское голосование"));
+                
                 if(curNom == null)
                 {
                     return Redirect($"/sn?status={status}");
                 }
 
                 var referee = new Referee { Email = email, User = new User { Login = email } };
+
                 await _db.Referees.AddAsync(referee);
 
                 await _db.SaveChangesAsync();
 
                 var estimations = _db.Referees.Include(i => i.Estimations).Single(x => x.Id == referee.Id).Estimations;
+                
                 if(estimations.Any(a=>a.NominationId == curNom.Id && a.ShowId == showId))
                 {
-                    return Redirect($"/sn?status=exist");
+                    status = "exists";
                 }
-
-                estimations.Add(new Estimation { RefereeId = referee.Id, NominationId = curNom.Id, ShowId = showId, Score = 3 });
-                await _db.SaveChangesAsync();
-
-                status = "success";
+                else
+                {
+                    estimations.Add(new Estimation
+                    {
+                        RefereeId = referee.Id, NominationId = curNom.Id, ShowId = showId, Score = 3
+                    });
+                    
+                    await _db.SaveChangesAsync();
+                    status = "success";
+                }
 
             }
             finally
