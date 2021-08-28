@@ -48,6 +48,16 @@ namespace mst
                 {
                     options.ClientId = Configuration["Google:ClientId"];
                     options.ClientSecret = Configuration["Google:ClientSecret"];
+                })
+                .AddFacebook(options =>
+                {
+                    options.AppId = Configuration["Facebook:ClientId"];
+                    options.AppSecret = Configuration["Facebook:ClientSecret"];
+                })
+                .AddVkontakte(options =>
+                {
+                    options.ClientId = Configuration["Vk:ClientId"];
+                    options.ClientSecret = Configuration["Vk:ClientSecret"];
                 });
         }
 

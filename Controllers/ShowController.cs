@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -67,8 +67,13 @@ namespace mst.Controllers {
                 if (string.IsNullOrEmpty(email))
                     return Redirect($"/sn?status={status}");
 
-                // TODO: Voting
+                /*
+                 * По email реализовать регистрацию пользователя(если его нет), получить его
+                 * идентификатор и использовать для голосования.
+                 * По результатам меняем переменную status и все
+                 */
                 status = "success";
+
             }
             finally
             {
