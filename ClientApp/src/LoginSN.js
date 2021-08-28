@@ -24,38 +24,20 @@ export default function LoginSN(){
         }
     },[])
 
-    function getStatusMessage(st){
+    function getStatusMessage(st) {
 
-        if(st == 'success'){
+        if (st == 'success') {
             return 'Спасибо, Ваш голос учтен!'
         }
-        else if(st == 'exists'){
+        else if (st == 'exists') {
             return 'Вы уже голосовали за данную работу!'
+        } else {
+            return 'Что-то пошло не так.. попробуйте позже'
         }
     }
 
-     function authSnHandle(provider){
-
-        axios.get(`Show/VoteOAuth?provider=${provider}&showId=${showId}`).then((resp) => {
-            let allPersons = resp;
-
-          }).catch(c=>{
-              let rr = c;
-          });
-        // fetch(`Show/VoteOAuth?provider=${provider}&showId=${showId}`).then(r=>{
-        //     let t = r; 
-        // }).catch(c=>{
-        //         alert(JSON.stringify(c)) ;
-        // });
-        // .then(r=>{
-        //     let t = r;
-        //     return r.json();
-        // }).then(j=>{
-        //     let oo = j;
-        // }).catch(c=>{
-        //     alert(JSON.stringify(c)) ;
-        // });
-
+    function authSnHandle(provider) {
+        window.open(`Show/VoteOAuth?provider=${provider}&showId=${showId}`, "_self");
     }
 
     return(<div><div className="container">
