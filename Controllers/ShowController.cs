@@ -55,75 +55,56 @@ namespace mst.Controllers {
             var status = "failed";
 
             if (User.Identity is {IsAuthenticated: false})
-                return Redirect($"/sn?status={status}");
+                return Redirect($"/sn?showId=${showId}&status={status}");
 
             try
             {
-                var identity = (ClaimsIdentity) User.Identity;
+                var identity = (ClaimsIdentity)User.Identity;
 
                 var email = (from claim in identity?.Claims where claim.Type.EndsWith("emailaddress") select claim.Value)
                     .FirstOrDefault();
 
                 if (string.IsNullOrEmpty(email))
-                    return Redirect($"/sn?status={status}");
-
-                status = "success";
-
-                /*
-                 * АЛГОРИТМ
-                 * 1 - проверить, если ли такой EMAIL в системе
-                 * 2 - если нет, зарегистрировать пользователя
-                 * 3 - получить идентификатор данного пользователя
-                 * 4 - использовать иденнтификатор для голосования
-                 */
-
-                /*
-                ТУТ ПЛОХО, ТЕСТ НЕ ПРОЙДЕН!!!
+                    return Redirect($"/sn?showId=${showId}&status={status}");
 
                 if(_db.Referees.Any(a=>a.Email == email))
                 {
-                    return Redirect($"/sn?status={status}");
+                    return Redirect($"/sn?showId=${showId}&status={status}");
                 }
 
                 var nominations = _db.Competitions
                     .Include(n => n.Nominations)
-                    .FirstOrDefault(f => f.EndDate < DateTime.Now && f.BeginDate > DateTime.Now)?
+                    .FirstOrDefault(f => f.Id == 99)?
                     .Nominations;
-
                 if (nominations == null || !nominations.Any() )
                 {
-                    return Redirect($"/sn?status={status}");
+                    return Redirect($"/sn?showId=${showId}&status={status}");
                 }
 
-                var curNom = nominations.FirstOrDefault(f => f.Name.Contains("Зрительское голосование"));
-                
+                var curNom = nominations.FirstOrDefault(f => f.Id == 99);
                 if(curNom == null)
                 {
-                    return Redirect($"/sn?status={status}");
+                    return Redirect($"/sn?showId=${showId}&status={status}");
                 }
-
+                if(_db.Referees.Any(a=>a.Email == email))
+                {
+                    return Redirect($"/sn?showId=${showId}&status=success");
+                }
                 var referee = new Referee { Email = email, User = new User { Login = email } };
-
                 await _db.Referees.AddAsync(referee);
 
                 await _db.SaveChangesAsync();
 
                 var estimations = _db.Referees.Include(i => i.Estimations).Single(x => x.Id == referee.Id).Estimations;
-                
                 if(estimations.Any(a=>a.NominationId == curNom.Id && a.ShowId == showId))
                 {
-                    status = "exists";
+                    return Redirect($"/sn?showId=${showId}&status=exist");
                 }
-                else
-                {
-                    estimations.Add(new Estimation
-                    {
-                        RefereeId = referee.Id, NominationId = curNom.Id, ShowId = showId, Score = 3
-                    });
-                    
-                    await _db.SaveChangesAsync();
-                    status = "success";
-                }*/
+
+                estimations.Add(new Estimation { RefereeId = referee.Id, NominationId = curNom.Id, ShowId = showId, Score = 3 });
+                await _db.SaveChangesAsync();
+
+                status = "success";
 
             }
             finally
@@ -131,7 +112,7 @@ namespace mst.Controllers {
                 await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             }
 
-            return Redirect($"/sn?status={status}");
+            return Redirect($"/sn?showId=${showId}&status={status}");
         }
 
         #endregion

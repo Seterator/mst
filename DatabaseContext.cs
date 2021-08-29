@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using mst.Models;
+using System;
 
 namespace mst
 {
@@ -99,6 +100,9 @@ namespace mst
 
             modelBuilder.Entity<Referee>().HasData(new Referee { Id = 5, Email = "manager@musicalheart.ru", FullName = "јдминистратор", Login = "manager@musicalheart.ru" });
             modelBuilder.Entity<User>().HasData(new User { Id = 5, RefereeId = 5, Login = "manager@musicalheart.ru", Password = "60cxmn5y" });
+            modelBuilder.Entity<Competition>().HasData(new Competition { BeginDate = DateTime.MinValue, EndDate = DateTime.MaxValue, Id = 99, Name = "«рительское голосование" });
+            modelBuilder.Entity<Nomination>().HasData(new Nomination { Id = 99, Name = "«рительское голосование", CompetitionId = 99 });
+
         }
     }
 }

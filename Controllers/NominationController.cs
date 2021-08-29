@@ -141,5 +141,45 @@ namespace mst.Controllers
                 return BadRequest();
             }
         }
+
+        [HttpPost("AddShowToSnVote")]
+        public async Task<IActionResult> AddShowToSnVote([FromQuery] int showId)
+        {
+            try
+            {
+                var showNominations = _db.Nominations.Include(i=>i.ShowNominations).Single(n => n.CompetitionId == 99 && n.Id == 99).ShowNominations;
+                if(!showNominations.Any(a=>a.ShowId == showId))
+                {
+                    _db.Add(new ShowNomination { ShowId = showId, NominationId = 99, Person = "sn" });
+                    await _db.SaveChangesAsync();
+                }
+                
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
+
+        [HttpPost("RemoveShowFromSnVote")]
+        public async Task<IActionResult> RemoveShowFromSnVote([FromQuery] int showId)
+        {
+            try
+            {
+                var showNominations = _db.Nominations.Include(i => i.ShowNominations).Single(n => n.CompetitionId == 99 && n.Id == 99).ShowNominations;
+                if (showNominations.Any(a => a.ShowId == showId))
+                {
+                    _db.Remove(showNominations.First(a => a.ShowId == showId));
+                    await _db.SaveChangesAsync();
+                }
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+        }
     }
 }

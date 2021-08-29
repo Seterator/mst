@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Footer } from './components/Footer';
-import { useParams, useLocation } from 'react-router-dom'
+import { useParams, useLocation, useHistory } from 'react-router-dom'
 import axios from 'axios'
 
 export default function LoginSN(){
@@ -9,6 +9,7 @@ export default function LoginSN(){
     const status = new URLSearchParams(search).get('status');
     const [showData, setShowData] = useState({});
     const [showImage, setShowImage] = useState({});
+    const h = useHistory();
 
     useEffect(()=>{
         const ff = async () =>{
@@ -20,7 +21,17 @@ export default function LoginSN(){
             }
             
         if(showId){
-            ff();
+
+            fetch('Nomination/GetById?id=99').then(r=>r.ok&&r.json()).then(j=>{
+                if(j.showNominations.some(s=>s.showId==showId)){
+                    ff();
+                }
+                else{
+                    h.push('/sn?status=notVoting');
+
+                }
+            })
+            
         }
     },[])
 
@@ -31,7 +42,9 @@ export default function LoginSN(){
         }
         else if (st == 'exists') {
             return 'Вы уже голосовали за данную работу!'
-        } else {
+        } else if (st == 'notVoting') {
+            return 'работа не учавствует в голосовании'
+        }else {
             return 'Что-то пошло не так.. попробуйте позже'
         }
     }
