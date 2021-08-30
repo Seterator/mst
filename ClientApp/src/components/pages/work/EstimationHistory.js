@@ -36,6 +36,17 @@ function getPerson(data, showId, nominationId){
 function getShowName(data, showId){
     return data.filter(f=>f.id == showId).length>0&&data.filter(f=>f.id == showId)[0].name;
 }
+function placeToScore(p){
+    if(p==1){
+        return 3;
+    }
+    if(p==2){
+        return 2;
+    }
+    if(p==3){
+        return 1;
+    }
+}
 function HistoryElement(data, userId,shows){
     let etsArr = [];
 
@@ -51,10 +62,10 @@ function HistoryElement(data, userId,shows){
         <div className="hist-nom-title">{data.name}</div>
         <div className="hist-show-container">
         {etsArr.sort((a,b)=>{
-            return a?.score - b?.score;
+            return b?.score - a?.score;
         }).map(m=>{
             return(<div className="hist-nom-panel">
-                    <div className={`hist-nom-score score${m?.score}` }>{m?.score}</div>
+                    <div className={`hist-nom-score score${placeToScore(m?.score)}` }>{placeToScore(m?.score)}</div>
                     <div className="hist-show-panel">
                         <div className="hist-show-name"><Link to={`work/${m.showId}`}>{getShowName(shows, m.showId)}</Link></div>
                         <div className="hist-show-memb">{getPerson(data.showNominations, m.showId, m.nominationId)}</div>

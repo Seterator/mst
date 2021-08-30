@@ -81,6 +81,7 @@ namespace mst.Controllers {
         public IActionResult GetAll() {
             try {
                 var comps = _db.Competitions
+                    .Where(w=>w.Id != 99)
                     .Include(x => x.Nominations)
                     .ThenInclude(q => q.ShowNominations)
                     .ToList();

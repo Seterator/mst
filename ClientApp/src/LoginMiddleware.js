@@ -1,5 +1,5 @@
 import React, { Component, useEffect, useState} from 'react';
-import { useHistory } from 'react-router-dom'
+import { Switch, useHistory } from 'react-router-dom'
 import App from './App'
 import { MainNavMenu } from './components/MainNavMenu';
 import {Login} from './Login'
@@ -21,6 +21,7 @@ export function LoginMiddleware() {
     const testData = { id: -2, login:'manager@musicalheart.ru', fullname: 'Администратор', email:'manager@musicalheart.ru', avatar:'', bio:'', city:'' }
 
     useEffect(() => {
+        
         const id = localStorage.getItem(USER_ID);
         const em = localStorage.getItem(USER_EMAIL)
 
@@ -92,7 +93,6 @@ export function LoginMiddleware() {
     }
     const MainWay = () => { return isLogin ?<App logout={logout}/>: <Login login={login} />}
 
-
     return (
         <UserContext.Provider value={{
             user: user
@@ -100,9 +100,10 @@ export function LoginMiddleware() {
             <div>
             <MainNavMenu />
             <div>
-
-            <Route path='/sn' component={LoginSN} />
-            <Route  component={MainWay} />
+                <Switch>
+                    <Route path='/sn' component={LoginSN} />
+                    <Route exact component={MainWay} />
+                </Switch>
             </div>
             
             </div>

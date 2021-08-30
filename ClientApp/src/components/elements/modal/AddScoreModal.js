@@ -16,7 +16,7 @@ export default function AddScoreModal(props){
     function handleChange(e){
         let val = e.target.value;
 
-        if((Number.parseInt(val) > 0&&Number.parseInt(val) < 4)||val==''){
+        if((Number.parseInt(val) > 0)||val==''){
             setInputVal(Number.parseInt(val));
         }
         else{

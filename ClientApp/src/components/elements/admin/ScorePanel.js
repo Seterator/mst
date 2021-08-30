@@ -184,7 +184,7 @@ function ScoreNomination(nom, setEdited, setToDelete, dataShow, dataUser){
     }
 
     function getScoreSum(scores){
-        return scores && scores.map(m=>m.score).reduce((a, b) => a + placeToScore(b), 0)
+        return scores && scores.map(m=>m.score).reduce((a, b) => a + b, 0)
     }
 
     return(<div>
@@ -231,8 +231,8 @@ function ScoreNomination(nom, setEdited, setToDelete, dataShow, dataUser){
                                     return(<tr className="score-row">
                                         <td></td>
                                         <td>{ref?.fullName}</td>
+                                        <td><div>{placeToScore(s?.score)}</div></td>
                                         <td><div>{s?.score}</div></td>
-                                        <td></td>
                                         <td><a style={{color:'black'}} onClick={()=>deleteScore(nom?.id,m?.id,s?.refereeId)}>X</a></td>
                                     </tr>)
                                 })}

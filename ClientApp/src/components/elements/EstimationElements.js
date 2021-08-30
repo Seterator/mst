@@ -31,7 +31,17 @@ export function VoteElement(data,estimations, userId,blockedShows,images, f){
             </span> 
             )
 }
-
+function placeToScore(p){
+    if(p==1){
+        return 3;
+    }
+    if(p==2){
+        return 2;
+    }
+    if(p==3){
+        return 1;
+    }
+}
 function DropDownNomination(nominations, visible,estimations, userId, showId){
 
     let d = visible ? 'block' : 'none';
@@ -48,7 +58,7 @@ lineHeight: '22px',
 margin:'5px 0',
 letterSpacing: '0.05em',
 
-color: '#FFFFFF'}} key={i}>{v.name} ({curScore})</div>)})}
+color: '#FFFFFF'}} key={i}>{v.name} ({placeToScore(curScore)})</div>)})}
         </a>)
 }
 
@@ -182,13 +192,24 @@ export function EstimationBlock(showId, showNominations, score, isBlocked){
 
     }
 
+    function placeToScore(p){
+        if(p==1){
+            return 3;
+        }
+        if(p==2){
+            return 2;
+        }
+        if(p==3){
+            return 1;
+        }
+    }
     async function saveClick(){ 
         if(choosenPlace ==-1 || choosenNomination ==-1){
             return;
         }
         
         let anotherShowScored = showNominations.filter(f=>f.nominationId == choosenNomination)[0].nomination.estimations
-                            .filter(f=>f.score == choosenPlace && f.nominationId == choosenNomination && f.refereeId == user.id);
+                            .filter(f=>f.score == placeToScore(choosenPlace) && f.nominationId == choosenNomination && f.refereeId == user.id);
         let toDelete = anotherShowScored.length > 0;
 
         let newData = scoredData;
@@ -199,7 +220,7 @@ export function EstimationBlock(showId, showNominations, score, isBlocked){
             fetch(`Show/Estimate`, {
                 method: 'post',
                 headers: {'Content-Type':'application/json'},
-                body:JSON.stringify({score:choosenPlace, nominationId:choosenNomination, showId:showId, refereeId:user.id })
+                body:JSON.stringify({score:placeToScore(choosenPlace), nominationId:choosenNomination, showId:showId, refereeId:user.id })
                 
                }).then(r => {
                 if(!r.ok){
@@ -211,10 +232,10 @@ export function EstimationBlock(showId, showNominations, score, isBlocked){
                     let anotherScore = newData.filter(f=>f.nominationId == choosenNomination);
                 let j = anotherScore.length>0 ? newData.indexOf(anotherScore[0]) : -1;
                 if(j == -1){
-                    setScoredData([...newData, {nominationId:choosenNomination, score:choosenPlace, showId:showId,refereeId:user.id }]);
+                    setScoredData([...newData, {nominationId:choosenNomination, score:placeToScore(choosenPlace), showId:showId,refereeId:user.id }]);
                 } 
                 else{
-                    newData[j].score =choosenPlace;
+                    newData[j].score =placeToScore(choosenPlace);
                     setScoredData(newData);
                 }
 
@@ -239,11 +260,11 @@ export function EstimationBlock(showId, showNominations, score, isBlocked){
             }
         let scored = scoredDataView.map(m=>m.nominationId).includes(v.nominationId);
         let score = scored && scoredDataView.filter(m=>m.nominationId == v.nominationId)[0].score;
-        let classList = `${scored?'visible':'hidden'} ${scored?`score${score}`:''}`
+        let classList = `${scored?'visible':'hidden'} ${scored?`score${placeToScore(score)}`:''}`
         return(<div  className="show-nomination-panel"><div className="show-nomination" onClick={()=>nominationClick(v.nominationId)} style={{opacity:`${choosenNomination !== -1 && choosenNomination !== v.nominationId?'0.4':'1'}`, background:`${choosenNomination == v.nominationId?'radial-gradient(180.91% 1388.43% at 100% 7.27%, #770D37 0%, #211452 100%)':'#770D37'}`}} key={i}>
             <div className="show-nomination-title">{v.nomination.name}</div>
             <div className="show-nomination-name">{v.person}</div>
-            </div><div className={`show-nomination-score ${classList}`}>{score}</div></div>)
+            </div><div className={`show-nomination-score ${classList}`}>{placeToScore(score)}</div></div>)
         
         })}
 

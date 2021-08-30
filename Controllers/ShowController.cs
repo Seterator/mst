@@ -299,6 +299,7 @@ namespace mst.Controllers {
 
         [HttpPost("Estimate")]
         public async Task<IActionResult> Estimate([FromBody]Estimation estimation, [FromQuery]bool admin = false) {
+
             try {
                 var estimations = _db.Referees.Include(i=>i.Estimations).Single(x => x.Id == estimation.RefereeId).Estimations;
                 var toDel = admin 
