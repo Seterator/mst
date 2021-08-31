@@ -48,16 +48,22 @@ namespace mst
                 {
                     options.ClientId = Configuration["Google:ClientId"];
                     options.ClientSecret = Configuration["Google:ClientSecret"];
+
+                    options.CallbackPath = "/Show/VoteOAuth/signin-google";
                 })
                 .AddFacebook(options =>
                 {
                     options.AppId = Configuration["Facebook:AppId"];
                     options.AppSecret = Configuration["Facebook:AppSecret"];
+
+                    options.CallbackPath = "/Show/VoteOAuth/signin-facebook";
                 })
                 .AddVkontakte(options =>
                 {
                     options.ClientId = Configuration["Vk:ClientId"];
                     options.ClientSecret = Configuration["Vk:ClientSecret"];
+
+                    options.CallbackPath = "/Show/VoteOAuth/signin-vk";
                 });
         }
 
@@ -91,18 +97,13 @@ namespace mst
                     "{controller}/{action=Index}/{id?}");
             });
 
-            app.MapWhen(c => !string.IsNullOrEmpty(c.Request.Path.Value) &&
-                             !c.Request.Path.Value.Contains("Show/VoteOAuth", StringComparison.OrdinalIgnoreCase) &&
-                             !c.Request.Path.Value.Contains("signin", StringComparison.OrdinalIgnoreCase),
-                builder =>
-                {
-                    builder.UseSpa(spa =>
-                    {
-                        spa.Options.SourcePath = "ClientApp";
+            app.UseSpa(spa =>
+            {
+                spa.Options.SourcePath = "ClientApp";
 
-                        if (env.IsDevelopment()) spa.UseReactDevelopmentServer("start");
-                    });
-                });
+                if (env.IsDevelopment())
+                    spa.UseReactDevelopmentServer("start");
+            });
         }
     }
 }
