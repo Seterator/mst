@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -6,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
 
 namespace mst
 {
@@ -22,14 +22,14 @@ namespace mst
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            string connection = Configuration.GetConnectionString("DefaultConnection");
-            services.AddDbContext<DatabaseContext>(options => 
+            var connection = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<DatabaseContext>(options =>
                 options.UseMySql(
                     connection,
                     new MySqlServerVersion(new Version(8, 0, 20))
                 )
             );
-            
+
             services.AddControllersWithViews();
 
             // In production, the React files will be served from this directory
@@ -87,24 +87,22 @@ namespace mst
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller}/{action=Index}/{id?}");
+                    "default",
+                    "{controller}/{action=Index}/{id?}");
             });
 
-            app.MapWhen(c => c.Request.Path.Value != null &&
-                             !c.Request.Path.Value.StartsWith("/Show/VoteOAuth") &&
-                             !c.Request.Path.Value.StartsWith("/signin-"), builder =>
-            {
-                builder.UseSpa(spa =>
+            app.MapWhen(c => !string.IsNullOrEmpty(c.Request.Path.Value) &&
+                             !c.Request.Path.Value.Contains("Show/VoteOAuth", StringComparison.OrdinalIgnoreCase) &&
+                             !c.Request.Path.Value.Contains("signin", StringComparison.OrdinalIgnoreCase),
+                builder =>
                 {
-                    spa.Options.SourcePath = "ClientApp";
-
-                    if (env.IsDevelopment())
+                    builder.UseSpa(spa =>
                     {
-                        spa.UseReactDevelopmentServer(npmScript: "start");
-                    }
+                        spa.Options.SourcePath = "ClientApp";
+
+                        if (env.IsDevelopment()) spa.UseReactDevelopmentServer("start");
+                    });
                 });
-            });
         }
     }
 }
