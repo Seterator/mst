@@ -58,9 +58,10 @@ export function SnVoteListView() {
                 <table>
                     <thead>
                         <tr>
-                        <th></th>
-                        <th>Id</th>
+                            <th></th>
+                            <th>Id</th>
                             <th>Название</th>
+                            <th>Голосов</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -70,6 +71,7 @@ export function SnVoteListView() {
                                 <td><input type='checkbox' defaultChecked={kk} id={m.id} onChange={handleCheck}/></td>
                                 <td>{m.id}</td>
                                 <td>{m.name}</td>
+                                <td>{m.estimation?.filter(f=>f?.nominationId == 99)?.length || 0}</td>
                             </tr>)
                         })}
 

@@ -33,7 +33,7 @@ export function EstimationWork(){
             setNominations(json.showNominations);
             setData(json)
             setScored(scored)
-            setIsBlocked(json.blockedReferees.filter(f=>f.refereeId == user?.id).length>0)
+            setIsBlocked(json.blockedReferees.filter(f=>f.refereeId == user?.id).length>0 ||json.isBlocked)
 
         }
     }

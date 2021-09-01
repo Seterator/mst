@@ -16,7 +16,7 @@ export function VoteElement(data,estimations, userId,blockedShows,images, f){
         backgroundImage:`url(data:image/png;base64,${img})`
         , width:'390px', height:'247px', position:'relative', opacity:'0.7',backgroundSize: 'cover'}}>
             <div style={{position:'absolute', bottom:'10px', left:'0', right:'0', height:'30px', textAlign:'center'}}>
-            <button className="vote-button" hidden={!blockedShows?.some(s => s.showId == data.id)}>Без голосования</button>
+            <button className="vote-button" hidden={!(blockedShows?.some(s => s.showId == data.id) || data.isBlocked)}>Без голосования</button>
             <button className="vote-button" hidden={!data.options?.some(s => s == 'viewed')} >Просмотрено</button>
             <button className="vote-button" hidden={!data.options?.some(s => s == 'estimated')} >Оценено</button>
             </div>

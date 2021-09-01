@@ -59,10 +59,15 @@ export default function LoginSN(){
         <h1 className="sn-title">{showData.name}</h1>
         
         <div className="sn-description">{showData.description}</div>
-        {status?<div className="sn-status">{getStatusMessage(status)}</div>:<div className="sn-auth">Авторизироваться<img onClick={()=>authSnHandle('Google')} src={require('./img/ok.svg')}/><img onClick={()=>authSnHandle('Facebook')} src={require('./img/fb.svg')}/><img onClick={()=>authSnHandle('Vkontakte')} style={{marginTop:'5px'}} src={require('./img/vk2.svg')}/></div>}
+        {status?
+        <div className="sn-status">{getStatusMessage(status)}</div>:
+        <div className="sn-auth">Авторизироваться<img onClick={()=>authSnHandle('Facebook')} src={require('./img/fb.svg')}/></div>}
         
     
     </div>
     <Footer/>
     </div>)
 }
+
+//<img onClick={()=>authSnHandle('Google')} src={require('./img/ok.svg')}/>
+//<img onClick={()=>authSnHandle('Vkontakte')} style={{marginTop:'5px'}} src={require('./img/vk2.svg')}/>

@@ -183,6 +183,9 @@ namespace mst.Controllers {
         [HttpGet("GetById")]
         public IActionResult GetById([FromQuery]int Id) {
             try {
+                var activeCompetitions = _db.Competitions.Where(w => w.BeginDate < DateTime.Now && w.EndDate > DateTime.Now).Include(n => n.Nominations).ThenInclude(s => s.ShowNominations);
+                var activeShows = activeCompetitions.SelectMany(s => s.Nominations).SelectMany(s => s.ShowNominations).Select(s => s.ShowId);
+
                 var show = _db.Shows
                     .Where(c => c.Id == Id).AsSplitQuery()
                     .Include(x => x.BlockedReferees).AsSplitQuery()
@@ -199,7 +202,8 @@ namespace mst.Controllers {
                         s.ShortDescription,
                         s.ShowNominations,
                         s.VideoLink,
-                        s.WebLink
+                        s.WebLink,
+                        isBlocked = !activeShows.Contains(s.Id)
                     }).Single();
                     
                 
@@ -252,21 +256,24 @@ namespace mst.Controllers {
                 }
                 else
                 {
+                    var activeCompetitions = _db.Competitions.Where(w => w.BeginDate < DateTime.Now && w.EndDate > DateTime.Now).Include(n => n.Nominations).ThenInclude(s => s.ShowNominations);
+                    var activeShows = activeCompetitions.SelectMany(s => s.Nominations).SelectMany(s => s.ShowNominations).Select(s => s.ShowId);
                     var shows = _db.Shows
                                     .Include(x => x.ShowNominations)
                                     .ThenInclude(n=>n.Nomination).AsSplitQuery()
                                     .Include(b => b.BlockedReferees).AsSplitQuery()
                                     .Include(sn => sn.Estimations).AsSplitQuery()
                                     .Select(s => new {
-                                        s.BlockedReferees,
-                                        s.Description,
-                                        s.Estimations,
-                                        s.Id,
-                                        s.Name,
-                                        s.ShortDescription,
-                                        s.ShowNominations,
-                                        s.VideoLink,
-                                        s.WebLink
+                                            s.BlockedReferees,
+                                            s.Description,
+                                            s.Estimations,
+                                            s.Id,
+                                            s.Name,
+                                            s.ShortDescription,
+                                            s.ShowNominations,
+                                            s.VideoLink,
+                                            s.WebLink,
+                                            isBlocked = !activeShows.Contains(s.Id)
                                     })
                                     .ToList();
                     foreach (var show in shows)
