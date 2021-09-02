@@ -54,22 +54,21 @@ namespace mst.Controllers {
         {
             var status = "failed";
 
-            if (User.Identity is {IsAuthenticated: false})
-                return Redirect($"/sn?showId=${showId}&status={status}");
+            if (User.Identity is { IsAuthenticated: false })
+                return Redirect($"/sn?showId={showId}&status={status}");
 
             try
             {
                 var identity = (ClaimsIdentity)User.Identity;
 
-                var email = (from claim in identity?.Claims where claim.Type.EndsWith("emailaddress") select claim.Value)
-                    .FirstOrDefault();
+                var email = identity?.Claims.Where(w=>w.Type.EndsWith("nameidentifier")).Select(s=> $"{identity?.AuthenticationType}{s.Value}").FirstOrDefault();
 
                 if (string.IsNullOrEmpty(email))
-                    return Redirect($"/sn?showId=${showId}&status={status}");
+                    return Redirect($"/sn?showId={showId}&status={status}");
 
                 if(_db.Referees.Any(a=>a.Email == email))
                 {
-                    return Redirect($"/sn?showId=${showId}&status={status}");
+                    return Redirect($"/sn?showId={showId}&status=success");
                 }
 
                 var nominations = _db.Competitions
@@ -78,17 +77,17 @@ namespace mst.Controllers {
                     .Nominations;
                 if (nominations == null || !nominations.Any() )
                 {
-                    return Redirect($"/sn?showId=${showId}&status={status}");
+                    return Redirect($"/sn?showId={showId}&status={status}");
                 }
 
                 var curNom = nominations.FirstOrDefault(f => f.Id == 99);
                 if(curNom == null)
                 {
-                    return Redirect($"/sn?showId=${showId}&status={status}");
+                    return Redirect($"/sn?showId={showId}&status={status}");
                 }
                 if(_db.Referees.Any(a=>a.Email == email))
                 {
-                    return Redirect($"/sn?showId=${showId}&status=success");
+                    return Redirect($"/sn?showId={showId}&status=success");
                 }
                 var referee = new Referee { Email = email, User = new User { Login = email } };
                 await _db.Referees.AddAsync(referee);
@@ -98,7 +97,7 @@ namespace mst.Controllers {
                 var estimations = _db.Referees.Include(i => i.Estimations).Single(x => x.Id == referee.Id).Estimations;
                 if(estimations.Any(a=>a.NominationId == curNom.Id && a.ShowId == showId))
                 {
-                    return Redirect($"/sn?showId=${showId}&status=exist");
+                    return Redirect($"/sn?showId={showId}&status=exist");
                 }
 
                 estimations.Add(new Estimation { RefereeId = referee.Id, NominationId = curNom.Id, ShowId = showId, Score = 3 });
@@ -112,7 +111,7 @@ namespace mst.Controllers {
                 await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             }
 
-            return Redirect($"/sn?showId=${showId}&status={status}");
+            return Redirect($"/sn?showId={showId}&status={status}");
         }
 
         #endregion
