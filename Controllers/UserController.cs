@@ -140,6 +140,7 @@ namespace mst.Controllers
         public IActionResult GetAll()
         {
             var referees = _db.Referees.Include(x => x.AvailableCompetitions)
+                .Where(w=>!w.Email.Contains("Facebook"))
                 .Select(s=>new 
                 { 
                     s.AvailableCompetitions, 
